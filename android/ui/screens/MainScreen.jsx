@@ -1,9 +1,14 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, Dimensions} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
-export default function LoginScreen() {
+export default function MainScreen({ navigation }) {
   const halfScreenWidth = Dimensions.get('window').width / 2;
   const calculatedValue = halfScreenWidth - 341 / 2 + 0.5;
+
+  const handlePress = () => {
+    navigation.navigate('LOGIN')
+  }
 
   const styles = StyleSheet.create({
     container: {
@@ -46,7 +51,14 @@ export default function LoginScreen() {
       color: 'white',
       fontSize: 20,
       textAlign: 'center',
-      marginTop: 100
+      marginTop: 100,
+    },
+
+    button: {
+      fontWeight: 700,
+      color: 'white',
+      textAlign: 'center',
+      fontSize: 20
     }
   });
 
@@ -63,7 +75,9 @@ export default function LoginScreen() {
           <Image style={styles.image} source={require('../../app/assets/logo.png')} />
           <Text style={styles.text}>Iniciar sesión como cliente</Text>
           <Image style={styles.google} resizeMode='contain' source={require('../../app/assets/googleimage.png')} />
-          <Text style={styles.footer}>Sos dueño? <Text style={{fontWeight: 700}}>Ingresa aqui</Text> </Text>
+          <TouchableOpacity onPress={handlePress}>
+            <Text style={styles.footer}>Sos dueño? Ingresa aquí</Text>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     </SafeAreaView>
