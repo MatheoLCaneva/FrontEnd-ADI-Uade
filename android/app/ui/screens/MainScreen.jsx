@@ -65,16 +65,16 @@ export default function MainScreen({ navigation }) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ImageBackground
-        source={require('../../app/assets/gradient.png')}
+        source={require('../../assets/gradient.png')}
         style={styles.container}
       >
         <View style={styles.container}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>Bienvenido</Text>
           </View>
-          <Image style={styles.image} source={require('../../app/assets/logo.png')} />
+          <Image style={styles.image} source={require('../../assets/logo.png')} />
           <Text style={styles.text}>Iniciar sesión como cliente</Text>
-          <Image style={styles.google} resizeMode='contain' source={require('../../app/assets/googleimage.png')} />
+          <Image style={styles.google} resizeMode='contain' source={require('../../assets/googleimage.png')} />
           <TouchableOpacity onPress={handlePress}>
             <Text style={styles.footer}>Sos dueño? Ingresa aquí</Text>
           </TouchableOpacity>
