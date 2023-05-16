@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, Dimensions} from 'react-native';
 import { TouchableOpacity } from 'react-native';
+import Logo from "../components/Logo";
 
 export default function MainScreen({ navigation }) {
   const halfScreenWidth = Dimensions.get('window').width / 2;
@@ -33,13 +34,6 @@ export default function MainScreen({ navigation }) {
       fontSize: 20,
       marginLeft: 26
     },
-    image: {
-      position: 'relative',
-      width: 341,
-      height: 160,
-      left: calculatedValue,
-      marginBottom: 45
-    },
     google: {
       width: '80%',
       position: 'relative',
@@ -67,11 +61,11 @@ export default function MainScreen({ navigation }) {
         source={require('../../assets/gradient.png')}
         style={styles.container}
       >
+        <Logo />
         <View style={styles.container}>
           {/* <View style={styles.titleContainer}>
             <Text style={styles.title}>Bienvenido</Text>
           </View> */}
-          <Image style={styles.image} source={require('../../assets/logo.png')} />
           <Text style={styles.text}>Iniciar sesión como cliente</Text>
           <Image style={styles.google} resizeMode='contain' source={require('../../assets/googleimage.png')} />
           <TouchableOpacity style={{marginTop: 100}} onPress={handlePress}>
