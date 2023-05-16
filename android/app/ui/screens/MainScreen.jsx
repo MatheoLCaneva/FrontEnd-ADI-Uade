@@ -45,7 +45,6 @@ export default function MainScreen({ navigation }) {
       color: 'white',
       fontSize: 20,
       textAlign: 'center',
-      marginTop: 100,
     },
 
     button: {
@@ -64,12 +63,12 @@ export default function MainScreen({ navigation }) {
       >
         <Logo />
         <View style={styles.container}>
-          <View style={styles.titleContainer}>
+          {/* <View style={styles.titleContainer}>
             <Text style={styles.title}>Bienvenido</Text>
-          </View>
+          </View> */}
           <Text style={styles.text}>Iniciar sesión como cliente</Text>
           <Image style={styles.google} resizeMode='contain' source={require('../../assets/googleimage.png')} />
-          <TouchableOpacity onPress={handlePress}>
+          <TouchableOpacity style={{marginTop: 100}} onPress={handlePress}>
             <Text style={styles.footer}>Sos dueño? Ingresa aquí</Text>
           </TouchableOpacity>
         </View>
