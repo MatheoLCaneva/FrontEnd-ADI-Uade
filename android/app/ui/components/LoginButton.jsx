@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function LoginButton(props) {
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={props.onPress}>
             <View style={styles.button}>
                 <Text style={styles.text}>
                     {props.title}
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     container: {
         marginHorizontal: 33,
         marginTop: 50,
-        height: 62
+        height: 62,
     },  
     button: {
         borderRadius: 20,
@@ -29,5 +29,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'white',
         fontWeight: 600,
+        paddingVertical: 5
     }
 })

@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
+        marginTop: 40
     },
     image: {
         width: 341, //Imagen original: 567 píxeles

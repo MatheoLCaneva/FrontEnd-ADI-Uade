@@ -1,10 +1,30 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
 import LoginButton from '../components/LoginButton';
 import Logo from '../components/Logo';
 import Input from '../components/Input';
 
 export default function OwnerLogin() {
+
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const handleEmailChange = (text) => {
+        setEmail(text);
+    };
+
+    const handlePasswordChange = (text) => {
+        setPassword(text);
+    };
+
+    const handleTogglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleLogin = () => {
+        ToastAndroid.show(email + ' ' + password, ToastAndroid.SHORT);
+    };
 
     const styles = StyleSheet.create({
         container: {
@@ -16,7 +36,16 @@ export default function OwnerLogin() {
             backgroundColor: '#E01D6F',
             justifyContent: 'center',
             alignItems: 'center',
-        }
+        },
+        toggleButton: {
+            alignSelf: 'center',
+            marginTop: 10,
+        },
+        toggleButtonText: {
+            fontSize: 16,
+            color: '#E01D6F',
+            textDecorationLine: 'underline',
+        },
     });
 
     return (
@@ -25,12 +54,18 @@ export default function OwnerLogin() {
                 source={require('../../assets/gradient.png')}
                 style={styles.container}
             >
-            <View styles={styles.container}>
-                <Logo />
-                <Input placeholder='Ingrese su email'/>
-                <LoginButton title='Ingresar' />
-            </View>
-            
+                <View styles={styles.container}>
+                    <Logo />
+                    <Input onChangeText={handleEmailChange} marginTop={18} placeholder='Ingrese su email' />
+                    <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
+                    <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
+                        <Text style={styles.toggleButtonText}>
+                            {showPassword ? 'Ocultar' : 'Mostrar'}
+                        </Text>
+                    </TouchableOpacity>
+                    <LoginButton onPress={handleLogin} title='Ingresar' />
+                </View>
+
             </ImageBackground>
         </SafeAreaView>
     );
