@@ -3,12 +3,15 @@ import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndr
 import LoginButton from '../components/LoginButton';
 import Logo from '../components/Logo';
 import Input from '../components/Input';
+import loginWS from '../../networking/api/endpoints/User'
+import axios from 'axios';
 
 export default function OwnerLogin() {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [showPassword, setShowPassword] = React.useState(false);
+    const [data, setData] = React.useState({})
 
     const handleEmailChange = (text) => {
         setEmail(text);
@@ -23,7 +26,22 @@ export default function OwnerLogin() {
     };
 
     const handleLogin = () => {
-        ToastAndroid.show(email + ' ' + password, ToastAndroid.SHORT);
+
+        const headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        }
+
+        const data = {
+            email:'test@gmail.com',
+            password: 'Test1234'
+        }
+
+        axios.post('https://backend-adi-uade.onrender.com/users/login', data, {headers})
+            .then(
+                response => console.log(response.data)
+            )
+        // ToastAndroid.show(data.data, ToastAndroid.SHORT);
     };
 
     const styles = StyleSheet.create({
