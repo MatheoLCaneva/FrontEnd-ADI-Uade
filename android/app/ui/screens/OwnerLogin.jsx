@@ -33,11 +33,11 @@ export default function OwnerLogin() {
         }
 
         const data = {
-            email:'test@gmail.com',
+            email: 'test@gmail.com',
             password: 'Test1234'
         }
 
-        axios.post('https://backend-adi-uade.onrender.com/users/login', data, {headers})
+        axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers })
             .then(
                 response => console.log(response.data)
             )
@@ -83,7 +83,6 @@ export default function OwnerLogin() {
                     </TouchableOpacity>
                     <LoginButton onPress={handleLogin} title='Ingresar' />
                 </View>
-
             </ImageBackground>
         </SafeAreaView>
     );
