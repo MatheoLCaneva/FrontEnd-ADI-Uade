@@ -6,32 +6,24 @@ import Input from '../components/Input';
 import loginWS from '../../networking/api/endpoints/User'
 import axios from 'axios';
 
-export default function OwnerLogin({navigation}) {
+export default function Register() {
 
     const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [showPassword, setShowPassword] = React.useState(false);
+    // const [password, setPassword] = React.useState('');
+    // const [showPassword, setShowPassword] = React.useState(false);
     const [data, setData] = React.useState({})
 
     const handleEmailChange = (text) => {
         setEmail(text);
     };
 
-    const handlePasswordChange = (text) => {
-        setPassword(text);
-    };
+    // const handlePasswordChange = (text) => {
+    //     setPassword(text);
+    // };
 
-    const handleTogglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
-    };
-
-    const handlePressRecoveryPass = () => {
-        navigation.navigate('PASSWORD_RECOVERY')
-    };
-
-    const handlePressRegister = () => {
-        navigation.navigate('REGISTER')
-    };
+    // const handleTogglePasswordVisibility = () => {
+    //     setShowPassword(!showPassword);
+    // };
 
     const handleLogin = () => {
 
@@ -72,12 +64,6 @@ export default function OwnerLogin({navigation}) {
             color: '#E01D6F',
             textDecorationLine: 'underline',
         },
-        footer: {
-            fontFamily: 'Poppins',
-            color: 'white',
-            fontSize: 20,
-            textAlign: 'center',
-        },
     });
 
     return (
@@ -89,19 +75,13 @@ export default function OwnerLogin({navigation}) {
                 <View styles={styles.container}>
                     <Logo />
                     <Input onChangeText={handleEmailChange} marginTop={10} placeholder='Ingrese su email' />
-                    <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
+                    {/* <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
                     <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
                         <Text style={styles.toggleButtonText}>
                             {showPassword ? 'Ocultar' : 'Mostrar'}
                         </Text>
-                    </TouchableOpacity>
-                    <LoginButton onPress={handleLogin} title='Ingresar' />
-                    <TouchableOpacity style={{marginTop: 40}} onPress={handlePressRecoveryPass}>
-                        <Text style={styles.footer}>Olvidé mi contraseña</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{marginTop: 30}} onPress={handlePressRegister}>
-                        <Text style={styles.footer}>No estas registrado? Registrate</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
+                    <LoginButton onPress={handleLogin} title='Enviar correo de recuperación FALTA MODIFICAR!!!!' />
 
                 </View>
             </ImageBackground>
