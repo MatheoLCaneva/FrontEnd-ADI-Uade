@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
-import LoginButton from '../components/LoginButton';
+import React, {useState} from 'react';
+import { View, Modal, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
+import SendRecovButton from '../components/SendRecovButton';
+import Popup from '../components/Popup';
 import Logo from '../components/Logo';
 import Input from '../components/Input';
 import loginWS from '../../networking/api/endpoints/User'
@@ -66,6 +67,7 @@ export default function PasswordReset() {
         },
     });
 
+    
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ImageBackground
@@ -81,7 +83,8 @@ export default function PasswordReset() {
                             {showPassword ? 'Ocultar' : 'Mostrar'}
                         </Text>
                     </TouchableOpacity> */}
-                    <LoginButton onPress={handleLogin} title='Enviar correo de recuperación' />
+                    <SendRecovButton onPress={handleLogin} title='Enviar correo de recuperación' />
+                    <Popup/> 
 
                 </View>
             </ImageBackground>
