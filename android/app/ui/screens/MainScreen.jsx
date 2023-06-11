@@ -47,6 +47,13 @@ export default function MainScreen({ navigation }) {
       textAlign: 'center',
     },
 
+    footerNegrita: {
+      fontFamily: 'Poppins',
+      color: 'white',
+      fontSize: 20,
+      fontWeight: 'bold',            
+  },
+
     button: {
       fontWeight: 700,
       color: 'white',
@@ -68,8 +75,8 @@ export default function MainScreen({ navigation }) {
           </View> */}
           <Text style={styles.text}>Iniciar sesión como cliente</Text>
           <Image style={styles.google} resizeMode='contain' source={require('../../assets/googleimage.png')} />
-          <TouchableOpacity style={{marginTop: 100}} onPress={handlePress}>
-            <Text style={styles.footer}>Sos dueño? Ingresa aquí</Text>
+          <TouchableOpacity style={{marginTop: 200, flexDirection: 'row', alignSelf:'center'}} onPress={handlePress}>
+            <Text style={styles.footer}>Sos dueño? </Text><Text style={styles.footerNegrita}>Ingresa aquí</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>

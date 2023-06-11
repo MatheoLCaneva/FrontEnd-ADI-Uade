@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
+import React, {useState} from 'react';
+import { CheckBox, View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
 import LoginButton from '../components/LoginButton';
 import Logo from '../components/Logo';
 import Input from '../components/Input';
@@ -11,7 +11,9 @@ export default function OwnerLogin({navigation}) {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [showPassword, setShowPassword] = React.useState(false);
-    const [data, setData] = React.useState({})
+    const [data, setData] = React.useState({});
+    
+    // const [isSelected, setSelection] = useState(false); NOFUNCIONA
 
     const handleEmailChange = (text) => {
         setEmail(text);
@@ -72,11 +74,22 @@ export default function OwnerLogin({navigation}) {
             color: '#E01D6F',
             textDecorationLine: 'underline',
         },
+        recuerdame: {
+            fontFamily: 'Poppins',
+            color: 'white',
+            fontSize: 15,
+        },
         footer: {
             fontFamily: 'Poppins',
             color: 'white',
             fontSize: 20,
             textAlign: 'center',
+        },
+        footerNegrita: {
+            fontFamily: 'Poppins',
+            color: 'white',
+            fontSize: 20,
+            fontWeight: 'bold',            
         },
     });
 
@@ -95,12 +108,15 @@ export default function OwnerLogin({navigation}) {
                             {showPassword ? 'Ocultar' : 'Mostrar'}
                         </Text>
                     </TouchableOpacity>
+                    
+                    <Text style={styles.recuerdame}>Recuérdame FALTA CHECKBOX</Text>
+                    
                     <LoginButton onPress={handleLogin} title='Ingresar' />
                     <TouchableOpacity style={{marginTop: 40}} onPress={handlePressRecoveryPass}>
                         <Text style={styles.footer}>Olvidé mi contraseña</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{marginTop: 30}} onPress={handlePressRegister}>
-                        <Text style={styles.footer}>No estas registrado? Registrate</Text>
+                    <TouchableOpacity style={{marginTop: 30, flexDirection: 'row', alignSelf:'center'}} onPress={handlePressRegister}>
+                        <Text style={styles.footer}>No estas registrado?</Text><Text style={styles.footerNegrita}> Registrate</Text>
                     </TouchableOpacity>
 
                 </View>
