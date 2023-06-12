@@ -34,8 +34,7 @@ export default function PasswordReset() {
         }
 
         const data = {
-            email: 'test@gmail.com',
-            password: 'Test1234'
+            code: 'codigo123',
         }
 
         axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers })
@@ -76,16 +75,16 @@ export default function PasswordReset() {
             >
                 <View styles={styles.container}>
                     <Logo />
-                    <Input onChangeText={handleEmailChange} marginTop={10} placeholder='Ingrese su email' />
+                    <Input onChangeText={handleEmailChange} marginTop={10} placeholder='Ingrese su cpodigo de recuperación' />
                     {/* <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
                     <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
                         <Text style={styles.toggleButtonText}>
                             {showPassword ? 'Ocultar' : 'Mostrar'}
                         </Text>
                     </TouchableOpacity> */}
-                    <LoginButton onPress={handleLogin} title='Enviar correo de recuperación' />
-                    <Popup/>
-                     
+                    <LoginButton onPress={handleLogin} title='Continuar' />
+                    <Popup/> 
+
                 </View>
             </ImageBackground>
         </SafeAreaView>

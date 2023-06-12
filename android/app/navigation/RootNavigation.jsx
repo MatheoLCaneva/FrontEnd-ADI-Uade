@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import OwnerLogin from "../ui/screens/OwnerLogin";
 import NavigatorConstant from "./NavigatorConstant";
 import PasswordReset from "../ui/screens/PasswordReset";
+import ConfirmRecovCode from "../ui/screens/ConfirmRecovCode";
 import LoginNavigator from "./LoginNavigator";
 import Register from "../ui/screens/Register";
 import { NavigationContainer } from "@react-navigation/native";

@@ -4,6 +4,7 @@ import OwnerLogin from "../ui/screens/OwnerLogin";
 import MainScreen from "../ui/screens/MainScreen";
 import PasswordReset from "../ui/screens/PasswordReset";
 import Register from "../ui/screens/Register";
+import ConfirmRecovCode from "../ui/screens/ConfirmRecovCode";
 import NavigatorConstant from "./NavigatorConstant";
 
 const Stack = createNativeStackNavigator()
