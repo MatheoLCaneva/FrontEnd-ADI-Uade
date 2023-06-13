@@ -1,31 +1,44 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
+import CheckButton from '../components/CheckButton';
 import LoginButton from '../components/LoginButton';
 import Logo from '../components/Logo';
 import Input from '../components/Input';
 import loginWS from '../../networking/api/endpoints/User'
 import axios from 'axios';
 
-export default function Register({navigation}) {
+export default function NewPw({navigation}) {
 
     const [email, setEmail] = React.useState('');
-    // const [password, setPassword] = React.useState('');
-    // const [showPassword, setShowPassword] = React.useState(false);
-    const [data, setData] = React.useState({})
+    const [password, setPassword] = React.useState('');
+    const [showPassword, setShowPassword] = React.useState(false);
+    const [data, setData] = React.useState({});
+    
+    // const [isSelected, setSelection] = useState(false); NOFUNCIONA
+    // const [toggleCheckBox, setToggleCheckBox] = useState(false)
 
-    const handleEmailChange = (text) => {
-        setEmail(text);
-    };
+    // const handleEmailChange = (text) => {
+    //     setEmail(text);
+    // };
 
     const handlePasswordChange = (text) => {
         setPassword(text);
     };
 
-    // const handleTogglePasswordVisibility = () => {
-    //     setShowPassword(!showPassword);
-    // };
+    const handleTogglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     const handleLogin = () => {
+        navigation.navigate('LOGIN')
+        // Me tiene que mandar primero al POPUP y después al ownerLogin
+    };
+
+    const handlePressRegister = () => {
+        navigation.navigate('REGISTER')
+    };
+
+    const handleNewPw = () => {
 
         const headers = {
             Accept: 'application/json',
@@ -42,16 +55,6 @@ export default function Register({navigation}) {
                 response => console.log(response.data)
             )
         // ToastAndroid.show(data.data, ToastAndroid.SHORT);
-    };
-
-    const handleOwnerLogin = () => {
-        navigation.navigate('LOGIN')
-        // Me tiene que mandar primero al POPUP y después al ownerLogin
-    };
-    
-    const handleRegister = () => {
-        navigation.navigate('CONFIRM_NEW_USR_CODE')
-        // Me tiene que mandar primero al POPUP y después al ownerLogin
     };
 
     const styles = StyleSheet.create({
@@ -73,6 +76,11 @@ export default function Register({navigation}) {
             fontSize: 16,
             color: '#E01D6F',
             textDecorationLine: 'underline',
+        },
+        recuerdame: {
+            fontFamily: 'Poppins',
+            color: 'white',
+            fontSize: 15,
         },
         footer: {
             fontFamily: 'Poppins',
@@ -96,20 +104,23 @@ export default function Register({navigation}) {
             >
                 <View styles={styles.container}>
                     <Logo />
-                    <Input onChangeText={handleEmailChange} marginTop={10} placeholder='Ingrese su email' />
-                    <Input onChangeText={handlePasswordChange} marginTop={10} placeholder='Ingrese una contraseña' />
-                    <Input onChangeText={handlePasswordChange} marginTop={10} placeholder='Repita su contraseña' />
-                    {/* <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
-                    <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
+                    <Input onChangeText={handlePasswordChange} marginTop={10} placeholder='Ingrese su nueva contraseña' />
+                    <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Repita su nueva contraseña' secure={!showPassword} />
+                    {/* <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
                         <Text style={styles.toggleButtonText}>
                             {showPassword ? 'Ocultar' : 'Mostrar'}
                         </Text>
-                    </TouchableOpacity> */}
-                    <LoginButton onPress={handleRegister} title='Registrarse' />
-                    <TouchableOpacity style={{marginTop: 30, flexDirection: 'row', alignSelf:'center'}} onPress={handleOwnerLogin}>
-                        <Text style={styles.footer}>Ya estas registrado?</Text><Text style={styles.footerNegrita}> Inicia sesión</Text>
                     </TouchableOpacity>
 
+                    <CheckButton  style={{marginTop: 30, flexDirection: 'row', alignSelf:'center'}} /> */}
+
+                    <LoginButton onPress={handleLogin} title='Actualizar contraseña' />
+                    {/* <TouchableOpacity style={{marginTop: 40}} onPress={handlePressRecoveryPass}>
+                        <Text style={styles.footer}>Olvidé mi contraseña</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{marginTop: 30, flexDirection: 'row', alignSelf:'center'}} onPress={handlePressRegister}>
+                        <Text style={styles.footer}>No estas registrado?</Text><Text style={styles.footerNegrita}> Registrate</Text>
+                    </TouchableOpacity> */}
 
                 </View>
             </ImageBackground>

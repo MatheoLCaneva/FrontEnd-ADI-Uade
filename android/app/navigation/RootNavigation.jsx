@@ -5,7 +5,9 @@ import NavigatorConstant from "./NavigatorConstant";
 import PasswordReset from "../ui/screens/PasswordReset";
 import ConfirmRecovCode from "../ui/screens/ConfirmRecovCode";
 import LoginNavigator from "./LoginNavigator";
+import NewPw from "../ui/screens/NewPw";
 import Register from "../ui/screens/Register";
+import ConfirmNewUserCode from "../ui/screens/ConfirmNewUserCode";
 import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator()
@@ -17,7 +19,10 @@ export default function RootNavigation() {
                 <Stack.Screen name={NavigatorConstant.NAVIGATOR.LOGIN} component={LoginNavigator} />
                 <Stack.Screen name={NavigatorConstant.LOGIN_STACK.LOGIN} component={OwnerLogin} />
                 <Stack.Screen name={NavigatorConstant.LOGIN_STACK.PASSWORD_RECOVERY} component={PasswordReset} />
+                <Stack.Screen name={NavigatorConstant.LOGIN_STACK.CONFIRM_RECOVERY} component={ConfirmRecovCode} />
+                <Stack.Screen name={NavigatorConstant.LOGIN_STACK.NEW_PASSWORD} component={NewPw} />
                 <Stack.Screen name={NavigatorConstant.REGISTER.REGISTER} component={Register} />
+                <Stack.Screen name={NavigatorConstant.REGISTER.CONFIRM_NEW_USR_CODE} component={ConfirmNewUserCode} />
             </Stack.Navigator>
         </NavigationContainer>
     )

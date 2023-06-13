@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import { View, Modal, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
+import { View, Modal, Text, Pressable, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
 import Popup from '../components/Popup';
+import LoginButton from '../components/LoginButton';
 import Logo from '../components/Logo';
 import Input from '../components/Input';
 import loginWS from '../../networking/api/endpoints/User'
 import axios from 'axios';
-import LoginButton from '../components/LoginButton';
 
-export default function PasswordReset() {
+export default function PasswordReset({navigation}) {
 
     const [email, setEmail] = React.useState('');
     // const [password, setPassword] = React.useState('');
@@ -18,6 +18,9 @@ export default function PasswordReset() {
         setEmail(text);
     };
 
+    const handlePressConfRecov = () => {
+        navigation.navigate('CONFIRM_RECOVERY')
+      };
     // const handlePasswordChange = (text) => {
     //     setPassword(text);
     // };
@@ -25,6 +28,7 @@ export default function PasswordReset() {
     // const handleTogglePasswordVisibility = () => {
     //     setShowPassword(!showPassword);
     // };
+    const [modalVisible, setModalVisible] = useState(false);
 
     const handleLogin = () => {
 
@@ -35,7 +39,6 @@ export default function PasswordReset() {
 
         const data = {
             email: 'test@gmail.com',
-            password: 'Test1234'
         }
 
         axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers })
@@ -44,6 +47,7 @@ export default function PasswordReset() {
             )
         // ToastAndroid.show(data.data, ToastAndroid.SHORT);
     };
+
 
     const styles = StyleSheet.create({
         container: {
@@ -76,16 +80,20 @@ export default function PasswordReset() {
             >
                 <View styles={styles.container}>
                     <Logo />
-                    <Input onChangeText={handleEmailChange} marginTop={10} placeholder='Ingrese su email' />
+                    <Input onChangeText={handleEmailChange} marginTop={80} placeholder='Ingrese su email' />
                     {/* <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
                     <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
                         <Text style={styles.toggleButtonText}>
                             {showPassword ? 'Ocultar' : 'Mostrar'}
                         </Text>
                     </TouchableOpacity> */}
-                    <LoginButton onPress={handleLogin} title='Enviar correo de recuperación' />
-                    <Popup/>
-                     
+                    <LoginButton onPress={handlePressConfRecov} marginTop={10} title='Enviar correo de recuperación' />
+                    {/* <Popup title='Enviamos un código de recuperación
+            a su correo electrónico registrado'/> */}
+            
+            
+
+
                 </View>
             </ImageBackground>
         </SafeAreaView>

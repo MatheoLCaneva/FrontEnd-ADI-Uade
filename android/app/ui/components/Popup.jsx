@@ -1,10 +1,17 @@
 import React, { Component,useState} from 'react';
 import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
+import LoginButton from '../components/LoginButton';
 
-export default function Popup(props) {
+export default function Popup({props, navigation}) {
     const [modalVisible, setModalVisible] = useState(false);
+
+    // const handlePressSendRecoveryPass = () => {
+    //   navigation.navigate('CONFIRM_RECOVERY')
+    // };
+
+
     return (
-    <View style={styles.centeredView}>
+    <View> 
       <Modal
         animationType="popup"
         transparent={true}
@@ -13,23 +20,29 @@ export default function Popup(props) {
           Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
-        <View style={styles.centeredView}>
+        <View>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Enviamos un código de recuperación
-            a su correo electrónico registrado</Text>
+            a su correo electrónico registrado
+                    {/* {props.modal}      */}
+            </Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
+              // onPress={handlePressSendRecoveryPass}
+              // navigation={'CONFIRM_RECOVERY'} NOFUNCIONA
+              >
               <Text style={styles.textStyle}>Continuar</Text>
             </Pressable>
+            {/* <LoginButton onPress={handlePressSendRecoveryPass} title='Continuar' /> */}
           </View>
         </View>
       </Modal>
       <Pressable
-        style={[styles.button, styles.buttonOpen]}
+        style={styles.button}
+        marginTop={100} 
         onPress={() => setModalVisible(true)}>
-        <Text style={styles.textStyle}>Show Modal</Text>
       </Pressable>
+      {/* <LoginButton onPress={() => setModalVisible(true)} title='Enviar correo de recuperación' /> */}
     </View>
     )
 }
@@ -44,7 +57,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: '#41041E',
     borderRadius: 20,
-    padding: 35,
+    padding: 10,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -54,20 +67,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    marginTop:250,
   },
   button: {
     borderRadius: 20,
     backgroundColor: '#E01D6F',
     paddingVertical: 10,
-},
+    margin:30,
+  },
   buttonOpen: {
     backgroundColor: '#F194FF',
   },
   buttonClose: {
-    padding: 35,   
+    padding: 80,   
     borderRadius: 20,
     backgroundColor: '#E01D6F',
-    paddingVertical: 10,
+    paddingVertical: 5,
   },
   textStyle: {
     fontSize: 18,
@@ -77,6 +92,8 @@ const styles = StyleSheet.create({
     paddingVertical: 5
   },
   modalText: {
+    marginTop: 20,
+    fontSize: 18,
     color: 'white',
     marginBottom: 15,
     textAlign: 'center',
