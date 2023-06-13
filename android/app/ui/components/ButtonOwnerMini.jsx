@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function LoginButton(props) {
+export default function ButtonOwnerMini(props) {
     return (
         <TouchableOpacity style={styles.container} onPress={props.onPress}>
             <View style={styles.button}>
@@ -15,9 +15,9 @@ export default function LoginButton(props) {
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 33,
+        marginHorizontal: 90,
         marginTop: 50,
-        height: 62,
+        height: 55,
     },  
     button: {
         borderRadius: 20,
@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
         color: 'white',
-        fontWeight: 600,
         paddingVertical: 5
     }
 })

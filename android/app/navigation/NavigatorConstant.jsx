@@ -16,10 +16,15 @@ const LOGIN_STACK = {
 const REGISTER = {
     REGISTER: 'REGISTER',
     CONFIRM_NEW_USR_CODE: 'CONFIRM_NEW_USR_CODE',
-}
+};
+
+const OWNER = {
+    OWNER_HOME: 'OWNER_HOME',
+};
 
 export default {
     NAVIGATOR,
     LOGIN_STACK,
-    REGISTER
+    REGISTER,
+    OWNER,
 }

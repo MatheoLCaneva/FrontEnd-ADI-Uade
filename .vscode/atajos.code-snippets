@@ -40,7 +40,7 @@
 		"body": [
 			"import React from 'react';",
 			"import { View, Text, StyleSheet, SafeAreaView, ImageBackground} from 'react-native';",
-			"import LoginButton from '../components/LoginButton';",
+			"import ButtonPrimary from '../components/ButtonPrimary';",
 			"",
 			"export default function OwnerLogin() {",
 			"    const styles = StyleSheet.create({",

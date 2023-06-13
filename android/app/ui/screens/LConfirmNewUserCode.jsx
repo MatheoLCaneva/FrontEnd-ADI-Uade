@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import { View, Modal, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
+import { View, Modal, Text, Pressable, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
 import Popup from '../components/Popup';
+import ButtonPrimary from '../components/ButtonPrimary';
 import Logo from '../components/Logo';
 import Input from '../components/Input';
 import loginWS from '../../networking/api/endpoints/User'
 import axios from 'axios';
-import LoginButton from '../components/LoginButton';
 
-export default function ConfirmRecovCode({navigation}) {
+export default function ConfirmNewUserCode({navigation}) {
 
     const [email, setEmail] = React.useState('');
     // const [password, setPassword] = React.useState('');
@@ -18,6 +18,9 @@ export default function ConfirmRecovCode({navigation}) {
         setEmail(text);
     };
 
+    const handleLogin = () => {
+        navigation.navigate('LOGIN')
+      };
     // const handlePasswordChange = (text) => {
     //     setPassword(text);
     // };
@@ -25,12 +28,9 @@ export default function ConfirmRecovCode({navigation}) {
     // const handleTogglePasswordVisibility = () => {
     //     setShowPassword(!showPassword);
     // };
+    const [modalVisible, setModalVisible] = useState(false);
 
-    const handlePressNewPass = () => {
-        navigation.navigate('NEW_PW')
-    };
-    
-    const handleRecovCode = () => {
+    const handleNewUserCode = () => {
 
         const headers = {
             Accept: 'application/json',
@@ -38,7 +38,7 @@ export default function ConfirmRecovCode({navigation}) {
         }
 
         const data = {
-            code: 'codigo123',
+            email: 'test@gmail.com',
         }
 
         axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers })
@@ -47,6 +47,7 @@ export default function ConfirmRecovCode({navigation}) {
             )
         // ToastAndroid.show(data.data, ToastAndroid.SHORT);
     };
+
 
     const styles = StyleSheet.create({
         container: {
@@ -79,15 +80,19 @@ export default function ConfirmRecovCode({navigation}) {
             >
                 <View styles={styles.container}>
                     <Logo />
-                    <Input onChangeText={handleEmailChange} marginTop={10} placeholder='Ingrese su código de recuperación' />
+                    <Input onChangeText={handleNewUserCode} marginTop={80} placeholder='Ingrese su código de confirmación' />
                     {/* <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
                     <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
                         <Text style={styles.toggleButtonText}>
                             {showPassword ? 'Ocultar' : 'Mostrar'}
                         </Text>
                     </TouchableOpacity> */}
-                    <LoginButton onPress={handlePressNewPass} title='Continuar' />
-                    {/* <Popup/>  */}
+                    <ButtonPrimary onPress={handleLogin} marginTop={10} title='Iniciar sesión' />
+                    {/* <Popup title='Enviamos un código de recuperación
+            a su correo electrónico registrado'/> */}
+            
+            
+
 
                 </View>
             </ImageBackground>

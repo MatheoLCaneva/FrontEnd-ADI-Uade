@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import { View, Modal, Text, Pressable, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
 import Popup from '../components/Popup';
-import LoginButton from '../components/LoginButton';
+import ButtonPrimary from '../components/ButtonPrimary';
 import Logo from '../components/Logo';
 import Input from '../components/Input';
 import loginWS from '../../networking/api/endpoints/User'
 import axios from 'axios';
 
-export default function ConfirmNewUserCode({navigation}) {
+export default function PasswordReset({navigation}) {
 
     const [email, setEmail] = React.useState('');
     // const [password, setPassword] = React.useState('');
@@ -18,8 +18,8 @@ export default function ConfirmNewUserCode({navigation}) {
         setEmail(text);
     };
 
-    const handleLogin = () => {
-        navigation.navigate('LOGIN')
+    const handlePressConfRecov = () => {
+        navigation.navigate('CONFIRM_RECOVERY')
       };
     // const handlePasswordChange = (text) => {
     //     setPassword(text);
@@ -30,7 +30,7 @@ export default function ConfirmNewUserCode({navigation}) {
     // };
     const [modalVisible, setModalVisible] = useState(false);
 
-    const handleNewUserCode = () => {
+    const handleLogin = () => {
 
         const headers = {
             Accept: 'application/json',
@@ -80,16 +80,17 @@ export default function ConfirmNewUserCode({navigation}) {
             >
                 <View styles={styles.container}>
                     <Logo />
-                    <Input onChangeText={handleNewUserCode} marginTop={80} placeholder='Ingrese su código de confirmación' />
+                    <Input onChangeText={handleEmailChange} marginTop={80} placeholder='Ingrese su email' />
                     {/* <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
                     <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
                         <Text style={styles.toggleButtonText}>
                             {showPassword ? 'Ocultar' : 'Mostrar'}
                         </Text>
                     </TouchableOpacity> */}
-                    <LoginButton onPress={handleLogin} marginTop={10} title='Iniciar sesión' />
+                    <ButtonPrimary onPress={handlePressConfRecov} marginTop={10} title='Enviar correo de recuperación' />
                     {/* <Popup title='Enviamos un código de recuperación
             a su correo electrónico registrado'/> */}
+                    <Popup onPress={handlePressConfRecov}><Text>Continuar</Text></Popup>
             
             
 

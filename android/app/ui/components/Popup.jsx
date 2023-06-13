@@ -1,8 +1,8 @@
 import React, { Component,useState} from 'react';
 import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
-import LoginButton from '../components/LoginButton';
+import ButtonPrimary from './ButtonPrimary';
 
-export default function Popup({props, navigation}) {
+export default function Popup(props, navigation) {
     const [modalVisible, setModalVisible] = useState(false);
 
     // const handlePressSendRecoveryPass = () => {
@@ -24,16 +24,15 @@ export default function Popup({props, navigation}) {
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Enviamos un código de recuperación
             a su correo electrónico registrado
-                    {/* {props.modal}      */}
             </Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               // onPress={handlePressSendRecoveryPass}
               // navigation={'CONFIRM_RECOVERY'} NOFUNCIONA
               >
-              <Text style={styles.textStyle}>Continuar</Text>
+              <Text style={styles.textStyle}>{props.title}</Text>
             </Pressable>
-            {/* <LoginButton onPress={handlePressSendRecoveryPass} title='Continuar' /> */}
+            {/* <ButtonPrimary onPress={handlePressSendRecoveryPass} title='Continuar' /> */}
           </View>
         </View>
       </Modal>
@@ -42,7 +41,7 @@ export default function Popup({props, navigation}) {
         marginTop={100} 
         onPress={() => setModalVisible(true)}>
       </Pressable>
-      {/* <LoginButton onPress={() => setModalVisible(true)} title='Enviar correo de recuperación' /> */}
+      {/* <ButtonPrimary onPress={() => setModalVisible(true)} title='Enviar correo de recuperación' /> */}
     </View>
     )
 }
