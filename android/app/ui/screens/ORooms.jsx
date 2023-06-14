@@ -3,17 +3,13 @@ import { View, Modal, Text, Pressable, StyleSheet, SafeAreaView, ImageBackground
 import ButtonOwnerMini from '../components/ButtonOwnerMini';
 import axios from 'axios';
 
-export default function OwnerHome({navigation}) {
+export default function OwnerRooms({navigation}) {
 
     
     const [data, setData] = React.useState({})
 
-    const handleAddCine = () => {
-        navigation.navigate('OWNER_ADD_CINE')
-      };
-
-      const handleRooms = () => {
-        navigation.navigate('OWNER_ROOMS')
+    const handleAddRoom = () => {
+        navigation.navigate('OWNER_ADD_ROOM')
       };
 
     const styles = StyleSheet.create({
@@ -36,13 +32,6 @@ export default function OwnerHome({navigation}) {
             color: '#E01D6F',
             textDecorationLine: 'underline',
         },
-        lettertyperight: {
-            marginHorizontal: 20,
-            fontFamily: 'Poppins',
-            color: 'white',
-            fontSize: 22,
-            textAlign: 'right'
-        }, 
         lettertypeleft: {
             marginHorizontal: 20,
             fontFamily: 'Poppins',
@@ -58,21 +47,12 @@ export default function OwnerHome({navigation}) {
                 source={require('../../assets/gradient.png')}
                 style={styles.container}
             >
-                <ButtonOwnerMini onPress={handleAddCine} marginTop={10} title='Agregar Cine +' />
+                <ButtonOwnerMini onPress={handleAddRoom} marginTop={10} title='Agregar Sala +' />
                 {/* <Text  style={{flexDirection: 'row'}}>  
                     <Text style={{alignContent:'flex-start', color: 'white'}}> Mis Cines </Text> <Text style={{alignContent:'flex-end', color: 'white'}}> Total: </Text>
                 </Text> */}
+                <Text style={styles.lettertypeleft}>Total:</Text>
 
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                    <View style={{flex: 1}}>
-                        <Text style={styles.lettertypeleft}>Mis Cines</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                        <Text style={styles.lettertyperight}>Total:</Text>
-                    </View>
-                </View>
-
-                <ButtonOwnerMini onPress={handleRooms} marginTop={10} title='PRUEBA SALA' />
                 {/* <View styles={styles.container}>
 
                     <ButtonOwnerMini onPress={handlePressConfRecov} marginTop={10} title='Agregar Cine +' />
