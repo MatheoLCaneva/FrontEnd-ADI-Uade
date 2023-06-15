@@ -3,19 +3,16 @@ import { View, Modal, Text, Pressable, StyleSheet, SafeAreaView, ImageBackground
 import ButtonOwnerMini from '../components/ButtonOwnerMini';
 import axios from 'axios';
 
-export default function OwnerRooms({navigation}) {
+export default function OwnerShow({navigation}) {
 
     
-    const [data, setData] = React.useState({})
-
-    const handleAddRoom = () => {
-        navigation.navigate('OWNER_ADD_ROOM')
+    const handleAddFunction = () => {
+        navigation.navigate('OWNER_ADD_SHOW')
       };
-
-      const handleFunction = () => {
-        navigation.navigate('OWNER_SHOW')
-      };      
-
+      
+    const handleModifyShow = () => {
+        navigation.navigate('OWNER_MODIFY_SHOW')
+      };
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -38,6 +35,7 @@ export default function OwnerRooms({navigation}) {
         },
         lettertypeleft: {
             marginHorizontal: 20,
+            marginTop: 20,
             fontFamily: 'Poppins',
             color: 'white',
             fontSize: 22,
@@ -51,13 +49,23 @@ export default function OwnerRooms({navigation}) {
                 source={require('../../assets/gradient.png')}
                 style={styles.container}
             >
-                <ButtonOwnerMini onPress={handleAddRoom} marginTop={10} title='Agregar Sala +' />
+                <ButtonOwnerMini onPress={handleAddFunction} marginTop={10} title='Agregar Función +' />
                 {/* <Text  style={{flexDirection: 'row'}}>  
                     <Text style={{alignContent:'flex-start', color: 'white'}}> Mis Cines </Text> <Text style={{alignContent:'flex-end', color: 'white'}}> Total: </Text>
                 </Text> */}
-                <Text style={styles.lettertypeleft}>Total:</Text>
+                <Text style={styles.lettertypeleft}>Mis funciones</Text>
 
-                <ButtonOwnerMini onPress={handleFunction} marginTop={10} title='PRUEBA Funcion' />
+                {/* <View styles={styles.container}>
+
+                    <ButtonOwnerMini onPress={handlePressConfRecov} marginTop={10} title='Agregar Cine +' />
+                    <Text style={styles.footer}>Mis cines</Text><Text style={styles.footer}>Total: X</Text>
+
+
+                </View> */}
+            <ButtonOwnerMini onPress={handleModifyShow} marginTop={10} title='Modificar Función +' />
+                {/* <View style={{flexDirection: 'row'}}>
+                    <Text> Start here, </Text> <Text> finish here </Text>
+                </View> */}
             </ImageBackground>
         </SafeAreaView>
     );

@@ -22,15 +22,27 @@ export default function Popup(props, navigation) {
         }}>
         <View>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Enviamos un código de recuperación
-            a su correo electrónico registrado
+            <Text style={styles.modalText}>SOY POPUP DOS OPCIONES
             </Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}>
-              <Text style={styles.textStyle}>Cerrar modal</Text>
-            </Pressable>
-            {/* <ButtonPrimary onPress={handlePressSendRecoveryPass} title='Continuar' /> */}
+
+            <View style={{  flexDirection: "row" , justifyContent: 'space-between' }}>
+                    <View >
+                        <Pressable
+                          style={[styles.button, styles.buttonCloseSecundary]}
+                          onPress={() => setModalVisible(!modalVisible)}>
+                          <Text style={styles.textStyle}>Cerrar modal2</Text>
+                        </Pressable>
+                    </View>
+                    <View >
+                      <Pressable
+                        style={[styles.button, styles.buttonClose]}
+                        onPress={() => setModalVisible(!modalVisible)}>
+                        <Text style={styles.textStyle}>Cerrar modal</Text>
+                      </Pressable> 
+                    </View>
+
+            </View>
+
           </View>
         </View>
       </Modal>
@@ -38,7 +50,7 @@ export default function Popup(props, navigation) {
         style={styles.button}
         marginTop={100} 
         onPress={() => setModalVisible(true)}>
-        <Text style={styles.textStyle}>SOY POPUP 1 opcion</Text>
+          <Text style={styles.textStyle}>SOY POPUP DOS OPCIONES</Text>
       </Pressable>
       {/* <ButtonPrimary onPress={() => setModalVisible(true)} title='Enviar correo de recuperación' /> */}
     </View>
@@ -67,19 +79,25 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginTop:250,
   },
+  buttonCloseSecundary:{
+    padding: 5,   
+    borderRadius: 5,
+    backgroundColor: '#F0508C',
+    paddingVertical: 5,  
+  },
   button: {
     borderRadius: 20,
     backgroundColor: '#E01D6F',
     paddingVertical: 10,
-    margin:10,
-    marginTop: 20,
+    margin:15,
+    marginTop: 5,
   },
   buttonOpen: {
     backgroundColor: '#F194FF',
   },
   buttonClose: {
-    padding: 80,   
-    borderRadius: 20,
+    padding: 5,   
+    borderRadius: 5,
     backgroundColor: '#E01D6F',
     paddingVertical: 5,
   },

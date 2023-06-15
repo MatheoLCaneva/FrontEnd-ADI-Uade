@@ -13,6 +13,10 @@ import OwnerAddCine from "../ui/screens/OAddCine";
 import OwnerModifyCine from "../ui/screens/OModifyCine";
 import OwnerRooms from "../ui/screens/ORooms";
 import OwnerAddRoom from "../ui/screens/OAddRoom";
+import OwnerModifyShow from "../ui/screens/OModifyShow";
+import OwnerShow from "../ui/screens/OShow";
+import OwnerAddShow from "../ui/screens/OAddShow";
+import OwnerProfile from "../ui/screens/OProfile";
 
 const Stack = createNativeStackNavigator()
 
@@ -31,6 +35,10 @@ export default function LoginNavigator() {
             <Stack.Screen name={NavigatorConstant.OWNER.OWNER_MODIFY_CINE} component={OwnerModifyCine} options={{headerTitle:'Modificar Cine',headerStyle: {backgroundColor: '#E01D6F'}, headerTintColor: '#fff', headerTitleStyle: {fontWeight: 'normal'}, headerTitleAlign: 'center'}} />
             <Stack.Screen name={NavigatorConstant.OWNER.OWNER_ROOMS} component={OwnerRooms} options={{headerTitle:'Mis Salas',headerStyle: {backgroundColor: '#E01D6F'}, headerTintColor: '#fff', headerTitleStyle: {fontWeight: 'normal'}, headerTitleAlign: 'center'}} />
             <Stack.Screen name={NavigatorConstant.OWNER.OWNER_ADD_ROOM} component={OwnerAddRoom} options={{headerTitle:'Crear Sala',headerStyle: {backgroundColor: '#E01D6F'}, headerTintColor: '#fff', headerTitleStyle: {fontWeight: 'normal'}, headerTitleAlign: 'center'}} />
+            <Stack.Screen name={NavigatorConstant.OWNER.OWNER_SHOW} component={OwnerShow} options={{headerTitle:'Funciones',headerStyle: {backgroundColor: '#E01D6F'}, headerTintColor: '#fff', headerTitleStyle: {fontWeight: 'normal'}, headerTitleAlign: 'center'}} />
+            <Stack.Screen name={NavigatorConstant.OWNER.OWNER_ADD_SHOW} component={OwnerAddShow} options={{headerTitle:'Crear Función',headerStyle: {backgroundColor: '#E01D6F'}, headerTintColor: '#fff', headerTitleStyle: {fontWeight: 'normal'}, headerTitleAlign: 'center'}} />
+            <Stack.Screen name={NavigatorConstant.OWNER.OWNER_MODIFY_SHOW} component={OwnerModifyShow} options={{headerTitle:'Crear Función',headerStyle: {backgroundColor: '#E01D6F'}, headerTintColor: '#fff', headerTitleStyle: {fontWeight: 'normal'}, headerTitleAlign: 'center'}} />
+            <Stack.Screen name={NavigatorConstant.OWNER.OWNER_PROFILE} component={OwnerProfile} options={{headerTitle:'Crear Función',headerStyle: {backgroundColor: '#E01D6F'}, headerTintColor: '#fff', headerTitleStyle: {fontWeight: 'normal'}, headerTitleAlign: 'center'}} />
         </Stack.Navigator>
     )
 }

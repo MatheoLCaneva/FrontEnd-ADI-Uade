@@ -13,7 +13,11 @@ import OwnerAddCine from "../ui/screens/OAddCine";
 import OwnerModifyCine from "../ui/screens/OModifyCine"
 import OwnerRooms from "../ui/screens/ORooms";
 import OwnerAddRoom from "../ui/screens/OAddRoom";
+import OwnerShow from "../ui/screens/OShow";
+import OwnerAddShow from "../ui/screens/OAddShow";
 import { NavigationContainer } from "@react-navigation/native";
+import OwnerModifyShow from "../ui/screens/OModifyShow";
+import OwnerProfile from "../ui/screens/OProfile";
 
 
 const Stack = createNativeStackNavigator()
@@ -34,6 +38,10 @@ export default function RootNavigation() {
                 <Stack.Screen name={NavigatorConstant.OWNER.OWNER_MODIFY_CINE} component={OwnerModifyCine} />
                 <Stack.Screen name={NavigatorConstant.OWNER.OWNER_ROOMS} component={OwnerRooms} />
                 <Stack.Screen name={NavigatorConstant.OWNER.OWNER_ADD_ROOM} component={OwnerAddRoom} />
+                <Stack.Screen name={NavigatorConstant.OWNER.OWNER_SHOW} component={OwnerShow} />
+                <Stack.Screen name={NavigatorConstant.OWNER.OWNER_ADD_SHOW} component={OwnerAddShow} />
+                <Stack.Screen name={NavigatorConstant.OWNER.OWNER_MODIFY_SHOW} component={OwnerModifyShow} />
+                <Stack.Screen name={NavigatorConstant.OWNER.OWNER_PROFILE} component={OwnerProfile} />
             </Stack.Navigator>
         </NavigationContainer>
     )

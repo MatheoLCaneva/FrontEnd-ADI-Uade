@@ -90,7 +90,7 @@ export default function PasswordReset({navigation}) {
                     <ButtonPrimary onPress={handlePressConfRecov} marginTop={10} title='Enviar correo de recuperación' />
                     {/* <Popup title='Enviamos un código de recuperación
             a su correo electrónico registrado'/> */}
-                    <Popup onPress={handlePressConfRecov}><Text>Continuar</Text></Popup>
+                    <Popup> </Popup>
             
             
 
