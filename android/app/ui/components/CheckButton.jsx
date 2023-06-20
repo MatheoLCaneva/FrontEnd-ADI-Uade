@@ -8,14 +8,14 @@ import CheckBox from 'expo-checkbox';
 export default function CheckButton(props) {
     const [toggleCheckBox, setToggleCheckBox] = useState(false)
     return (
-        <View style={styles.checkboxContainer}>
+      <View style={styles.checkboxContainer}>
             <CheckBox
                 disabled={false}
                 value={toggleCheckBox}
                 onValueChange={(newValue) => setToggleCheckBox(newValue)}               
             />
             <Text style={styles.text}>  Recuerdame</Text>
-        </View>
+      </View>
     )
 }
 

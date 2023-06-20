@@ -1,39 +1,23 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Modal, Text, Pressable, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
-import Logo from '../components/Logo';
-import Input from '../components/Input';
-import loginWS from '../../networking/api/endpoints/User';
 import ButtonOwnerMini from '../components/ButtonOwnerMini';
 import axios from 'axios';
 
-export default function OwnerHome({navigation}) {
+export default function OwnerHome({ route, navigation }) {
 
-    
-    const [data, setData] = React.useState({})
+    const [user, setUser] = useState({})
+    useEffect(() => {
+        setUser(route.params.user)
+        navigation.setOptions({ title: 'Hola ' + route.params.user.name })
+    }, [route.params.user, navigation])
+
+
 
     const handlePressConfRecov = () => {
         navigation.navigate('CONFIRM_RECOVERY')
-      };
+    };
 
     const [modalVisible, setModalVisible] = useState(false);
-
-    const handleLogin = () => {
-
-        const headers = {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        }
-
-        const data = {
-            email: 'test@gmail.com',
-        }
-
-        axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers })
-            .then(
-                response => console.log(response.data)
-            )
-        // ToastAndroid.show(data.data, ToastAndroid.SHORT);
-    };
 
 
     const styles = StyleSheet.create({
@@ -61,15 +45,15 @@ export default function OwnerHome({navigation}) {
             color: 'white',
             fontSize: 22,
             textAlign: 'right'
-        }, 
+        },
         lettertypeleft: {
             fontFamily: 'Poppins',
             color: 'white',
             fontSize: 22,
-        },            
+        },
     });
 
-    
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ImageBackground
@@ -81,11 +65,11 @@ export default function OwnerHome({navigation}) {
                     <Text style={{alignContent:'flex-start', color: 'white'}}> Mis Cines </Text> <Text style={{alignContent:'flex-end', color: 'white'}}> Total: </Text>
                 </Text> */}
 
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                    <View style={{flex: 1}}>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                    <View style={{ flex: 1 }}>
                         <Text style={styles.lettertypeleft}>Mis Cines</Text>
                     </View>
-                    <View style={{flex: 1}}>
+                    <View style={{ flex: 1 }}>
                         <Text style={styles.lettertyperight}>Total:</Text>
                     </View>
                 </View>

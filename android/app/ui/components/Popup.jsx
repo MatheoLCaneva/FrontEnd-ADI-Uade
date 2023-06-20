@@ -1,17 +1,16 @@
-import React, { Component,useState} from 'react';
-import {Alert, Modal, StyleSheet, Text, Pressable, View} from 'react-native';
-import ButtonPrimary from './ButtonPrimary';
-
-export default function Popup(props, navigation) {
-    const [modalVisible, setModalVisible] = useState(false);
-
-    // const handlePressSendRecoveryPass = () => {
-    //   navigation.navigate('CONFIRM_RECOVERY')
-    // };
+import React, { useState } from 'react';
+import { Alert, Modal, StyleSheet, Text, Pressable, View, TextInput } from 'react-native';
 
 
-    return (
-    <View> 
+export default function Popup(props) {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleModalClose = () => {
+    setModalVisible(false)
+  }
+
+  return (
+    <View>
       <Modal
         animationType="popup"
         transparent={true}
@@ -22,28 +21,25 @@ export default function Popup(props, navigation) {
         }}>
         <View>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Enviamos un código de recuperación
-            a su correo electrónico registrado
-            </Text>
+            <Text style={styles.modalText}>{props.text}</Text>
+            <TextInput style={styles.input} placeholder='Ingrese el código' textAlign='center' />
             <Pressable
+            onPress={handleModalClose}
               style={[styles.button, styles.buttonClose]}
-              // onPress={handlePressSendRecoveryPass}
-              // navigation={'CONFIRM_RECOVERY'} NOFUNCIONA
-              >
+            >
               <Text style={styles.textStyle}>{props.title}</Text>
             </Pressable>
-            {/* <ButtonPrimary onPress={handlePressSendRecoveryPass} title='Continuar' /> */}
           </View>
         </View>
       </Modal>
-      <Pressable
+      {/* <Pressable
         style={styles.button}
-        marginTop={100} 
+        marginTop={100}
         onPress={() => setModalVisible(true)}>
-      </Pressable>
+      </Pressable> */}
       {/* <ButtonPrimary onPress={() => setModalVisible(true)} title='Enviar correo de recuperación' /> */}
     </View>
-    )
+  )
 }
 const styles = StyleSheet.create({
   centeredView: {
@@ -66,19 +62,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    marginTop:250,
+    marginTop: 250,
   },
   button: {
     borderRadius: 20,
     backgroundColor: '#E01D6F',
     paddingVertical: 10,
-    margin:30,
+    margin: 30,
   },
   buttonOpen: {
     backgroundColor: '#F194FF',
   },
   buttonClose: {
-    padding: 80,   
+    padding: 80,
     borderRadius: 20,
     backgroundColor: '#E01D6F',
     paddingVertical: 5,
@@ -96,5 +92,12 @@ const styles = StyleSheet.create({
     color: 'white',
     marginBottom: 15,
     textAlign: 'center',
+  },
+
+  input: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    marginHorizontal: 32,
+    paddingHorizontal: 50,
   },
 });

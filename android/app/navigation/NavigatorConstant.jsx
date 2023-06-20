@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const NAVIGATOR = {
     START: 'NAVIGATOR_START',
     LOGIN: 'NAVIGATOR_LOGIN',

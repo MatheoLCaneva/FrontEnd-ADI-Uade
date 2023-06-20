@@ -2,13 +2,14 @@ import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, Dimensions} from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import Logo from "../components/Logo";
+import { useNavigation } from '@react-navigation/native';
 
 export default function MainScreen({ navigation }) {
   const halfScreenWidth = Dimensions.get('window').width / 2;
   const calculatedValue = halfScreenWidth - 341 / 2 + 0.5;
 
   const handlePress = () => {
-    navigation.navigate('LOGIN')
+    navigation.push('LOGIN')
   }
 
   const styles = StyleSheet.create({

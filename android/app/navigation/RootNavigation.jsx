@@ -8,12 +8,12 @@ import LoginNavigator from "./LoginNavigator";
 import NewPw from "../ui/screens/LNewPw";
 import Register from "../ui/screens/LRegister";
 import ConfirmNewUserCode from "../ui/screens/LConfirmNewUserCode";
-import OwnerHome from "../ui/screens/OHome";
+import OwnerNavigator from "./OwnerNavigator";
 import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator()
 
-export default function RootNavigation() {
+export default function RootNavigation({props}) {
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.LoginStackNavigator} screenOptions={{headerShown: false}} headerMode='none'>
@@ -24,7 +24,7 @@ export default function RootNavigation() {
                 <Stack.Screen name={NavigatorConstant.LOGIN_STACK.NEW_PASSWORD} component={NewPw} />
                 <Stack.Screen name={NavigatorConstant.REGISTER.REGISTER} component={Register} />
                 <Stack.Screen name={NavigatorConstant.REGISTER.CONFIRM_NEW_USR_CODE} component={ConfirmNewUserCode} />
-                <Stack.Screen name={NavigatorConstant.OWNER.OWNER_HOME} component={OwnerHome} />
+                <Stack.Screen name={NavigatorConstant.OWNER.OWNER_HOME} component={OwnerNavigator} />
             </Stack.Navigator>
         </NavigationContainer>
     )
