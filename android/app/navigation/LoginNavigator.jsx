@@ -12,7 +12,7 @@ import NavigatorConstant from "./NavigatorConstant";
 
 const Stack = createNativeStackNavigator()
 
-export default function LoginNavigator({ props }) {
+export default function LoginNavigator( props ) {
     
     return (
         <Stack.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.START} screenOptions={{headerShown: true}}>

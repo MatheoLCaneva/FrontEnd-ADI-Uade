@@ -10,12 +10,11 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
  * @param {string} props.color - Color del botón.
  */
 
-export default function ButtonOwnerMini(props) {
+export default function ButtonAddDelete(props) {
 
 
     const styles = StyleSheet.create({
         container: {
-            marginHorizontal: 90,
             marginTop: 50,
             height: 55,
         },
@@ -23,6 +22,7 @@ export default function ButtonOwnerMini(props) {
             borderRadius: 20,
             backgroundColor: props.color,
             paddingVertical: 10,
+            width: 150
         },
         text: {
             fontSize: 18,

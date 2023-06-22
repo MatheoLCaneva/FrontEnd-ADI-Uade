@@ -8,8 +8,9 @@ import Input from '../components/Input';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/store';
+import { CommonActions } from '@react-navigation/native';
 
-export default function OwnerLogin({ props ,route, navigation }) {
+export default function OwnerLogin({ props, route, navigation }) {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -34,7 +35,12 @@ export default function OwnerLogin({ props ,route, navigation }) {
     };
 
     const handlePressRegister = () => {
-        navigation.navigate('REGISTER')
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'REGISTER' }],
+            })
+        );
     };
 
     const handleLogin = () => {

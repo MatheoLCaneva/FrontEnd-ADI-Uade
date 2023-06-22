@@ -21,6 +21,8 @@ const REGISTER = {
 
 const OWNER = {
     OWNER_HOME: 'OWNER_HOME',
+    CREATE_CINEMA: 'CREATE_CINEMA',
+    EDIT_CINEMA: 'EDIT_CINEMA',
 };
 
 export default {
