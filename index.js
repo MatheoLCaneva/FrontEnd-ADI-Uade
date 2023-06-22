@@ -7,4 +7,4 @@ import App from './App';
 import RootNavigation from './android/app/navigation/RootNavigation';
 import {name as appName} from './app.json';
 
-AppRegistry.registerComponent(appName, () => RootNavigation);
+AppRegistry.registerComponent(appName, () => App);

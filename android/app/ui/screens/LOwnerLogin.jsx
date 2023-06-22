@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
-import React, { useState, useLayoutEffect } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground, ToastAndroid, TouchableOpacity, ActivityIndicator } from 'react-native';
 import CheckButton from '../components/CheckButton';
 import ButtonPrimary from '../components/ButtonPrimary';
 import Logo from '../components/Logo';
 import Input from '../components/Input';
-import loginWS from '../../networking/api/endpoints/User'
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/store';
 
 export default function OwnerLogin({ props ,route, navigation }) {
 
@@ -14,6 +15,7 @@ export default function OwnerLogin({ props ,route, navigation }) {
     const [password, setPassword] = React.useState('');
     const [showPassword, setShowPassword] = React.useState(false);
     const [isLoading, setLoading] = React.useState(false)
+    const dispatch = useDispatch()
 
     const handleEmailChange = (text) => {
         setEmail(text);
@@ -53,7 +55,8 @@ export default function OwnerLogin({ props ,route, navigation }) {
                 response => {
                     setLoading(false)
                     const user = response.data.loginUser.user
-                    navigation.navigate('OWNER_HOME', { user })
+                    dispatch(setUser(user))
+                    navigation.push('OWNER_HOME')
                 }
             )
             .catch(

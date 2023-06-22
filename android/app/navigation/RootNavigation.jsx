@@ -13,10 +13,10 @@ import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createNativeStackNavigator()
 
-export default function RootNavigation({props}) {
+export default function RootNavigation() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.LoginStackNavigator} screenOptions={{headerShown: false}} headerMode='none'>
+            <Stack.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.LoginStackNavigator} screenOptions={{ headerShown: false }} headerMode='none'>
                 <Stack.Screen name={NavigatorConstant.NAVIGATOR.LOGIN} component={LoginNavigator} />
                 <Stack.Screen name={NavigatorConstant.LOGIN_STACK.LOGIN} component={OwnerLogin} />
                 <Stack.Screen name={NavigatorConstant.LOGIN_STACK.PASSWORD_RECOVERY} component={PasswordReset} />

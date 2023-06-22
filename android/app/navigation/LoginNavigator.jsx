@@ -23,7 +23,6 @@ export default function LoginNavigator({ props }) {
             <Stack.Screen name={NavigatorConstant.LOGIN_STACK.NEW_PASSWORD} component={NewPw} options={{headerTitle:'Reestablecer contraseña',headerStyle: {backgroundColor: '#E01D6F'}, headerTintColor: '#fff', headerTitleStyle: {fontWeight: 'normal'}, headerTitleAlign: 'center'}} />
             <Stack.Screen name={NavigatorConstant.REGISTER.REGISTER} component={Register} options={{headerTitle:'Registro',headerStyle: {backgroundColor: '#E01D6F'}, headerTintColor: '#fff', headerTitleStyle: {fontWeight: 'normal'}, headerTitleAlign: 'center'}} />
             <Stack.Screen name={NavigatorConstant.REGISTER.CONFIRM_NEW_USR_CODE} component={ConfirmNewUserCode} options={{headerTitle:'Confirmar usuario',headerStyle: {backgroundColor: '#E01D6F'}, headerTintColor: '#fff', headerTitleStyle: {fontWeight: 'normal'}, headerTitleAlign: 'center'}} />
-            <Stack.Screen name={NavigatorConstant.OWNER.OWNER_HOME} component={OwnerHome} options={{headerStyle: {backgroundColor: '#E01D6F'}, headerTintColor: '#fff', headerTitleStyle: {fontWeight: 'normal'}, headerTitleAlign: 'center'}} />
         </Stack.Navigator>
     )
 }   
