@@ -6,8 +6,10 @@ import Input from '../components/Input';
 import ButtonAddDelete from '../components/ButtonAddDeleteOwner';
 import { CommonActions } from '@react-navigation/native';
 
-export default function CreateCinema({ navigation }) {
+export default function CreateCinema({ navigation, route }) {
     const user = useSelector(state => state.user);
+
+    const cinema = route.params.cinema
 
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
@@ -22,55 +24,25 @@ export default function CreateCinema({ navigation }) {
     const handleDistrictChange = (text) => setDistrict(text);
     const handleCountryChange = (text) => setCountry(text);
 
-    const handleCreateCinema = async () => {
-        if (address === '' || city === '' || district === '' || country === '') {
-            Alert.alert('Error en los datos', 'Los campos no pueden estar vacíos (únicamente "Nombre").');
-            return;
-        }
+    const handleEditCinema = () => {
 
-        setIsLoading(true);
+        // Update name
+        cinema.name = name !== '' ? name : cinema.name || '';
 
-        const headers = {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        };
+        // Update address
+        cinema.address.name = address !== '' ? address : cinema.address.name || '';
 
-        let cinemaName = name;
-        if (name === '') {
-            cinemaName = district;
-        }
+        // Update city
+        cinema.address.city = city !== '' ? city : cinema.address.city || '';
 
-        const obj = {
-            name: cinemaName,
-            owner: user._id,
-            address: {
-                name: address,
-                city: city,
-                district: district,
-                country: country,
-            },
-            location: {
-                lat: "0",
-                long: "0"
-            }
-        };
+        // Update district
+        cinema.address.district = district !== '' ? district : cinema.address.district || '';
 
-        try {
-            const response = await axios.post(`https://backend-adi-uade.onrender.com/cinemas/`, obj, { headers });
-            if (response.data.status === 201) {
-                ToastAndroid.show("Cine creado con éxito.", ToastAndroid.SHORT)
-            }
-            setIsLoading(false);
-            navigation.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [{ name: 'OWNER_HOME', params: { transition: 'slide_from_left' }, }],
-                })
-            );
-        } catch (e) {
-            Alert.alert("Error", "Ha ocurrido un error al crear su cine, reintente en unos minutos.");
-            setIsLoading(false);
-        }
+        // Update country
+        cinema.address.country = country !== '' ? country : cinema.address.country || '';
+
+
+        console.log(cinema)
     };
 
     const styles = StyleSheet.create({
@@ -103,7 +75,7 @@ export default function CreateCinema({ navigation }) {
                     <Input placeholder='Pais' marginTop={21} onChangeText={handleCountryChange} />
 
                     <View style={styles.botones}>
-                        <ButtonAddDelete title='Crear Cine' color='#E01D6F' onPress={handleCreateCinema} />
+                        <ButtonAddDelete title='Modificar Cine' color='#E01D6F' onPress={handleEditCinema} />
                         <ButtonAddDelete title='Cancelar' color='#F0508C' />
                     </View>
                 </View>

@@ -37,6 +37,12 @@ export default function OwnerHome({ navigation }) {
     const handleCreateCinema = () => {
         navigation.push('CREATE_CINEMA')
     };
+    const handleEditCinema = (cinema) => {
+        navigation.push('EDIT_CINEMA', { cinema })
+    };
+    const handleDeleteCinema = () => {
+        navigation.push('CREATE_CINEMA')
+    };
 
     const styles = StyleSheet.create({
         container: {
@@ -102,6 +108,8 @@ export default function OwnerHome({ navigation }) {
                                         description={cinema.address.name}
                                         rooms={roomsCount}
                                         actives={activeRoomsCount}
+                                        onPressBtnEdit={() => handleEditCinema(cinema)}
+                                        onPressBtnDelete={handleDeleteCinema}
                                     />
                                 );
                             })}

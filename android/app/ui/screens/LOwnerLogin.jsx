@@ -16,6 +16,7 @@ export default function OwnerLogin({ props, route, navigation }) {
     const [password, setPassword] = React.useState('');
     const [showPassword, setShowPassword] = React.useState(false);
     const [isLoading, setLoading] = React.useState(false)
+
     const dispatch = useDispatch()
 
     const handleEmailChange = (text) => {
@@ -35,15 +36,11 @@ export default function OwnerLogin({ props, route, navigation }) {
     };
 
     const handlePressRegister = () => {
-        navigation.dispatch(
-            CommonActions.reset({
-                index: 0,
-                routes: [{ name: 'REGISTER' }],
-            })
-        );
+        navigation.push("REGISTER")
     };
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
+        console.log('entre')
         setLoading(true)
 
         const headers = {
@@ -56,20 +53,18 @@ export default function OwnerLogin({ props, route, navigation }) {
             password: password
         }
 
-        axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers })
-            .then(
-                response => {
-                    setLoading(false)
-                    const user = response.data.loginUser.user
-                    dispatch(setUser(user))
-                    navigation.push('OWNER_HOME')
-                }
-            )
-            .catch(
-                err => ToastAndroid.show("Error de usuario y/o contraseña", ToastAndroid.LONG),
-                setLoading(false)
-            )
+        try {
+            const response = await axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers });
+            setLoading(false);
+            const user = response.data.loginUser.user;
+            dispatch(setUser(user));
+            navigation.replace('OWNER_HOME');
+        } catch (err) {
+            ToastAndroid.show("Error de usuario y/o contraseña", ToastAndroid.LONG);
+            setLoading(false);
+        }
     };
+
 
     const styles = StyleSheet.create({
         container: {
@@ -126,11 +121,16 @@ export default function OwnerLogin({ props, route, navigation }) {
                         </Text>
                     </TouchableOpacity>
 
-                    <CheckButton style={{ marginTop: 30, flexDirection: 'row', alignSelf: 'center' }} />
+                    {/* <CheckButton style={{ marginTop: 30, flexDirection: 'row', alignSelf: 'center' }} /> */}
 
                     <View style={styles.buttonContainer}>
                         <ButtonPrimary onPress={handleLogin} title='Ingresar' disabled={isLoading} />
-                        {isLoading && <ActivityIndicator style={styles.loadingIndicator} size="small" color="#ffffff" />}
+                        {isLoading ? (
+                            <ActivityIndicator style={styles.loadingIndicator} size="small" color="#ffffff" />
+                        ) : (
+                            null
+                        )
+                        }
                     </View>
 
                     <TouchableOpacity style={{ marginTop: 40 }} onPress={handlePressRecoveryPass}>

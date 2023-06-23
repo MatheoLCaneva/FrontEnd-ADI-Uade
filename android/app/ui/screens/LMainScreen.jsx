@@ -11,7 +11,6 @@ export default function MainScreen() {
   const navigation = useNavigation()
 
   const handlePress = () => {
-    console.log(navigation.push)
     navigation.push('LOGIN')
   }
 
@@ -74,9 +73,6 @@ export default function MainScreen() {
       >
         <Logo />
         <View style={styles.container}>
-          {/* <View style={styles.titleContainer}>
-            <Text style={styles.title}>Bienvenido</Text>
-          </View> */}
           <Text style={styles.text}>Iniciar sesión como cliente</Text>
           <Image style={styles.google} resizeMode='contain' source={require('../../assets/googleimage.png')} />
           <TouchableOpacity style={{ marginTop: 200, flexDirection: 'row', alignSelf: 'center' }} onPress={handlePress}>
