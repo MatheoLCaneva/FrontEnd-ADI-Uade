@@ -1,103 +1,122 @@
-import React, {useState} from 'react';
-import { View, Modal, Text, Pressable, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, SafeAreaView, ImageBackground, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import ButtonOwnerMini from '../components/ButtonOwnerMini';
-import Popup from '../components/Popup';
-import PopupOptions from '../components/PopupOptions';
 import axios from 'axios';
+import Card from '../components/Card';
+import { useSelector } from 'react-redux';
 
-export default function OwnerHome({navigation}) {
+export default function OwnerHome({ navigation }) {
 
-    
-    const [data, setData] = React.useState({})
+    const [cinemas, setCinemas] = useState([])
+    const [isLoading, setIsLoading] = useState(false);
 
-    const handleAddCine = () => {
-        navigation.navigate('OWNER_ADD_CINE')
-      };
 
-    const handleModifyCine = () => {
-        navigation.navigate('OWNER_MODIFY_CINE')
-      };
+    const user = useSelector(state => state.user)
 
-    const handleRooms = () => {
-        navigation.navigate('OWNER_ROOMS')
-      };
-      
+    useEffect(() => {
+        setIsLoading(true)
+        navigation.setOptions({ title: 'Hola ' + user.name })
 
-    const handleProfile = () => {
-        navigation.navigate('OWNER_PROFILE')
-      };
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`https://backend-adi-uade.onrender.com/cinemas/owner/${user._id}`);
+                setCinemas(response.data.data.docs);
+            } catch (e) {
+                Alert.alert("Error", "Ha ocurrido un error al importar sus cines, reintente en unos minutos.");
+            }
+            finally {
+                setIsLoading(false)
+            }
+        };
+
+        fetchData()
+
+    }, [user, navigation])
+
+    const handleCreateCinema = () => {
+        navigation.push('CREATE_CINEMA')
+    };
+    const handleEditCinema = (cinema) => {
+        navigation.push('EDIT_CINEMA', { cinema })
+    };
+    const handleDeleteCinema = () => {
+        navigation.push('CREATE_CINEMA')
+    };
 
     const styles = StyleSheet.create({
         container: {
             flex: 1,
         },
-        titleContainer: {
-            height: 80,
-            width: '100%',
-            backgroundColor: '#E01D6F',
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-        toggleButton: {
-            alignSelf: 'center',
-            marginTop: 10,
-        },
-        toggleButtonText: {
-            fontSize: 16,
-            color: '#E01D6F',
-            textDecorationLine: 'underline',
-        },
         lettertyperight: {
-            marginHorizontal: 20,
             fontFamily: 'Poppins',
             color: 'white',
             fontSize: 22,
-            textAlign: 'right'
-        }, 
+            marginRight: 28
+        },
         lettertypeleft: {
-            marginHorizontal: 20,
             fontFamily: 'Poppins',
             color: 'white',
             fontSize: 22,
-        },            
+            marginLeft: 28
+        },
+        cardContainer: {
+            marginVertical: 20,
+            marginHorizontal: 16,
+        },
+        misCinesContainer: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginVertical: 20,
+            marginHorizontal: 16,
+        },
     });
 
-    
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ImageBackground
                 source={require('../../assets/gradient.png')}
-                style={styles.container}
-            >
-                <ButtonOwnerMini onPress={handleAddCine} marginTop={10} title='Agregar Cine +' />
-                {/* <Text  style={{flexDirection: 'row'}}>  
-                    <Text style={{alignContent:'flex-start', color: 'white'}}> Mis Cines </Text> <Text style={{alignContent:'flex-end', color: 'white'}}> Total: </Text>
-                </Text> */}
-
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                    <View style={{flex: 1}}>
-                        <Text style={styles.lettertypeleft}>Mis Cines</Text>
-                    </View>
-                    <View style={{flex: 1}}>
-                        <Text style={styles.lettertyperight}>Total:</Text>
-                    </View>
+                style={styles.container}>
+                <ButtonOwnerMini onPress={handleCreateCinema} marginTop={10} title='Agregar Cine +' color='#E01D6F' />
+                <View style={styles.misCinesContainer}>
+                    <Text style={styles.lettertypeleft}>Mis Cines</Text>
+                    <Text style={styles.lettertyperight}>Total: {cinemas.length}</Text>
                 </View>
+                {isLoading ? (
+                    <ActivityIndicator style={styles.loading} size="large" color="#FFFFFF" />
+                ) : (
+                    <ScrollView
+                        showsVerticalScrollIndicator={false}
+                        nestedScrollEnabled={true}
+                    >
+                        <View style={styles.cardContainer}>
+                            {cinemas.map(cinema => {
+                                const activeRoomsCount = cinema.rooms.reduce((count, room) => {
+                                    if (room.status === true) {
+                                        return count + 1;
+                                    }
+                                    return count;
+                                }, 0);
 
-                <ButtonOwnerMini onPress={handleRooms} marginTop={10} title='PRUEBA SALA' />
+                                const roomsCount = cinema.rooms.length > 1 ? cinema.rooms.length - 1 : cinema.rooms.length;
 
-                <ButtonOwnerMini onPress={handleProfile} marginTop={10} title='PRUEBA profile' />
+                                return (
+                                    <Card
+                                        key={cinema._id}
+                                        title={cinema.name}
+                                        description={cinema.address.name}
+                                        rooms={roomsCount}
+                                        actives={activeRoomsCount}
+                                        onPressBtnEdit={() => handleEditCinema(cinema)}
+                                        onPressBtnDelete={handleDeleteCinema}
+                                    />
+                                );
+                            })}
+                        </View>
 
-                <ButtonOwnerMini onPress={handleModifyCine} marginTop={10} title='PRUEBA Modify Cine' />
-
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                    <View style={{flex: 1}}>
-                        <PopupOptions><Text>POPUP DOS VALORES</Text></PopupOptions>
-                    </View>
-                    <View style={{flex: 1}}>
-                        <Popup><Text>POP UP</Text></Popup>
-                    </View>
-                </View>
-
+                    </ScrollView>
+                )}
             </ImageBackground>
         </SafeAreaView>
     );

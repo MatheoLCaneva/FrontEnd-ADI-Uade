@@ -45,7 +45,6 @@ export default function PasswordReset({navigation}) {
             .then(
                 response => console.log(response.data)
             )
-        // ToastAndroid.show(data.data, ToastAndroid.SHORT);
     };
 
 
@@ -81,20 +80,8 @@ export default function PasswordReset({navigation}) {
                 <View styles={styles.container}>
                     <Logo />
                     <Input onChangeText={handleEmailChange} marginTop={80} placeholder='Ingrese su email' />
-                    {/* <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
-                    <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
-                        <Text style={styles.toggleButtonText}>
-                            {showPassword ? 'Ocultar' : 'Mostrar'}
-                        </Text>
-                    </TouchableOpacity> */}
+
                     <ButtonPrimary onPress={handlePressConfRecov} marginTop={10} title='Enviar correo de recuperación' />
-                    {/* <Popup title='Enviamos un código de recuperación
-            a su correo electrónico registrado'/> */}
-                    <Popup> </Popup>
-            
-            
-
-
                 </View>
             </ImageBackground>
         </SafeAreaView>
