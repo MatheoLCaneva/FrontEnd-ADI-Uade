@@ -1,21 +1,23 @@
-import React, {useState} from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
+/* eslint-disable prettier/prettier */
+import React from 'react';
+import { View, Text, StyleSheet, SafeAreaView, ImageBackground, ToastAndroid, TouchableOpacity, ActivityIndicator } from 'react-native';
 import CheckButton from '../components/CheckButton';
 import ButtonPrimary from '../components/ButtonPrimary';
 import Logo from '../components/Logo';
 import Input from '../components/Input';
-import loginWS from '../../networking/api/endpoints/User'
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/store';
+import { CommonActions } from '@react-navigation/native';
 
-export default function OwnerLogin({navigation}) {
+export default function OwnerLogin({ props, route, navigation }) {
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [showPassword, setShowPassword] = React.useState(false);
-    const [data, setData] = React.useState({});
-    
-    // const [isSelected, setSelection] = useState(false); NOFUNCIONA
-    // const [toggleCheckBox, setToggleCheckBox] = useState(false)
+    const [isLoading, setLoading] = React.useState(false)
+
+    const dispatch = useDispatch()
 
     const handleEmailChange = (text) => {
         setEmail(text);
@@ -34,10 +36,12 @@ export default function OwnerLogin({navigation}) {
     };
 
     const handlePressRegister = () => {
-        navigation.navigate('REGISTER')
+        navigation.push("REGISTER")
     };
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
+        console.log('entre')
+        setLoading(true)
 
         const headers = {
             Accept: 'application/json',
@@ -45,18 +49,22 @@ export default function OwnerLogin({navigation}) {
         }
 
         const data = {
-            email: 'test@gmail.com',
-            password: 'Test1234'
+            email: email,
+            password: password
         }
 
-        axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers })
-            .then(
-                response => console.log(response.data)
-            )
-        // ToastAndroid.show(data.data, ToastAndroid.SHORT);
-
-        navigation.navigate('OWNER_HOME')
+        try {
+            const response = await axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers });
+            setLoading(false);
+            const user = response.data.loginUser.user;
+            dispatch(setUser(user));
+            navigation.replace('OWNER_HOME');
+        } catch (err) {
+            ToastAndroid.show("Error de usuario y/o contraseña", ToastAndroid.LONG);
+            setLoading(false);
+        }
     };
+
 
     const styles = StyleSheet.create({
         container: {
@@ -93,7 +101,7 @@ export default function OwnerLogin({navigation}) {
             fontFamily: 'Poppins',
             color: 'white',
             fontSize: 20,
-            fontWeight: 'bold',            
+            fontWeight: 'bold',
         },
     });
 
@@ -113,13 +121,22 @@ export default function OwnerLogin({navigation}) {
                         </Text>
                     </TouchableOpacity>
 
-                    <CheckButton  style={{marginTop: 30, flexDirection: 'row', alignSelf:'center'}} />
+                    {/* <CheckButton style={{ marginTop: 30, flexDirection: 'row', alignSelf: 'center' }} /> */}
 
-                    <ButtonPrimary onPress={handleLogin} title='Ingresar' />
-                    <TouchableOpacity style={{marginTop: 40}} onPress={handlePressRecoveryPass}>
+                    <View style={styles.buttonContainer}>
+                        <ButtonPrimary onPress={handleLogin} title='Ingresar' disabled={isLoading} />
+                        {isLoading ? (
+                            <ActivityIndicator style={styles.loadingIndicator} size="small" color="#ffffff" />
+                        ) : (
+                            null
+                        )
+                        }
+                    </View>
+
+                    <TouchableOpacity style={{ marginTop: 40 }} onPress={handlePressRecoveryPass}>
                         <Text style={styles.footer}>Olvidé mi contraseña</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{marginTop: 30, flexDirection: 'row', alignSelf:'center'}} onPress={handlePressRegister}>
+                    <TouchableOpacity style={{ marginTop: 30, flexDirection: 'row', alignSelf: 'center' }} onPress={handlePressRegister}>
                         <Text style={styles.footer}>No estas registrado?</Text><Text style={styles.footerNegrita}> Registrate</Text>
                     </TouchableOpacity>
 

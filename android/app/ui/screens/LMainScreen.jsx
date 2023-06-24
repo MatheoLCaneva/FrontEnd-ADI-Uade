@@ -1,14 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, Dimensions} from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import Logo from "../components/Logo";
+import { useNavigation } from '@react-navigation/native';
 
-export default function MainScreen({ navigation }) {
+export default function MainScreen() {
   const halfScreenWidth = Dimensions.get('window').width / 2;
   const calculatedValue = halfScreenWidth - 341 / 2 + 0.5;
 
+  const navigation = useNavigation()
+
   const handlePress = () => {
-    navigation.navigate('LOGIN')
+    navigation.push('LOGIN')
   }
 
   const styles = StyleSheet.create({
@@ -51,8 +54,8 @@ export default function MainScreen({ navigation }) {
       fontFamily: 'Poppins',
       color: 'white',
       fontSize: 20,
-      fontWeight: 'bold',            
-  },
+      fontWeight: 'bold',
+    },
 
     button: {
       fontWeight: 700,
@@ -70,12 +73,9 @@ export default function MainScreen({ navigation }) {
       >
         <Logo />
         <View style={styles.container}>
-          {/* <View style={styles.titleContainer}>
-            <Text style={styles.title}>Bienvenido</Text>
-          </View> */}
           <Text style={styles.text}>Iniciar sesión como cliente</Text>
           <Image style={styles.google} resizeMode='contain' source={require('../../assets/googleimage.png')} />
-          <TouchableOpacity style={{marginTop: 200, flexDirection: 'row', alignSelf:'center'}} onPress={handlePress}>
+          <TouchableOpacity style={{ marginTop: 200, flexDirection: 'row', alignSelf: 'center' }} onPress={handlePress}>
             <Text style={styles.footer}>Sos dueño? </Text><Text style={styles.footerNegrita}>Ingresa aquí</Text>
           </TouchableOpacity>
         </View>

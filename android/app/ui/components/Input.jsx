@@ -1,8 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 
+/**
+ * Componente de entrada de texto.
+ *
+ * @param {Object} props - Las props del componente.
+ * @param {string} props.placeholder - El texto de marcador de posición.
+ * @param {function} props.onChangeText - La función de controlador de cambio de texto.
+ * @param {boolean} props.secure - Indica si el campo de texto debe ser seguro.
+ * @param {number} props.marginTop - El valor de margen superior.
+ */
 export default function Input(props) {
-
     const styles = StyleSheet.create({
         input: {
             backgroundColor: 'white',
@@ -11,9 +19,15 @@ export default function Input(props) {
             marginHorizontal: 32,
             paddingLeft: 20
         }
-    })
+    });
 
     return (
-        <TextInput style={styles.input} placeholder={props.placeholder} placeholderTextColor='#590B2C' onChangeText={props.onChangeText} secureTextEntry={props.secure}/>
-    )
+        <TextInput
+            style={styles.input}
+            placeholder={props.placeholder}
+            placeholderTextColor='#590B2C'
+            onChangeText={props.onChangeText}
+            secureTextEntry={props.secure}
+        />
+    );
 }
