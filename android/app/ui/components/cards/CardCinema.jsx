@@ -7,6 +7,7 @@ import Card from './Card';
  * @param {String} address - Dirección del cine.
  * @param {String} rooms - Cantidad de salas total.
  * @param {String} activeRooms - Cantidad de salas activas.
+ * @param {Function} onPress - Función que controla el accionar al pulsar la card.
  * @param {Function} onPressBtnDelete - Función que controla el accionar al pulsar el boton de eliminar.
  * @param {Function} onPressBtnEdit - Función que controla el accionar al pulsar el boton de editar.
  * @returns 
@@ -16,8 +17,9 @@ export default function CardCinema({
     address = '',
     rooms = '0',
     activeRooms = '0',
-    onPressBtnDelete = () => { },
-    onPressBtnEdit = () => { },
+    onPress,
+    onPressBtnDelete,
+    onPressBtnEdit,
 }) {
     const items = [
         {
@@ -38,6 +40,7 @@ export default function CardCinema({
             items={items}
             title={name}
             showSideButtons={true}
+            onPress={onPress}
             onPressBtnDelete={onPressBtnDelete}
             onPressBtnEdit={onPressBtnEdit}
         />

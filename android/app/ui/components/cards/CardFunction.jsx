@@ -3,30 +3,34 @@ import Card from './Card';
 
 /**
  * 
- * @param {String} name - Nombre de la sala.
- * @param {String} state - Estado de la sala.
- * @param {String} seats - Cantidad de asientos totales.
+ * @param {String} name - Nombre de la película que se expone.
+ * @param {String} date - Fecha de la función.
+ * @param {String} occupiedSeats - Cantidad de asientos ocupados.
  * @param {Function} onPress - Función que controla el accionar al pulsar la card.
  * @param {Function} onPressBtnDelete - Función que controla el accionar al pulsar el boton de eliminar.
  * @param {Function} onPressBtnEdit - Función que controla el accionar al pulsar el boton de editar.
  * @returns 
  */
-export default function CardRoom({
+export default function CardFunction({
     name = '',
-    state = '',
-    seats = '0',
+    date = new Date(),
+    occupiedSeats = '0',
     onPress,
     onPressBtnDelete,
     onPressBtnEdit,
 }) {
     const items = [
         {
-            description: 'ESTADO',
-            value: state,
+            description: 'FECHA:',
+            value: date.toString('DD/MM'),
         },
         {
-            description: 'ASIENTOS TOTALES',
-            value: seats,
+            description: 'HORA',
+            value: date.toString('HH:mm'),
+        },
+        {
+            description: 'ASIENTOS OCUPADOS',
+            value: occupiedSeats,
         },
     ];
 

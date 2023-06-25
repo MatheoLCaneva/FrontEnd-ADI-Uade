@@ -6,6 +6,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
  *
  * @param {String} title El texto principal.
  * @param {Array} items - Todos los renglones de texto que debe tener la card.
+ * @param {Function} onPress - Función que controla el accionar al pulsar la card.
  * @param {Function} onPressBtnDelete - Función que controla el accionar al pulsar el boton de eliminar.
  * @param {Function} onPressBtnEdit - Función que controla el accionar al pulsar el boton de editar.
  * @param {Boolean} showSideButtons - Determina si se muestran o no los botones de Editar y Eliminar.
@@ -14,6 +15,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 export default Card = ({
     title = '',
     items = [],
+    onPress = () => console.error('No existe función para onPress'),
     onPressBtnDelete = () => console.error('No existe función para onPressBtnDelete'),
     onPressBtnEdit = () => console.error('No existe función para onPressBtnEdit'),
     showSideButtons = false,
@@ -29,12 +31,12 @@ export default Card = ({
 
     return (
         <View style={styles.container}>
-            <View style={styles.card}>
+            <TouchableOpacity onPress={onPress} style={styles.card}>
                 <View style={styles.cardContent}>
                     <Text style={styles.title}>{title}</Text>
                     {listItems}
                 </View>
-            </View>
+            </TouchableOpacity>
             {showSideButtons && (<View style={styles.buttonContainer}>
                 <TouchableOpacity onPress={onPressBtnEdit} style={styles.button}>
                     <Text style={styles.buttonText}>Editar</Text>
