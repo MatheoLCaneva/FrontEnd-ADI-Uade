@@ -4,8 +4,11 @@ import OwnerHome from "../ui/screens/owner/OHome";
 import CreateCinema from "../ui/screens/owner/OCreateCinema";
 import EditCinema from "../ui/screens/owner/OEditCinema";
 import RoomsHome from "../ui/screens/owner/ORooms";
-import CreateRoom from "../ui/screens/owner/ORooms";
+import CreateRoom from "../ui/screens/owner/OCreateRoom";
 import EditRoom from "../ui/screens/owner/ORooms";
+import FunctionsHome from "../ui/screens/owner/ORooms";
+import CreateFunction from "../ui/screens/owner/OCreateRoom";
+import EditFunction from "../ui/screens/owner/ORooms";
 import NavigatorConstant from "./NavigatorConstant";
 
 const Stack = createNativeStackNavigator()
@@ -21,6 +24,9 @@ export default function OwnerNavigator(props) {
             <Stack.Screen name={NavigatorConstant.OWNER.ROOMS_HOME} component={RoomsHome} options={{ ...baseOptions, headerLeft: null }} />
             <Stack.Screen name={NavigatorConstant.OWNER.CREATE_ROOM} component={CreateRoom} options={{ ...baseOptions, headerTitle: 'Agregar Sala' }} />
             <Stack.Screen name={NavigatorConstant.OWNER.EDIT_ROOM} component={EditRoom} options={{ ...baseOptions, headerTitle: 'Editar Sala' }} />
+            <Stack.Screen name={NavigatorConstant.OWNER.FUNCTIONS_HOME} component={FunctionsHome} options={{ ...baseOptions, headerLeft: null }} />
+            <Stack.Screen name={NavigatorConstant.OWNER.CREATE_FUNCTION} component={CreateFunction} options={{ ...baseOptions, headerTitle: 'Agregar Función' }} />
+            <Stack.Screen name={NavigatorConstant.OWNER.EDIT_FUNCTION} component={EditFunction} options={{ ...baseOptions, headerTitle: 'Editar Función' }} />
         </Stack.Navigator>
     )
 }
