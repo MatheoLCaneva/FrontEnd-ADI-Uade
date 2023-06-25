@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, SafeAreaView, ImageBackground, Alert, ActivityIndicator, ToastAndroid } from 'react-native';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import Input from '../components/Input';
-import ButtonAddDelete from '../components/ButtonAddDeleteOwner';
+import Input from '../../components/Input';
+import ButtonAddDelete from '../../components/ButtonAddDeleteOwner';
 import { CommonActions } from '@react-navigation/native';
 
 export default function CreateCinema({ navigation, route }) {
@@ -65,7 +65,7 @@ export default function CreateCinema({ navigation, route }) {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ImageBackground
-                source={require('../../assets/gradient.png')}
+                source={require('../../../assets/gradient.png')}
                 style={styles.container}>
                 <View>
                     <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} />

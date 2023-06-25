@@ -1,8 +1,8 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import OwnerHome from "../ui/screens/OHome";
-import CreateCinema from "../ui/screens/OCreateCinema";
-import EditCinema from "../ui/screens/OEditCinema";
+import OwnerHome from "../ui/screens/owner/OHome";
+import CreateCinema from "../ui/screens/owner/OCreateCinema";
+import EditCinema from "../ui/screens/owner/OEditCinema";
 import NavigatorConstant from "./NavigatorConstant";
 
 const Stack = createNativeStackNavigator()

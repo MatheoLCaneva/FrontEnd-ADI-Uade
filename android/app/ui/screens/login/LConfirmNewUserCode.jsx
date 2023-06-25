@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import { View, Modal, Text, Pressable, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
-import Popup from '../components/Popup';
-import ButtonPrimary from '../components/ButtonPrimary';
-import Logo from '../components/Logo';
-import Input from '../components/Input';
-import loginWS from '../../networking/api/endpoints/User'
+import Popup from '../../components/Popup';
+import ButtonPrimary from '../../components/ButtonPrimary';
+import Logo from '../../components/Logo';
+import Input from '../../components/Input';
+import loginWS from '../../../networking/api/endpoints/User'
 import axios from 'axios';
 
-export default function PasswordReset({navigation}) {
+export default function ConfirmNewUserCode({navigation}) {
 
     const [email, setEmail] = React.useState('');
     // const [password, setPassword] = React.useState('');
@@ -18,8 +18,8 @@ export default function PasswordReset({navigation}) {
         setEmail(text);
     };
 
-    const handlePressConfRecov = () => {
-        navigation.navigate('CONFIRM_RECOVERY')
+    const handleLogin = () => {
+        navigation.navigate('LOGIN')
       };
     // const handlePasswordChange = (text) => {
     //     setPassword(text);
@@ -30,7 +30,7 @@ export default function PasswordReset({navigation}) {
     // };
     const [modalVisible, setModalVisible] = useState(false);
 
-    const handleLogin = () => {
+    const handleNewUserCode = () => {
 
         const headers = {
             Accept: 'application/json',
@@ -45,6 +45,7 @@ export default function PasswordReset({navigation}) {
             .then(
                 response => console.log(response.data)
             )
+        // ToastAndroid.show(data.data, ToastAndroid.SHORT);
     };
 
 
@@ -74,14 +75,25 @@ export default function PasswordReset({navigation}) {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ImageBackground
-                source={require('../../assets/gradient.png')}
+                source={require('../../../assets/gradient.png')}
                 style={styles.container}
             >
                 <View styles={styles.container}>
                     <Logo />
-                    <Input onChangeText={handleEmailChange} marginTop={80} placeholder='Ingrese su email' />
+                    <Input onChangeText={handleNewUserCode} marginTop={80} placeholder='Ingrese su código de confirmación' />
+                    {/* <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
+                    <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
+                        <Text style={styles.toggleButtonText}>
+                            {showPassword ? 'Ocultar' : 'Mostrar'}
+                        </Text>
+                    </TouchableOpacity> */}
+                    <ButtonPrimary onPress={handleLogin} marginTop={10} title='Iniciar sesión' />
+                    {/* <Popup title='Enviamos un código de recuperación
+            a su correo electrónico registrado'/> */}
+            
+            
 
-                    <ButtonPrimary onPress={handlePressConfRecov} marginTop={10} title='Enviar correo de recuperación' />
+
                 </View>
             </ImageBackground>
         </SafeAreaView>

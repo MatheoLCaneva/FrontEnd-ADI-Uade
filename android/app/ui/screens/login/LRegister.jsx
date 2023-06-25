@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity, Modal, TextInput, Button, Pressable } from 'react-native';
-import ButtonPrimary from '../components/ButtonPrimary';
+import ButtonPrimary from '../../components/ButtonPrimary';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Logo from '../components/Logo';
-import Input from '../components/Input';
-import loginWS from '../../networking/api/endpoints/User'
+import Logo from '../../components/Logo';
+import Input from '../../components/Input';
+import loginWS from '../../../networking/api/endpoints/User'
 import axios from 'axios';
-import Popup from '../components/Popup';
+import Popup from '../../components/Popup';
 
 export default function Register({ navigation }) {
 
@@ -247,7 +247,7 @@ export default function Register({ navigation }) {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ImageBackground
-                source={require('../../assets/gradient.png')}
+                source={require('../../../assets/gradient.png')}
                 style={styles.container}
             >
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground, ScrollView, Alert, ActivityIndicator } from 'react-native';
-import ButtonOwnerMini from '../components/ButtonOwnerMini';
+import ButtonOwnerMini from '../../components/ButtonOwnerMini';
 import axios from 'axios';
-import CardCinema from '../components/cards/CardCinema';
+import CardCinema from '../../components/cards/CardCinema';
 import { useSelector } from 'react-redux';
 
 export default function OwnerHome({ navigation }) {
@@ -76,7 +76,7 @@ export default function OwnerHome({ navigation }) {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ImageBackground
-                source={require('../../assets/gradient.png')}
+                source={require('../../../assets/gradient.png')}
                 style={styles.container}>
                 <ButtonOwnerMini onPress={handleCreateCinema} marginTop={10} title='Agregar Cine +' color='#E01D6F' />
                 <View style={styles.misCinesContainer}>
