@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import axios from 'axios';
 import CardCinema from '../../components/cards/CardCinema';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCinema } from '../../../redux/store';
 import OListScreen from './OListScreen';
 
 export default function OwnerHome({ navigation }) {
@@ -10,8 +11,9 @@ export default function OwnerHome({ navigation }) {
     const [cinemas, setCinemas] = useState([])
     const [isLoading, setIsLoading] = useState(false);
 
-
     const user = useSelector(state => state.user)
+
+    const dispatch = useDispatch()
 
     useEffect(() => {
         setIsLoading(true)
@@ -44,8 +46,8 @@ export default function OwnerHome({ navigation }) {
         navigation.push('CREATE_CINEMA')
     };
     const handlePressCinema = (cinema) => {
-        console.log(cinema);
-        navigation.push('ROOMS_HOME', { cinema });
+        dispatch(setCinema(cinema));
+        navigation.push('ROOMS_HOME');
     };
 
     return (

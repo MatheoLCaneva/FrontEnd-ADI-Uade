@@ -18,7 +18,7 @@ export default function OwnerNavigator(props) {
             <Stack.Screen name={NavigatorConstant.OWNER.OWNER_HOME} component={OwnerHome} options={{ ...baseOptions, headerBackVisible: false, headerLeft: null }} />
             <Stack.Screen name={NavigatorConstant.OWNER.CREATE_CINEMA} component={CreateCinema} options={{ ...baseOptions, headerTitle: 'Agregar Cine' }} />
             <Stack.Screen name={NavigatorConstant.OWNER.EDIT_CINEMA} component={EditCinema} options={{ ...baseOptions, headerTitle: 'Editar Cine' }} />
-            <Stack.Screen name={NavigatorConstant.OWNER.ROOMS_HOME} component={RoomsHome} options={{ ...baseOptions, headerTitle: 'Mis Salas', headerBackVisible: false, headerLeft: null }} />
+            <Stack.Screen name={NavigatorConstant.OWNER.ROOMS_HOME} component={RoomsHome} options={{ ...baseOptions, headerLeft: null }} />
             <Stack.Screen name={NavigatorConstant.OWNER.CREATE_ROOM} component={CreateRoom} options={{ ...baseOptions, headerTitle: 'Agregar Sala' }} />
             <Stack.Screen name={NavigatorConstant.OWNER.EDIT_ROOM} component={EditRoom} options={{ ...baseOptions, headerTitle: 'Editar Sala' }} />
         </Stack.Navigator>

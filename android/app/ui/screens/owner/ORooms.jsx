@@ -2,28 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import axios from 'axios';
 import CardRoom from '../../components/cards/CardRoom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import OListScreen from './OListScreen';
 
 export default function OwnerRooms({ navigation }) {
     const [rooms, setRooms] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const user = useSelector(state => state.user);
+    const cinema = useSelector(state => state.owner.cinema);
 
     useEffect(() => {
         setIsLoading(true);
-        navigation.setOptions({ title:  `Salas de `});
+        navigation.setOptions({ title: `Salas de ${cinema.name}` });
 
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    //`https://backend-adi-uade.onrender.com/rooms/${user._id}`,
-                    `https://backend-adi-uade.onrender.com/rooms`,
+                    `https://backend-adi-uade.onrender.com/rooms/${cinema._id}`,
                 );
-                console.log(response.data.Rooms.docs);
-                setRooms(response.data.Rooms.docs);
+                setRooms(response.data.data.docs);
             } catch (e) {
+                console.error(e);
                 Alert.alert(
                     'Error',
                     'Ha ocurrido un error al importar sus salas, reintente en unos minutos.',
@@ -34,7 +33,7 @@ export default function OwnerRooms({ navigation }) {
         };
 
         fetchData();
-    }, [user, navigation]);
+    }, [cinema, navigation]);
 
     const handleCreateRoom = () => {
         navigation.push('CREATE_ROOM');
@@ -60,7 +59,7 @@ export default function OwnerRooms({ navigation }) {
                         name={room.name}
                         status={room.status}
                         seats={room.seats.length}
-                        onPress={() => {}}
+                        onPress={() => { }}
                         onPressBtnEdit={() => handleEditRoom(room)}
                         onPressBtnDelete={handleDeleteRoom}
                     />
