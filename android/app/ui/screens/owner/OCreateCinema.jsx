@@ -78,7 +78,6 @@ export default function CreateCinema({ navigation }) {
             flex: 1,
         },
         botones: {
-            flex: 1,
             flexDirection: 'row-reverse',
             justifyContent: 'space-evenly'
         },
@@ -91,29 +90,25 @@ export default function CreateCinema({ navigation }) {
     });
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <ImageBackground
-                source={require('../../../assets/gradient.png')}
-                style={styles.container}>
-                <View>
-                    <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} />
-                    <Input placeholder='Direccion' marginTop={21} onChangeText={handleAddressChange} />
-                    <Input placeholder='Ciudad' marginTop={21} onChangeText={handleCityChange} />
-                    <Input placeholder='Barrio' marginTop={21} onChangeText={handleDistrictChange} />
-                    <Input placeholder='Pais' marginTop={21} onChangeText={handleCountryChange} />
+        <View style={styles.container}>
+            <View>
+                <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} />
+                <Input placeholder='Direccion' marginTop={21} onChangeText={handleAddressChange} />
+                <Input placeholder='Ciudad' marginTop={21} onChangeText={handleCityChange} />
+                <Input placeholder='Barrio' marginTop={21} onChangeText={handleDistrictChange} />
+                <Input placeholder='Pais' marginTop={21} onChangeText={handleCountryChange} />
 
-                    <View style={styles.botones}>
-                        <ButtonAddDelete title='Crear Cine' color='#E01D6F' onPress={handleCreateCinema} />
-                        <ButtonAddDelete title='Cancelar' color='#F0508C' />
-                    </View>
+                <View style={styles.botones}>
+                    <ButtonAddDelete title='Crear Cine' color='#E01D6F' onPress={handleCreateCinema} />
+                    <ButtonAddDelete title='Cancelar' color='#F0508C' />
                 </View>
-            </ImageBackground>
+            </View>
 
             {isLoading && (
                 <View style={styles.loadingContainer}>
                     <ActivityIndicator size="large" color="#ffffff" />
                 </View>
             )}
-        </SafeAreaView>
+        </View>
     );
 }
