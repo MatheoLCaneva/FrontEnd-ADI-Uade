@@ -13,20 +13,21 @@ import Card from './Card';
  */
 export default function CardFunction({
     name = '',
-    date = new Date(),
+    date = 0,
     occupiedSeats = '0',
     onPress,
     onPressBtnDelete,
     onPressBtnEdit,
 }) {
+    date = new Date(date);
     const items = [
         {
-            description: 'FECHA:',
-            value: date.toString('DD/MM'),
+            description: 'FECHA',
+            value: (("0" + date.getUTCDate()).slice(-2) + "/" + ("0"+(date.getUTCMonth()+1)).slice(-2)),
         },
         {
             description: 'HORA',
-            value: date.toString('HH:mm'),
+            value: (("0" + date.getUTCHours()).slice(-2) + ":" + ("0" + date.getUTCMinutes()).slice(-2)),
         },
         {
             description: 'ASIENTOS OCUPADOS',
