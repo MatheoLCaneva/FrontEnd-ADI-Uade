@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import ButtonOwnerMini from '../components/ButtonOwnerMini';
 import axios from 'axios';
-import Card from '../components/Card';
+import CardCinema from '../components/cards/CardCinema';
 import { useSelector } from 'react-redux';
 
 export default function OwnerHome({ navigation }) {
@@ -102,7 +102,7 @@ export default function OwnerHome({ navigation }) {
                                 const roomsCount = cinema.rooms.length > 1 ? cinema.rooms.length - 1 : cinema.rooms.length;
 
                                 return (
-                                    <Card
+                                    <CardCinema
                                         key={cinema._id}
                                         title={cinema.name}
                                         description={cinema.address.name}
