@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, SafeAreaView, ImageBackground, Alert, ActivityIndicator, ToastAndroid } from 'react-native';
+import { View, StyleSheet, Alert, ToastAndroid } from 'react-native';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import Input from '../components/Input';
-import ButtonAddDelete from '../components/ButtonAddDeleteOwner';
+import Input from '../../components/Input';
+import LoadingIndicator from '../../components/LoadingIndicator';
 import { CommonActions } from '@react-navigation/native';
+import DualButtonFooter from '../../components/DualButtonFooter';
 
 export default function CreateCinema({ navigation }) {
     const user = useSelector(state => state.user);
@@ -60,7 +61,7 @@ export default function CreateCinema({ navigation }) {
             if (response.data.status === 201) {
                 ToastAndroid.show("Cine creado con éxito.", ToastAndroid.SHORT)
             }
-            setIsLoading(false);
+            setIsLoading(false);            
             navigation.dispatch(
                 CommonActions.reset({
                     index: 0,
@@ -76,44 +77,21 @@ export default function CreateCinema({ navigation }) {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-        },
-        botones: {
-            flex: 1,
-            flexDirection: 'row-reverse',
-            justifyContent: 'space-evenly'
-        },
-        loadingContainer: {
-            ...StyleSheet.absoluteFill,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            alignItems: 'center',
-            justifyContent: 'center',
-        },
+        }
     });
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <ImageBackground
-                source={require('../../assets/gradient.png')}
-                style={styles.container}>
-                <View>
-                    <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} />
-                    <Input placeholder='Direccion' marginTop={21} onChangeText={handleAddressChange} />
-                    <Input placeholder='Ciudad' marginTop={21} onChangeText={handleCityChange} />
-                    <Input placeholder='Barrio' marginTop={21} onChangeText={handleDistrictChange} />
-                    <Input placeholder='Pais' marginTop={21} onChangeText={handleCountryChange} />
+        <View style={styles.container}>
+            <View>
+                <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} />
+                <Input placeholder='Direccion' marginTop={21} onChangeText={handleAddressChange} />
+                <Input placeholder='Ciudad' marginTop={21} onChangeText={handleCityChange} />
+                <Input placeholder='Barrio' marginTop={21} onChangeText={handleDistrictChange} />
+                <Input placeholder='Pais' marginTop={21} onChangeText={handleCountryChange} />
 
-                    <View style={styles.botones}>
-                        <ButtonAddDelete title='Crear Cine' color='#E01D6F' onPress={handleCreateCinema} />
-                        <ButtonAddDelete title='Cancelar' color='#F0508C' />
-                    </View>
-                </View>
-            </ImageBackground>
-
-            {isLoading && (
-                <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color="#ffffff" />
-                </View>
-            )}
-        </SafeAreaView>
+                <DualButtonFooter primaryTitle='Crear Cine' onPressPrimary={handleCreateCinema} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()}/>
+            </View>
+            {isLoading && <LoadingIndicator/>}
+        </View>
     );
 }

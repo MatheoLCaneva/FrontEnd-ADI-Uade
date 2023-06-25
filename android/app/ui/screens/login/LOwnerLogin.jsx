@@ -1,13 +1,13 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground, ToastAndroid, TouchableOpacity, ActivityIndicator } from 'react-native';
-import CheckButton from '../components/CheckButton';
-import ButtonPrimary from '../components/ButtonPrimary';
-import Logo from '../components/Logo';
-import Input from '../components/Input';
+import CheckButton from '../../components/CheckButton';
+import ButtonPrimary from '../../components/ButtonPrimary';
+import Logo from '../../components/Logo';
+import Input from '../../components/Input';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../../redux/store';
+import { setUser } from '../../../redux/store';
 import { CommonActions } from '@react-navigation/native';
 
 export default function OwnerLogin({ props, route, navigation }) {
@@ -108,7 +108,7 @@ export default function OwnerLogin({ props, route, navigation }) {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ImageBackground
-                source={require('../../assets/gradient.png')}
+                source={require('../../../assets/gradient.png')}
                 style={styles.container}
             >
                 <View styles={styles.container}>

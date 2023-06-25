@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
-import CheckButton from '../components/CheckButton';
-import ButtonPrimary from '../components/ButtonPrimary';
-import Logo from '../components/Logo';
-import Input from '../components/Input';
-import loginWS from '../../networking/api/endpoints/User'
+import CheckButton from '../../components/CheckButton';
+import ButtonPrimary from '../../components/ButtonPrimary';
+import Logo from '../../components/Logo';
+import Input from '../../components/Input';
+import loginWS from '../../../networking/api/endpoints/User'
 import axios from 'axios';
 
 export default function NewPw({navigation}) {
@@ -95,7 +95,7 @@ export default function NewPw({navigation}) {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ImageBackground
-                source={require('../../assets/gradient.png')}
+                source={require('../../../assets/gradient.png')}
                 style={styles.container}
             >
                 <View styles={styles.container}>

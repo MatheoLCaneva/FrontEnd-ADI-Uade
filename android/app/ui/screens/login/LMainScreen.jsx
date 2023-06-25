@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native';
-import Logo from "../components/Logo";
+import Logo from "../../components/Logo";
 import { useNavigation } from '@react-navigation/native';
 
 export default function MainScreen() {
@@ -68,13 +68,13 @@ export default function MainScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ImageBackground
-        source={require('../../assets/gradient.png')}
+        source={require('../../../assets/gradient.png')}
         style={styles.container}
       >
         <Logo />
         <View style={styles.container}>
           <Text style={styles.text}>Iniciar sesión como cliente</Text>
-          <Image style={styles.google} resizeMode='contain' source={require('../../assets/googleimage.png')} />
+          <Image style={styles.google} resizeMode='contain' source={require('../../../assets/googleimage.png')} />
           <TouchableOpacity style={{ marginTop: 200, flexDirection: 'row', alignSelf: 'center' }} onPress={handlePress}>
             <Text style={styles.footer}>Sos dueño? </Text><Text style={styles.footerNegrita}>Ingresa aquí</Text>
           </TouchableOpacity>

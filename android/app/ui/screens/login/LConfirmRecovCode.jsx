@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import { View, Modal, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
-import Popup from '../components/Popup';
-import Logo from '../components/Logo';
-import Input from '../components/Input';
-import loginWS from '../../networking/api/endpoints/User'
+import Popup from '../../components/Popup';
+import Logo from '../../components/Logo';
+import Input from '../../components/Input';
+import loginWS from '../../../networking/api/endpoints/User'
 import axios from 'axios';
-import ButtonPrimary from '../components/ButtonPrimary';
+import ButtonPrimary from '../../components/ButtonPrimary';
 
 export default function ConfirmRecovCode({navigation}) {
 
@@ -74,7 +74,7 @@ export default function ConfirmRecovCode({navigation}) {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ImageBackground
-                source={require('../../assets/gradient.png')}
+                source={require('../../../assets/gradient.png')}
                 style={styles.container}
             >
                 <View styles={styles.container}>
