@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ImageBackground, ScrollView, Alert, ActivityIndicator } from 'react-native';
-import ButtonOwnerMini from '../../components/ButtonOwnerMini';
+import { Alert } from 'react-native';
 import axios from 'axios';
 import CardCinema from '../../components/cards/CardCinema';
 import { useSelector } from 'react-redux';
+import OListScreen from './OListScreen';
 
 export default function OwnerHome({ navigation }) {
 
@@ -44,80 +44,30 @@ export default function OwnerHome({ navigation }) {
         navigation.push('CREATE_CINEMA')
     };
 
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-        },
-        lettertyperight: {
-            fontFamily: 'Poppins',
-            color: 'white',
-            fontSize: 22,
-            marginRight: 28
-        },
-        lettertypeleft: {
-            fontFamily: 'Poppins',
-            color: 'white',
-            fontSize: 22,
-            marginLeft: 28
-        },
-        cardContainer: {
-            marginVertical: 20,
-            marginHorizontal: 16,
-        },
-        misCinesContainer: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginVertical: 20,
-            marginHorizontal: 16,
-        },
-    });
-
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <ImageBackground
-                source={require('../../../assets/gradient.png')}
-                style={styles.container}>
-                <ButtonOwnerMini onPress={handleCreateCinema} marginTop={10} title='Agregar Cine +' color='#E01D6F' />
-                <View style={styles.misCinesContainer}>
-                    <Text style={styles.lettertypeleft}>Mis Cines</Text>
-                    <Text style={styles.lettertyperight}>Total: {cinemas.length}</Text>
-                </View>
-                {isLoading ? (
-                    <ActivityIndicator style={styles.loading} size="large" color="#FFFFFF" />
-                ) : (
-                    <ScrollView
-                        showsVerticalScrollIndicator={false}
-                        nestedScrollEnabled={true}
-                    >
-                        <View style={styles.cardContainer}>
-                            {cinemas.map(cinema => {
-                                const activeRoomsCount = cinema.rooms.reduce((count, room) => {
-                                    if (room.status === true) {
-                                        return count + 1;
-                                    }
-                                    return count;
-                                }, 0);
+        <OListScreen isLoading={isLoading} buttonAddTitle={"Agregar Cines +"} screenName={"Mis Cines"} total={cinemas.length} onPressButtonAdd={handleCreateCinema}
+            cards={cinemas.map(cinema => {
+                const activeRoomsCount = cinema.rooms.reduce((count, room) => {
+                    if (room.status === true) {
+                        return count + 1;
+                    }
+                    return count;
+                }, 0);
 
-                                const roomsCount = cinema.rooms.length > 1 ? cinema.rooms.length - 1 : cinema.rooms.length;
+                const roomsCount = cinema.rooms.length > 1 ? cinema.rooms.length - 1 : cinema.rooms.length;
 
-                                return (
-                                    <CardCinema
-                                        key={cinema._id}
-                                        name={cinema.name}
-                                        address={cinema.address.name}
-                                        rooms={roomsCount}
-                                        activeRooms={activeRoomsCount}
-                                        onPressBtnEdit={() => handleEditCinema(cinema)}
-                                        onPressBtnDelete={handleDeleteCinema}
-                                    />
-                                );
-                            })}
-                        </View>
-
-                    </ScrollView>
-                )}
-            </ImageBackground>
-        </SafeAreaView>
+                return (
+                    <CardCinema
+                        key={cinema._id}
+                        name={cinema.name}
+                        address={cinema.address.name}
+                        rooms={roomsCount}
+                        activeRooms={activeRoomsCount}
+                        onPressBtnEdit={() => handleEditCinema(cinema)}
+                        onPressBtnDelete={handleDeleteCinema}
+                    />
+                );
+            })}
+        />
     );
 }
