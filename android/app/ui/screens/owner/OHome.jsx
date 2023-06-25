@@ -43,6 +43,10 @@ export default function OwnerHome({ navigation }) {
     const handleDeleteCinema = () => {
         navigation.push('CREATE_CINEMA')
     };
+    const handlePressCinema = (cinema) => {
+        console.log(cinema);
+        navigation.push('ROOMS_HOME', { cinema });
+    };
 
     return (
         <OListScreen isLoading={isLoading} buttonAddTitle={"Agregar Cines +"} screenName={"Mis Cines"} total={cinemas.length} onPressButtonAdd={handleCreateCinema}
@@ -63,6 +67,7 @@ export default function OwnerHome({ navigation }) {
                         address={cinema.address.name}
                         rooms={roomsCount}
                         activeRooms={activeRoomsCount}
+                        onPress={() => handlePressCinema(cinema)}
                         onPressBtnEdit={() => handleEditCinema(cinema)}
                         onPressBtnDelete={handleDeleteCinema}
                     />

@@ -4,7 +4,7 @@ import Card from './Card';
 /**
  * 
  * @param {String} name - Nombre de la sala.
- * @param {String} state - Estado de la sala.
+ * @param {String} status - Estado de la sala.
  * @param {String} seats - Cantidad de asientos totales.
  * @param {Function} onPress - Función que controla el accionar al pulsar la card.
  * @param {Function} onPressBtnDelete - Función que controla el accionar al pulsar el boton de eliminar.
@@ -13,7 +13,7 @@ import Card from './Card';
  */
 export default function CardRoom({
     name = '',
-    state = '',
+    status = '',
     seats = '0',
     onPress,
     onPressBtnDelete,
@@ -22,7 +22,7 @@ export default function CardRoom({
     const items = [
         {
             description: 'ESTADO',
-            value: state,
+            value: status ? "Activo" : "Inactivo",
         },
         {
             description: 'ASIENTOS TOTALES',
