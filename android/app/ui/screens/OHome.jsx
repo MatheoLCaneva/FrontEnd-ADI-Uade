@@ -104,10 +104,10 @@ export default function OwnerHome({ navigation }) {
                                 return (
                                     <CardCinema
                                         key={cinema._id}
-                                        title={cinema.name}
-                                        description={cinema.address.name}
+                                        name={cinema.name}
+                                        address={cinema.address.name}
                                         rooms={roomsCount}
-                                        actives={activeRoomsCount}
+                                        activeRooms={activeRoomsCount}
                                         onPressBtnEdit={() => handleEditCinema(cinema)}
                                         onPressBtnDelete={handleDeleteCinema}
                                     />

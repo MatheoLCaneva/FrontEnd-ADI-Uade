@@ -3,27 +3,29 @@ import Card from './Card';
 
 /**
  * 
- * @param {{ title: String }} props - whether the toggle is open or not
- * @param {String} description - Texto bajo el titulo.
- * @param {String} rooms - Cant de salas.
- * @param {String} actives - Cant de salas activas.
+ * @param {String} name - Nombre del cine.
+ * @param {String} address - Dirección del cine.
+ * @param {String} rooms - Cantidad de salas total.
+ * @param {String} activeRooms - Cantidad de salas activas.
+ * @param {Function} onPressBtnDelete - Función que controla el accionar al pulsar el boton de eliminar.
+ * @param {Function} onPressBtnEdit - Función que controla el accionar al pulsar el boton de editar.
  * @returns 
  */
 export default function CardCinema({
-    title = '',
-    description = '',
-    actives = '0',
+    name = '',
+    address = '',
     rooms = '0',
+    activeRooms = '0',
     onPressBtnDelete = () => { },
     onPressBtnEdit = () => { },
 }) {
     const items = [
         {
-            value: description,
+            value: address,
         },
         {
             description: 'Salas Activas',
-            value: actives,
+            value: activeRooms,
         },
         {
             description: 'Salas Totales',
@@ -34,7 +36,7 @@ export default function CardCinema({
     return (
         <Card
             items={items}
-            title={title}
+            title={name}
             showSideButtons={true}
             onPressBtnDelete={onPressBtnDelete}
             onPressBtnEdit={onPressBtnEdit}
