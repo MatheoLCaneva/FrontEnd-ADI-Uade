@@ -20,7 +20,6 @@ export default function OwnerHome({ navigation }) {
     const dispatch = useDispatch();
 
     const deleteCinema = async (cinema) => {
-        console.log("🚀 ~ file: OHome.jsx:23 ~ deleteCinema ~ cinema:", cinema)
         try {
             const response = await axios.delete(
                 `https://backend-adi-uade.onrender.com/cinemas/${cinema._id}`,
@@ -80,7 +79,6 @@ export default function OwnerHome({ navigation }) {
         setIsModalVisible(false);
         if (result) {
             setIsLoading(true);
-            console.log("🚀 ~ file: OHome.jsx:83 ~ handlePressModal ~ owner.cinema:", owner.cinema)
             await deleteCinema(owner.cinema);
             setIsLoading(false);
         }

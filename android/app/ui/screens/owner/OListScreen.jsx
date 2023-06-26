@@ -7,7 +7,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import ButtonOwnerMini from '../../components/ButtonOwnerMini';
-import CustomModal from '../../components/CustomModal';
+import CustomAlert from '../../components/CustomAlert';
 
 /**
  *
@@ -84,7 +84,7 @@ export default function OListScreen({
                     <View style={styles.cardContainer}>{cards}</View>
                 </ScrollView>
             )}
-            {isModalVisible && <CustomModal text={modalText} primaryTitle='Eliminar' secondaryTitle='Cancelar' onPress={onPressModal}/>}
+            {isModalVisible && <CustomAlert text={modalText} primaryTitle='Eliminar' secondaryTitle='Cancelar' onPress={onPressModal}/>}
         </View>
     );
 }
