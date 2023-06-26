@@ -7,7 +7,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import ButtonOwnerMini from '../../components/ButtonOwnerMini';
-import CustomModal from '../../components/CustomModal';
+import CustomAlert from '../../components/CustomAlert';
 
 /**
  *
@@ -21,9 +21,9 @@ import CustomModal from '../../components/CustomModal';
  */
 export default function OListScreen({
     isLoading = false,
-    isModalVisible = false,
-    modalText = 'NO MODAL TEXT',
-    onPressModal = () => console.error('No existe función para onPressModal'),
+    isAlertVisible = false,
+    alertText = 'NO ALERT TEXT',
+    onPressDeleteAlert = () => console.error('No existe función para onPressDeleteAlert'),
     buttonAddTitle = 'NO TITLE',
     screenName = "NO SCREEN NAME",
     total = "0",
@@ -84,7 +84,7 @@ export default function OListScreen({
                     <View style={styles.cardContainer}>{cards}</View>
                 </ScrollView>
             )}
-            {isModalVisible && <CustomModal text={modalText} primaryTitle='Eliminar' secondaryTitle='Cancelar' onPress={onPressModal}/>}
+            {isAlertVisible && <CustomAlert text={alertText} primaryTitle='Eliminar' secondaryTitle='Cancelar' onPress={onPressDeleteAlert}/>}
         </View>
     );
 }

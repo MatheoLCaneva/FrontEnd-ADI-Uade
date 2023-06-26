@@ -6,14 +6,23 @@ import {
     Modal,
     TextInput,
     TouchableOpacity,
-    Image,
 } from 'react-native';
 
-export default function CustomModal({
+/**
+ * 
+ * @param {String} text Texto del alert.
+ * @param {String} primaryTitle Texto del botón primario.
+ * @param {String} secondaryTitle OPCIONAL. Texto del botón secundario.
+ * @param {String} inputPlaceholder OPCIONAL. Placeholder del cuadro de texto.
+ * @param {Function} onChangeText OPCIONAL. Función que se ejecuta cada vez que cambia el texto del cuadro de texto.
+ * @param {Function} onPress Función que se ejecuta al presionar un botón y devuelve true si se presionó el primario y false en caso contrario.
+ * @returns 
+ */
+export default function CustomAlert({
     text = 'NO TEXT',
-    inputPlaceholder = 'NO PLACEHOLDER',
     primaryTitle = 'NO TITLE',
     secondaryTitle = 'NO TITLE',
+    inputPlaceholder = 'NO PLACEHOLDER',
     onChangeText = () => console.error('No existe función para onChangeText'),
     onPress = (result) => console.error('No existe función para onPress'),
 }) {
@@ -86,14 +95,6 @@ export default function CustomModal({
         },
     });
 
-    const onPressPrimary = () => {
-        onPress(true);
-    }
-
-    const onPressSecondary = () => {
-        onPress(false);
-    }
-
     return (
         <View style={styles.modalBackground}>
             <Modal animationType="popup" transparent={true} visible={true}>
@@ -106,25 +107,25 @@ export default function CustomModal({
                             <TextInput
                                 style={styles.input}
                                 onChangeText={onChangeText}
-                                placeholder="Ingrese el código"
+                                placeholder={inputPlaceholder}
                                 textAlign="center"
                             />
                         )}
                         {secondaryTitle === 'NO TITLE' ? (
                             <TouchableOpacity
-                                onPress={onPressPrimary}
+                                onPress={() => onPress(true)}
                                 style={[styles.button, styles.bigButton, styles.primaryButton]}>
                                 <Text style={styles.textStyle}>{primaryTitle}</Text>
                             </TouchableOpacity>
                         ) : (
                             <View style={styles.buttonsView}>
                                 <TouchableOpacity
-                                    onPress={onPressPrimary}
+                                    onPress={() => onPress(true)}
                                     style={[styles.button, styles.smallButton, styles.primaryButton]}>
                                     <Text style={styles.textStyle}>{primaryTitle}</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
-                                    onPress={onPressSecondary}
+                                    onPress={() => onPress(false)}
                                     style={[styles.button, styles.smallButton, styles.secondaryButton]}>
                                     <Text style={styles.textStyle}>{secondaryTitle}</Text>
                                 </TouchableOpacity>
