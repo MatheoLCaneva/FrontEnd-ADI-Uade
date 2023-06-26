@@ -10,8 +10,8 @@ export default function OwnerHome({ navigation }) {
     const [cinemas, setCinemas] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [isModalVisible, setIsModalVisible] = useState(false);
-    const [modalText, setModalText] = useState('');
+    const [isAlertVisible, setIsAlertVisible] = useState(false);
+    const [alertText, setAlertText] = useState('');
 
     const user = useSelector(state => state.user);
 
@@ -27,7 +27,6 @@ export default function OwnerHome({ navigation }) {
             if(response.status === 200) {
                 setCinemas(cinemas.filter(x => x._id !== cinema._id));
             }
-            //setCinemas(response);
         } catch (e) {
             Alert.alert(
                 'Error',
@@ -68,15 +67,15 @@ export default function OwnerHome({ navigation }) {
     };
     const handleDeleteCinema = cinema => {
         dispatch(setCinema(cinema));
-        setModalText(`¿Está seguro que desea eliminar el cine "${cinema.name}"?`);
-        setIsModalVisible(true);
+        setAlertText(`¿Está seguro que desea eliminar el cine "${cinema.name}"?`);
+        setIsAlertVisible(true);
     };
     const handlePressCinema = cinema => {
         dispatch(setCinema(cinema));
         navigation.push('ROOMS_HOME');
     };
-    const handlePressModal = async result => {
-        setIsModalVisible(false);
+    const handlePressDeleteAlert = async result => {
+        setIsAlertVisible(false);
         if (result) {
             setIsLoading(true);
             await deleteCinema(owner.cinema);
@@ -86,9 +85,9 @@ export default function OwnerHome({ navigation }) {
 
     return (
         <OListScreen
-            isModalVisible={isModalVisible}
-            onPressModal={handlePressModal}
-            modalText={modalText}
+            isAlertVisible={isAlertVisible}
+            onPressDeleteAlert={handlePressDeleteAlert}
+            alertText={alertText}
             isLoading={isLoading}
             buttonAddTitle={'Agregar Cines +'}
             screenName={'Mis Cines'}
