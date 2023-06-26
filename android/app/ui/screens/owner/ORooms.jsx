@@ -20,18 +20,10 @@ export default function OwnerRooms({ navigation }) {
 
         const fetchData = async () => {
             try {
-                /*const response = await axios.get(
-                    `https://backend-adi-uade.onrender.com/rooms/owner/${cinema._id}`,
-                );
-                setRooms(response.data.Rooms.docs);*/
-                
-                
-                //Por si quiero ver todas las salas para probar
                 const response = await axios.get(
-                    `https://backend-adi-uade.onrender.com/rooms/`,
+                    `https://backend-adi-uade.onrender.com/rooms/cinema/${cinema._id}`,
                 );
-                console.log(response.data.Rooms.docs);
-                setRooms(response.data.Rooms.docs);
+                setRooms(response.data.data.docs);
             } catch (e) {
                 console.error(e);
                 Alert.alert(

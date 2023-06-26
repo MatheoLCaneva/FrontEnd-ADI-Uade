@@ -24,10 +24,10 @@ export default function OwnerFunctions({ navigation }) {
                 //TODO: Están las funciones en el back?
                 //Por si quiero ver todas las salas para probar
                 const response = await axios.get(
-                    `https://backend-adi-uade.onrender.com/rooms/`,
+                    `https://backend-adi-uade.onrender.com/functions/room/${room._id}`,
                 );
-                console.log(response.data.Rooms.docs);
-                setFunctions(response.data.Rooms.docs);
+                console.log(response.data.data.docs);
+                setFunctions(response.data.data.docs);
             } catch (e) {
                 console.error(e);
                 Alert.alert(

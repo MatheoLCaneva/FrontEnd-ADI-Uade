@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Text,
@@ -7,6 +7,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import ButtonOwnerMini from '../../components/ButtonOwnerMini';
+import CustomModal from '../../components/CustomModal';
 
 /**
  *
@@ -20,6 +21,9 @@ import ButtonOwnerMini from '../../components/ButtonOwnerMini';
  */
 export default function OListScreen({
     isLoading = false,
+    isModalVisible = false,
+    modalText = 'NO MODAL TEXT',
+    onPressModal = () => console.error('No existe función para onPressModal'),
     buttonAddTitle = 'NO TITLE',
     screenName = "NO SCREEN NAME",
     total = "0",
@@ -80,6 +84,7 @@ export default function OListScreen({
                     <View style={styles.cardContainer}>{cards}</View>
                 </ScrollView>
             )}
+            {isModalVisible && <CustomModal text={modalText} primaryTitle='Eliminar' secondaryTitle='Cancelar' onPress={onPressModal}/>}
         </View>
     );
 }

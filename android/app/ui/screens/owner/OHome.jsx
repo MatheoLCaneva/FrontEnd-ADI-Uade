@@ -8,10 +8,15 @@ import OListScreen from './OListScreen';
 
 export default function OwnerHome({ navigation }) {
 
-    const [cinemas, setCinemas] = useState([])
+    const [cinemas, setCinemas] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalText, setModalText] = useState("");
 
     const user = useSelector(state => state.user)
+
+    const owner = useSelector(state => state.owner)
 
     const dispatch = useDispatch()
 
@@ -42,16 +47,24 @@ export default function OwnerHome({ navigation }) {
     const handleEditCinema = (cinema) => {
         navigation.push('EDIT_CINEMA', { cinema })
     };
-    const handleDeleteCinema = () => {
-        navigation.push('CREATE_CINEMA')
+    const handleDeleteCinema = (cinema) => {
+        dispatch(setCinema(cinema));
+        setModalText(`¿Está seguro que desea eliminar el cine "${cinema.name}"?`);
+        setIsModalVisible(true);
     };
     const handlePressCinema = (cinema) => {
         dispatch(setCinema(cinema));
         navigation.push('ROOMS_HOME');
     };
+    const handlePressModal = (result) => {
+        setIsModalVisible(false);
+        if(result) {
+            console.log("🚀 ~ file: OHome.jsx:64 ~ handlePressModal ~ owner.cinema:", owner.cinema)
+        }
+    };
 
     return (
-        <OListScreen isLoading={isLoading} buttonAddTitle={"Agregar Cines +"} screenName={"Mis Cines"} total={cinemas.length} onPressButtonAdd={handleCreateCinema}
+        <OListScreen isModalVisible={isModalVisible} onPressModal={handlePressModal} modalText={modalText} isLoading={isLoading} buttonAddTitle={"Agregar Cines +"} screenName={"Mis Cines"} total={cinemas.length} onPressButtonAdd={handleCreateCinema}
             cards={cinemas.map(cinema => {
                 const activeRoomsCount = cinema.rooms.reduce((count, room) => {
                     if (room.status === true) {
@@ -71,7 +84,7 @@ export default function OwnerHome({ navigation }) {
                         activeRooms={activeRoomsCount}
                         onPress={() => handlePressCinema(cinema)}
                         onPressBtnEdit={() => handleEditCinema(cinema)}
-                        onPressBtnDelete={handleDeleteCinema}
+                        onPressBtnDelete={() => handleDeleteCinema(cinema)}
                     />
                 );
             })}
