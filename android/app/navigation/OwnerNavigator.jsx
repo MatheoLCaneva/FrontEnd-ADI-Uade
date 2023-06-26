@@ -5,7 +5,7 @@ import CreateCinema from "../ui/screens/owner/OCreateCinema";
 import EditCinema from "../ui/screens/owner/OEditCinema";
 import RoomsHome from "../ui/screens/owner/ORooms";
 import CreateRoom from "../ui/screens/owner/OCreateRoom";
-import EditRoom from "../ui/screens/owner/ORooms";
+import EditRoom from "../ui/screens/owner/OEditRoom";
 import FunctionsHome from "../ui/screens/owner/OFunctions";
 import CreateFunction from "../ui/screens/owner/OCreateRoom";
 import EditFunction from "../ui/screens/owner/ORooms";

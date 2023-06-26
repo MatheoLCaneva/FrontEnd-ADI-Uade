@@ -10,7 +10,7 @@ import DualButtonFooter from '../../components/DualButtonFooter';
 export default function CreateCinema({ navigation, route }) {
     const user = useSelector(state => state.user);
 
-    const cinema = route.params.cinema
+    let cinema = useSelector(state => state.owner.cinema)
 
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
@@ -25,25 +25,44 @@ export default function CreateCinema({ navigation, route }) {
     const handleDistrictChange = (text) => setDistrict(text);
     const handleCountryChange = (text) => setCountry(text);
 
-    const handleEditCinema = () => {
+    const handleEditCinema = async () => {
+        setIsLoading(true)
+        const updatedCinema = {
+            ...cinema,
+            name: name !== '' ? name : cinema.name || '',
+            address: {
+                ...cinema.address,
+                name: address !== '' ? address : cinema.address.name || '',
+                city: city !== '' ? city : cinema.address.city || '',
+                district: district !== '' ? district : cinema.address.district || '',
+                country: country !== '' ? country : cinema.address.country || '',
+            },
+        };
 
-        // Update name
-        cinema.name = name !== '' ? name : cinema.name || '';
-
-        // Update address
-        cinema.address.name = address !== '' ? address : cinema.address.name || '';
-
-        // Update city
-        cinema.address.city = city !== '' ? city : cinema.address.city || '';
-
-        // Update district
-        cinema.address.district = district !== '' ? district : cinema.address.district || '';
-
-        // Update country
-        cinema.address.country = country !== '' ? country : cinema.address.country || '';
+        const headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        };
 
 
-        console.log(cinema)
+        try {
+            const response = await axios.put(`https://backend-adi-uade.onrender.com/cinemas/`, updatedCinema, { headers });
+            if (response.data.status === 200) {
+                ToastAndroid.show("Cine modificado con éxito.", ToastAndroid.SHORT)
+                setIsLoading(false);
+                navigation.dispatch(
+                    CommonActions.reset({
+                        index: 0,
+                        routes: [{ name: 'OWNER_HOME', params: { transition: 'slide_from_left' }, }],
+                    })
+                );
+            }
+
+        } catch (e) {
+            console.log(e)
+        }
+
+
     };
 
     const styles = StyleSheet.create({
@@ -60,7 +79,6 @@ export default function CreateCinema({ navigation, route }) {
                 <Input placeholder='Ciudad' marginTop={21} onChangeText={handleCityChange} />
                 <Input placeholder='Barrio' marginTop={21} onChangeText={handleDistrictChange} />
                 <Input placeholder='Pais' marginTop={21} onChangeText={handleCountryChange} />
-
                 <DualButtonFooter primaryTitle='Modificar Cine' onPressPrimary={handleEditCinema} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
             </View>
             {isLoading && <LoadingIndicator />}
