@@ -26,7 +26,6 @@ export default function OwnerFunctions({ navigation }) {
                 const response = await axios.get(
                     `https://backend-adi-uade.onrender.com/functions/room/${room._id}`,
                 );
-                console.log(response.data.data.docs);
                 setFunctions(response.data.data.docs);
             } catch (e) {
                 console.error(e);

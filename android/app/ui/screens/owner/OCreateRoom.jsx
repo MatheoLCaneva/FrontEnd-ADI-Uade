@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import Input from '../../components/Input';
 import LoadingIndicator from '../../components/LoadingIndicator';
+import { CommonActions } from '@react-navigation/native';
 import DualButtonFooter from '../../components/DualButtonFooter';
 
 export default function CreateRoom({ navigation }) {
@@ -54,20 +55,18 @@ export default function CreateRoom({ navigation }) {
             columns: parseInt(columns)
         };
 
-        console.log(obj);
-
         try {
             const response = await axios.post(`https://backend-adi-uade.onrender.com/rooms/`, obj, { headers });
             if (response.data.status === 201) {
                 ToastAndroid.show("Sala creada con éxito.", ToastAndroid.SHORT)
             }
             setIsLoading(false);
-            /*navigation.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [{ name: 'ROOMS_HOME', params: { transition: 'slide_from_left' }, }],
-                })
-            );*/
+            // navigation.dispatch(
+            //     CommonActions.reset({
+            //         index: 0,
+            //         routes: [{ name: 'ROOMS_HOME', params: { transition: 'slide_from_left' }, }],
+            //     })
+            // );
             navigation.goBack();
         } catch (e) {
             Alert.alert("Error", "Ha ocurrido un error al crear su sala, reintente en unos minutos.");

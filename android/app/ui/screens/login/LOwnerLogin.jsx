@@ -40,7 +40,6 @@ export default function OwnerLogin({ props, route, navigation }) {
     };
 
     const handleLogin = async () => {
-        console.log('entre')
         setLoading(true)
 
         const headers = {

@@ -98,7 +98,6 @@ export default function Register({ navigation }) {
             axios.post('https://backend-adi-uade.onrender.com/users/sendMail', obj, { headers })
                 .then(
                     response => {
-                        console.log("data recolectada", response.data.code)
                         setVerificationCode(response.data.code)
                         setModalVisible(true)
                     }

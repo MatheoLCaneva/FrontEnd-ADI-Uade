@@ -21,11 +21,11 @@ export default function CardRoom({
 }) {
     const items = [
         {
-            description: 'ESTADO',
+            description: 'Estado',
             value: status ? "Activo" : "Inactivo",
         },
         {
-            description: 'ASIENTOS TOTALES',
+            description: 'Asientos Totales',
             value: seats,
         },
     ];

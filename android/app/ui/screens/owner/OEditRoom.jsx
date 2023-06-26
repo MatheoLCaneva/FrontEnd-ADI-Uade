@@ -33,12 +33,9 @@ export default function EditRoom({ navigation }) {
 
 
     const handleCreateRoom = async () => {
-        if (name === '' || price === '' || rows === '' || columns === '') {
-            Alert.alert('Error en los datos', 'Los campos no pueden estar vacíos.');
-            return;
-        }
-
         setIsLoading(true);
+
+
 
         const headers = {
             Accept: 'application/json',
@@ -54,12 +51,11 @@ export default function EditRoom({ navigation }) {
             columns: parseInt(columns)
         };
 
-        console.log(obj);
 
         try {
             const response = await axios.post(`https://backend-adi-uade.onrender.com/rooms/`, obj, { headers });
             if (response.data.status === 201) {
-                ToastAndroid.show("Sala creada con éxito.", ToastAndroid.SHORT)
+                ToastAndroid.show("Sala modificada con éxito.", ToastAndroid.SHORT)
             }
             setIsLoading(false);
             /*navigation.dispatch(
@@ -70,7 +66,7 @@ export default function EditRoom({ navigation }) {
             );*/
             navigation.goBack();
         } catch (e) {
-            Alert.alert("Error", "Ha ocurrido un error al crear su sala, reintente en unos minutos.");
+            Alert.alert("Error", "Ha ocurrido un error al modificar su sala, reintente en unos minutos.");
             setIsLoading(false);
         }
     };
