@@ -6,7 +6,7 @@ import Input from '../../components/Input';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import DualButtonFooter from '../../components/DualButtonFooter';
 
-export default function CreateRoom({ navigation }) {
+export default function EditRoom({ navigation }) {
     const user = useSelector(state => state.user);
     const owner = useSelector(state => state.owner);
     const cinema = useSelector(state => state.owner.cinema);

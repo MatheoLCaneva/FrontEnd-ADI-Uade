@@ -62,8 +62,9 @@ export default function OwnerHome({ navigation }) {
     const handleCreateCinema = () => {
         navigation.push('CREATE_CINEMA');
     };
-    const handleEditCinema = cinema => {
-        navigation.push('EDIT_CINEMA', { cinema });
+    const handleEditCinema = (cinema) => {
+        dispatch(setCinema(cinema));
+        navigation.push('EDIT_CINEMA')
     };
     const handleDeleteCinema = cinema => {
         dispatch(setCinema(cinema));
