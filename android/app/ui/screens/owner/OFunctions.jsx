@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
+import { Alert, ToastAndroid } from 'react-native';
 import axios from 'axios';
 import CardFunction from '../../components/cards/CardFunction';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,7 +10,11 @@ export default function OwnerFunctions({ navigation }) {
     const [funcs, setFunctions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    const [isAlertVisible, setIsAlertVisible] = useState(false);
+    const [alertText, setAlertText] = useState('');
     const room = useSelector(state => state.owner.room);
+    const func = useSelector(state => state.owner.function);
+
 
     const dispatch = useDispatch();
 
@@ -20,9 +24,6 @@ export default function OwnerFunctions({ navigation }) {
 
         const fetchData = async () => {
             try {
-                
-                //TODO: Están las funciones en el back?
-                //Por si quiero ver todas las salas para probar
                 const response = await axios.get(
                     `https://backend-adi-uade.onrender.com/functions/room/${room._id}`,
                 );
@@ -41,33 +42,63 @@ export default function OwnerFunctions({ navigation }) {
         fetchData();
     }, [room, navigation]);
 
-    const handleCreateRoom = () => {
+    const deleteFunc = async (func) => {
+
+        try {
+            const response = await axios.delete(
+                `https://backend-adi-uade.onrender.com/functions/${func._id}`,
+            );
+            if (response.status === 200) {
+                setFunctions(funcs.filter(x => x._id !== func._id));
+                ToastAndroid.show("Función eliminada con éxito.", ToastAndroid.SHORT)
+            }
+        } catch (e) {
+            ToastAndroid.show("Error eliminando la función. Reintente en unos minutos.", ToastAndroid.SHORT)
+        }
+    }
+
+    const handleCreateFunction = () => {
         navigation.push('CREATE_FUNCTION');
     };
-    const handleEditRoom = room => {
-        navigation.push('EDIT_FUNCTION', { room });
+    const handleEditFunction = func => {
+        dispatch(setFunction(func));
+        navigation.push('EDIT_FUNCTION');
     };
-    const handleDeleteRoom = () => {
-        navigation.push('CREATE_FUNCTION');
+    const handleDeleteFunc = (func) => {
+        dispatch(setFunction(func));
+        setAlertText(`¿Está seguro que desea eliminar la función "${func.movie.title}"?`);
+        setIsAlertVisible(true);
     };
 
+    const handlePressDeleteAlert = async result => {
+        setIsAlertVisible(false);
+        if (result) {
+            setIsLoading(true);
+            await deleteFunc(func);
+            setIsLoading(false);
+        }
+    };
     return (
         <OListScreen
             isLoading={isLoading}
+            isAlertVisible={isAlertVisible}
+            onPressDeleteAlert={handlePressDeleteAlert}
+            alertText={alertText}
             buttonAddTitle={'Agregar Función +'}
             screenName={'Mis Funciones'}
             total={funcs.length}
-            onPressButtonAdd={handleCreateRoom}
+            onPressButtonAdd={handleCreateFunction}
             cards={funcs.map(func => {
                 return (
                     <CardFunction
                         key={func._id}
-                        name={func.name}
-                        date={new Date().getTime()}
-                        occupiedSeats={"NONE"}
-                        onPress={() => {}}
-                        onPressBtnEdit={() => handleEditRoom(func)}
-                        onPressBtnDelete={handleDeleteRoom}
+                        name={func.movie.title}
+                        date={func.date}
+                        hour={func.hour}
+                        occupiedSeats={"0"}
+                        onPress={() => { }}
+                        onPressBtnEdit={() => handleEditFunction(func)}
+                        onPressBtnDelete={() => handleDeleteFunc(func)}
                     />
                 );
             })}

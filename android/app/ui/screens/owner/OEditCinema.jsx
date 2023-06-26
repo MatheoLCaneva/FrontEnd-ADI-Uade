@@ -8,7 +8,6 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 import DualButtonFooter from '../../components/DualButtonFooter';
 
 export default function CreateCinema({ navigation, route }) {
-    const user = useSelector(state => state.user);
 
     let cinema = useSelector(state => state.owner.cinema)
 
@@ -49,6 +48,7 @@ export default function CreateCinema({ navigation, route }) {
             const response = await axios.put(`https://backend-adi-uade.onrender.com/cinemas/`, updatedCinema, { headers });
             if (response.data.status === 200) {
                 ToastAndroid.show("Cine modificado con éxito.", ToastAndroid.SHORT)
+                
                 setIsLoading(false);
                 navigation.dispatch(
                     CommonActions.reset({

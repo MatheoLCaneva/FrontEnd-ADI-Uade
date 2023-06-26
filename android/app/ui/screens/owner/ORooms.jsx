@@ -52,7 +52,6 @@ export default function OwnerRooms({ navigation }) {
                 'Error',
                 'Ha ocurrido un error al eliminar esta sala, reintente en unos minutos.',
             );
-        } finally {
         }
     }
 
@@ -84,7 +83,8 @@ export default function OwnerRooms({ navigation }) {
         navigation.push('CREATE_ROOM');
     };
     const handleEditRoom = room => {
-        navigation.push('EDIT_ROOM', { room });
+        dispatch(setRoom(room))
+        navigation.push('EDIT_ROOM');
     };
     const handleDeleteRoom = (room) => {
         dispatch(setRoom(room));

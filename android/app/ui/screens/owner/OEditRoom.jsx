@@ -10,6 +10,7 @@ export default function EditRoom({ navigation }) {
     const user = useSelector(state => state.user);
     const owner = useSelector(state => state.owner);
     const cinema = useSelector(state => state.owner.cinema);
+    const room = useSelector(state => state.owner.room);
 
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
@@ -32,30 +33,45 @@ export default function EditRoom({ navigation }) {
     };
 
 
-    const handleCreateRoom = async () => {
+    const handleEditRoom = async () => {
         setIsLoading(true);
-
-
 
         const headers = {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         };
 
-        const obj = {
-            name: name,
-            owner: user._id,
-            cinema: cinema._id,
-            price: price,
-            rows: parseInt(rows),
-            columns: parseInt(columns)
+        const updatedRoom = {
+            ...room,
+            name: name !== '' ? name : room.name || '',
+            price: price !== '' ? price : room.price || '',
         };
 
-
         try {
-            const response = await axios.post(`https://backend-adi-uade.onrender.com/rooms/`, obj, { headers });
-            if (response.data.status === 201) {
-                ToastAndroid.show("Sala modificada con éxito.", ToastAndroid.SHORT)
+            const response = await axios.put(`https://backend-adi-uade.onrender.com/rooms/`, updatedRoom, { headers });
+            if (response.data.status === 200) {
+                // ToastAndroid.show("Sala modificada con éxito.", ToastAndroid.SHORT)
+                try {
+                    const updatedRooms = [...cinema.rooms];
+                    console.log(updatedRooms)
+                    // Encontrar el índice de la sala eliminada en la copia del array
+                    const index = updatedRooms.findIndex(r => r._id === room._id);
+                    if (index !== -1) {
+                        updatedRooms.splice(index, 1);
+                        updatedRooms.push(updatedRoom) // Eliminar la sala de la copia del array
+                    }
+                    cinema.rooms = updatedRooms;
+                    try {
+                        const response = await axios.put(`https://backend-adi-uade.onrender.com/cinemas/`, cinema, { headers })
+                        if (response.data.status === 200) {
+                            ToastAndroid.show("Sala modificada con éxito.", ToastAndroid.SHORT)
+                        }
+                    } catch (e) {
+                        console.error('error', e)
+                    }
+                } catch (e) {
+                    console.error(e)
+                }
             }
             setIsLoading(false);
             /*navigation.dispatch(
@@ -64,12 +80,68 @@ export default function EditRoom({ navigation }) {
                     routes: [{ name: 'ROOMS_HOME', params: { transition: 'slide_from_left' }, }],
                 })
             );*/
-            navigation.goBack();
+            navigation.popToTop();
         } catch (e) {
             Alert.alert("Error", "Ha ocurrido un error al modificar su sala, reintente en unos minutos.");
             setIsLoading(false);
         }
     };
+
+    const handleStopRoom = async () => {
+        // setIsLoading(true)
+
+        const headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        };
+
+        const updatedRoom = {
+            ...room,
+            status: !room.status,
+        };
+
+
+        try {
+            const response = await axios.put(`https://backend-adi-uade.onrender.com/rooms/`, updatedRoom, { headers });
+            if (response.data.status === 200) {
+                // ToastAndroid.show("Sala modificada con éxito.", ToastAndroid.LONG)
+                try {
+                    const updatedRooms = [...cinema.rooms];
+                    console.log(updatedRooms)
+                    // Encontrar el índice de la sala eliminada en la copia del array
+                    const index = updatedRooms.findIndex(r => r._id === room._id);
+                    if (index !== -1) {
+                        updatedRooms.splice(index, 1);
+                        updatedRooms.push(updatedRoom) // Eliminar la sala de la copia del array
+                    }
+                    cinema.rooms = updatedRooms;
+                    try {
+                        const response = await axios.put(`https://backend-adi-uade.onrender.com/cinemas/`, cinema, { headers })
+                        if (response.data.status === 200) {
+                            ToastAndroid.show("Sala modificada con éxito.", ToastAndroid.SHORT)
+                        }
+                    } catch (e) {
+                        console.error('error', e)
+                    }
+                } catch (e) {
+                    console.error(e)
+                }
+            }
+            setIsLoading(false);
+            /*navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: 'ROOMS_HOME', params: { transition: 'slide_from_left' }, }],
+                })
+            );*/
+            navigation.popToTop();
+        } catch (e) {
+            Alert.alert("Error", "Ha ocurrido un error al modificar su sala, reintente en unos minutos.");
+            setIsLoading(false);
+        }
+
+
+    }
 
     const styles = StyleSheet.create({
         container: {
@@ -87,11 +159,12 @@ export default function EditRoom({ navigation }) {
             <View>
                 <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} />
                 <Input placeholder='Precio' marginTop={21} onChangeText={handlePriceChange} />
-                <View style={styles.flexRow}>
+                {/* <View style={styles.flexRow}>
                     <Input placeholder='Nro Columnas' marginTop={21} small onChangeText={handleColumnsChange} />
                     <Input placeholder='Nro Filas' marginTop={21} small onChangeText={handleRowsChange} />
-                </View>
-                <DualButtonFooter primaryTitle='Crear Sala' onPressPrimary={handleCreateRoom} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
+                </View> */}
+                <DualButtonFooter primaryTitle='Editar' onPressPrimary={handleEditRoom} secondaryTitle={room.status ? 'Desactivar' : 'Activar'}
+                    onPressSecondary={() => handleStopRoom()} />
             </View>
             {isLoading && <LoadingIndicator />}
         </View>

@@ -7,11 +7,13 @@ import RoomsHome from "../ui/screens/owner/ORooms";
 import CreateRoom from "../ui/screens/owner/OCreateRoom";
 import EditRoom from "../ui/screens/owner/OEditRoom";
 import FunctionsHome from "../ui/screens/owner/OFunctions";
-import CreateFunction from "../ui/screens/owner/OCreateRoom";
-import EditFunction from "../ui/screens/owner/ORooms";
+import CreateFunction from "../ui/screens/owner/OCreateFunction";
+import EditFunction from "../ui/screens/owner/OEditFunction";
 import NavigatorConstant from "./NavigatorConstant";
 
+
 const Stack = createNativeStackNavigator()
+// const Drawer = createDrawer
 
 export default function OwnerNavigator(props) {
     const baseOptions = { headerStyle: { backgroundColor: '#E01D6F' }, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'normal' }, headerTitleAlign: 'center' };

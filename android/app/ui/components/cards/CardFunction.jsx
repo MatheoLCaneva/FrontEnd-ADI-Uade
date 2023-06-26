@@ -13,24 +13,24 @@ import Card from './Card';
  */
 export default function CardFunction({
     name = '',
-    date = 0,
+    date = '',
+    hour= '',
     occupiedSeats = '0',
     onPress,
     onPressBtnDelete,
     onPressBtnEdit,
 }) {
-    date = new Date(date);
     const items = [
         {
-            description: 'FECHA',
-            value: (("0" + date.getUTCDate()).slice(-2) + "/" + ("0"+(date.getUTCMonth()+1)).slice(-2)),
+            description: 'Fecha',
+            value: date,
         },
         {
-            description: 'HORA',
-            value: (("0" + date.getUTCHours()).slice(-2) + ":" + ("0" + date.getUTCMinutes()).slice(-2)),
+            description: 'Hora',
+            value: hour,
         },
         {
-            description: 'ASIENTOS OCUPADOS',
+            description: 'Asientos Ocupados',
             value: occupiedSeats,
         },
     ];
