@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, ToastAndroid, TouchableOpacity } from 'react-native';
 import CheckButton from '../../components/CheckButton';
 import ButtonPrimary from '../../components/ButtonPrimary';
@@ -7,49 +7,50 @@ import Input from '../../components/Input';
 import loginWS from '../../../networking/api/endpoints/User'
 import axios from 'axios';
 
-export default function NewPw({navigation}) {
+export default function NewPw({ navigation, route }) {
 
-    const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [showPassword, setShowPassword] = React.useState(false);
-    const [data, setData] = React.useState({});
-    
-    // const [isSelected, setSelection] = useState(false); NOFUNCIONA
-    // const [toggleCheckBox, setToggleCheckBox] = useState(false)
-
-    // const handleEmailChange = (text) => {
-    //     setEmail(text);
-    // };
+    const [passwordRepeat, setPasswordRepeat] = React.useState('');
+    const user = route.params.user
 
     const handlePasswordChange = (text) => {
         setPassword(text);
     };
 
-    const handleTogglePasswordVisibility = () => {
-        setShowPassword(!showPassword);
+    const handlePasswordRepeatChange = (text) => {
+        setPasswordRepeat(text);
     };
 
-    const handleLogin = () => {
-        navigation.navigate('LOGIN')
-        // Me tiene que mandar primero al POPUP y después al ownerLogin
-    };
+    const handleNewPw = async () => {
 
-    const handleNewPw = () => {
+        if (password === passwordRepeat) {
+            const headers = {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            }
 
-        const headers = {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
+            const updatedUser = {
+                ...user,
+                password: password
+            }
+
+            try {
+                const response = await axios.put(`https://backend-adi-uade.onrender.com/users/`, updatedUser, { headers })
+                if (response.data.status === 200) {
+                    ToastAndroid.show('Contraseña actualizada', ToastAndroid.LONG);
+                    navigation.navigate('LOGIN')
+                }
+            } catch (e) {
+                ToastAndroid.show('Se produjo un error al cambiar su contraseña, reintente dentro de unos minutos.', ToastAndroid.LONG);
+
+            }
+        }
+        else {
+            // Las contraseñas no coinciden, puedes mostrar un mensaje de error o realizar otra acción
+            ToastAndroid.show('Las contraseñas no coinciden', ToastAndroid.SHORT);
         }
 
-        const data = {
-            email: 'test@gmail.com',
-            password: 'Test1234'
-        }
 
-        axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers })
-            .then(
-                response => console.log(response.data)
-            )
         // ToastAndroid.show(data.data, ToastAndroid.SHORT);
     };
 
@@ -88,7 +89,7 @@ export default function NewPw({navigation}) {
             fontFamily: 'Poppins',
             color: 'white',
             fontSize: 20,
-            fontWeight: 'bold',            
+            fontWeight: 'bold',
         },
     });
 
@@ -100,25 +101,9 @@ export default function NewPw({navigation}) {
             >
                 <View styles={styles.container}>
                     <Logo />
-                    <Input onChangeText={handlePasswordChange} marginTop={10} placeholder='Ingrese su nueva contraseña' />
-                    <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Repita su nueva contraseña' secure={!showPassword} />
-                    {/* <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
-                        <Text style={styles.toggleButtonText}>
-                            {showPassword ? 'Ocultar' : 'Mostrar'}
-                        </Text>
-                    </TouchableOpacity>
-
-                    <CheckButton  style={{marginTop: 30, flexDirection: 'row', alignSelf:'center'}} /> */}
-
-                    <ButtonPrimary onPress={handleLogin} title='Actualizar contraseña' />
-                    {/* <TouchableOpacity style={{marginTop: 40}} onPress={handlePressRecoveryPass}>
-                        <Text style={styles.footer}>Olvidé mi contraseña</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{marginTop: 30, flexDirection: 'row', alignSelf:'center'}} onPress={handlePressRegister}>
-                        <Text style={styles.footer}>No estas registrado?</Text><Text style={styles.footerNegrita}> Registrate</Text>
-                    </TouchableOpacity> */}
-                    
-                    {/* <Popup onPress={handleLogin}><Text>Aceptar</Text></Popup> LLAMADO AL POP UP - AÚN NO FUNCIONA*/}
+                    <Input onChangeText={handlePasswordChange} marginTop={10} placeholder='Ingrese su nueva contraseña' secure={true} />
+                    <Input onChangeText={handlePasswordRepeatChange} marginTop={27} placeholder='Repita su nueva contraseña' secure={true} />
+                    <ButtonPrimary onPress={handleNewPw} title='Actualizar contraseña' />
 
                 </View>
             </ImageBackground>
