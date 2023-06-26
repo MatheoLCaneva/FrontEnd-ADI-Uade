@@ -7,64 +7,95 @@ import { setCinema } from '../../../redux/store';
 import OListScreen from './OListScreen';
 
 export default function OwnerHome({ navigation }) {
-
     const [cinemas, setCinemas] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    
+
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [modalText, setModalText] = useState("");
+    const [modalText, setModalText] = useState('');
 
-    const user = useSelector(state => state.user)
+    const user = useSelector(state => state.user);
 
-    const owner = useSelector(state => state.owner)
+    const owner = useSelector(state => state.owner);
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    const deleteCinema = async (cinema) => {
+        console.log("🚀 ~ file: OHome.jsx:23 ~ deleteCinema ~ cinema:", cinema)
+        try {
+            const response = await axios.delete(
+                `https://backend-adi-uade.onrender.com/cinemas/${cinema._id}`,
+            );
+            if(response.status === 200) {
+                setCinemas(cinemas.filter(x => x._id !== cinema._id));
+            }
+            //setCinemas(response);
+        } catch (e) {
+            Alert.alert(
+                'Error',
+                'Ha ocurrido un error al eliminar este cine, reintente en unos minutos.',
+            );
+        } finally {
+        }
+    }
 
     useEffect(() => {
-        setIsLoading(true)
-        navigation.setOptions({ title: 'Hola ' + user.name })
-
+        setIsLoading(true);
+        navigation.setOptions({ title: 'Hola ' + user.name });
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`https://backend-adi-uade.onrender.com/cinemas/owner/${user._id}`);
+                const response = await axios.get(
+                    `https://backend-adi-uade.onrender.com/cinemas/owner/${user._id}`,
+                );
                 setCinemas(response.data.data.docs);
             } catch (e) {
-                Alert.alert("Error", "Ha ocurrido un error al importar sus cines, reintente en unos minutos.");
-            }
-            finally {
-                setIsLoading(false)
+                Alert.alert(
+                    'Error',
+                    'Ha ocurrido un error al importar sus cines, reintente en unos minutos.',
+                );
+            } finally {
+                setIsLoading(false);
             }
         };
 
-        fetchData()
-
-    }, [user, navigation])
+        fetchData();
+    }, [user, navigation]);
 
     const handleCreateCinema = () => {
-        navigation.push('CREATE_CINEMA')
+        navigation.push('CREATE_CINEMA');
     };
-    const handleEditCinema = (cinema) => {
-        navigation.push('EDIT_CINEMA', { cinema })
+    const handleEditCinema = cinema => {
+        navigation.push('EDIT_CINEMA', { cinema });
     };
-    const handleDeleteCinema = (cinema) => {
+    const handleDeleteCinema = cinema => {
         dispatch(setCinema(cinema));
         setModalText(`¿Está seguro que desea eliminar el cine "${cinema.name}"?`);
         setIsModalVisible(true);
     };
-    const handlePressCinema = (cinema) => {
+    const handlePressCinema = cinema => {
         dispatch(setCinema(cinema));
         navigation.push('ROOMS_HOME');
     };
-    const handlePressModal = (result) => {
+    const handlePressModal = async result => {
         setIsModalVisible(false);
-        if(result) {
-            console.log("🚀 ~ file: OHome.jsx:64 ~ handlePressModal ~ owner.cinema:", owner.cinema)
+        if (result) {
+            setIsLoading(true);
+            console.log("🚀 ~ file: OHome.jsx:83 ~ handlePressModal ~ owner.cinema:", owner.cinema)
+            await deleteCinema(owner.cinema);
+            setIsLoading(false);
         }
     };
 
     return (
-        <OListScreen isModalVisible={isModalVisible} onPressModal={handlePressModal} modalText={modalText} isLoading={isLoading} buttonAddTitle={"Agregar Cines +"} screenName={"Mis Cines"} total={cinemas.length} onPressButtonAdd={handleCreateCinema}
+        <OListScreen
+            isModalVisible={isModalVisible}
+            onPressModal={handlePressModal}
+            modalText={modalText}
+            isLoading={isLoading}
+            buttonAddTitle={'Agregar Cines +'}
+            screenName={'Mis Cines'}
+            total={cinemas.length}
+            onPressButtonAdd={handleCreateCinema}
             cards={cinemas.map(cinema => {
                 const activeRoomsCount = cinema.rooms.reduce((count, room) => {
                     if (room.status === true) {
@@ -73,7 +104,10 @@ export default function OwnerHome({ navigation }) {
                     return count;
                 }, 0);
 
-                const roomsCount = cinema.rooms.length > 1 ? cinema.rooms.length - 1 : cinema.rooms.length;
+                const roomsCount =
+                    cinema.rooms.length > 1
+                        ? cinema.rooms.length - 1
+                        : cinema.rooms.length;
 
                 return (
                     <CardCinema
