@@ -21,6 +21,7 @@ export default function Input(props) {
             fontSize: props.small ? 14 : 16, // Ajusta el tamaño de fuente según sea necesario
             paddingHorizontal: props.small ? 30 : 20, // Ajusta el padding horizontal según sea necesario
             flex: props.small ? 1 : null, // Ajusta el ancho de la entrada para ocupar todo el espacio disponible solo si es small
+            color: 'black'
         },
 
     });

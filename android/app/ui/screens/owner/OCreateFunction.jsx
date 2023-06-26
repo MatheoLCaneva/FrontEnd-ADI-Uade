@@ -109,7 +109,7 @@ export default function CreateFunction({ navigation }) {
             //         routes: [{ name: 'ROOMS_HOME', params: { transition: 'slide_from_left' }, }],
             //     })
             // );
-            navigation.goBack();
+            navigation.popToTop();
         } catch (e) {
             Alert.alert("Error", "Ha ocurrido un error al crear su función, reintente en unos minutos.");
             setIsLoading(false);

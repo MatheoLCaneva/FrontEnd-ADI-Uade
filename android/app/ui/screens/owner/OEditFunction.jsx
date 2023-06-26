@@ -81,7 +81,7 @@ export default function EditFunction({ navigation }) {
         fetchData();
     }, [room, navigation]);
 
-    const handleCreateFunction = async () => {
+    const handleEditFunction = async () => {
 
         const headers = {
             Accept: 'application/json',
@@ -106,7 +106,7 @@ export default function EditFunction({ navigation }) {
                 ToastAndroid.show("Función editada con éxito.", ToastAndroid.SHORT)
                 setIsLoading(false);
 
-                navigation.goBack();
+                navigation.popToTop();
 
             }
             // navigation.dispatch(
@@ -203,7 +203,7 @@ export default function EditFunction({ navigation }) {
                 >
                     <Text style={styles.dropdownButtonText}>{format(new Date(time), 'HH:mm')}</Text>
                 </TouchableOpacity>
-                <DualButtonFooter primaryTitle='Crear Funcion' onPressPrimary={handleCreateFunction} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
+                <DualButtonFooter primaryTitle='Crear Funcion' onPressPrimary={handleEditFunction} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
 
             </View>
             {isLoading && <LoadingIndicator />}
