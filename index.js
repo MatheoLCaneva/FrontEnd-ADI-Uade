@@ -1,7 +1,6 @@
 /**
  * @format
  */
-
 import {AppRegistry} from 'react-native';
 import App from './App';
 import RootNavigation from './android/app/navigation/RootNavigation';

@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import axios from 'axios';
 import CardCinema from '../../components/cards/CardCinema';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCinema } from '../../../redux/store';
+import { setCinema, setScreen } from '../../../redux/store';
 import OListScreen from './OListScreen';
 
 export default function OwnerHome({ navigation }) {
@@ -60,6 +60,7 @@ export default function OwnerHome({ navigation }) {
     }, [user, navigation]);
 
     const handleCreateCinema = () => {
+        dispatch(setScreen("A"));
         navigation.push('CREATE_CINEMA');
     };
     const handleEditCinema = (cinema) => {
