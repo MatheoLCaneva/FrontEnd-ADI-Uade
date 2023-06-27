@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, Dimension
 import { TouchableOpacity } from 'react-native';
 import Logo from "../../components/Logo";
 import { useNavigation } from '@react-navigation/native';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
 
 export default function MainScreen() {
   const halfScreenWidth = Dimensions.get('window').width / 2;
