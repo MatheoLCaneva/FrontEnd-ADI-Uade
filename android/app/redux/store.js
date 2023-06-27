@@ -13,7 +13,9 @@ const userSlice = createSlice({
 
 const ownerSlice = createSlice({
   name: 'owner',
-  initialState: {},
+  initialState: {
+    screen: "OWNER_HOME",
+  },
   reducers: {
     setCinema: (state, action) => {
       return {
@@ -33,6 +35,12 @@ const ownerSlice = createSlice({
         function: action.payload,
       };
     },
+    setScreen: (state, action) => {
+      return {
+        ...state,
+        screen: action.payload,
+      };
+    },
   },
 });
 
@@ -47,6 +55,6 @@ const store = configureStore({
 // Exporta el slice y las acciones
 export const { setUser } = userSlice.actions;
 
-export const { setCinema, setRoom, setFunction } = ownerSlice.actions;
+export const { setCinema, setRoom, setFunction, setScreen } = ownerSlice.actions;
 
 export default store;
