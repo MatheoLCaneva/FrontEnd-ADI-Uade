@@ -1,15 +1,6 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import OwnerHome from "../ui/screens/owner/OHome";
 import ONavigator from "./ONavigator";
-import CreateCinema from "../ui/screens/owner/OCreateCinema";
-import EditCinema from "../ui/screens/owner/OEditCinema";
-import RoomsHome from "../ui/screens/owner/ORooms";
-import CreateRoom from "../ui/screens/owner/OCreateRoom";
-import EditRoom from "../ui/screens/owner/OEditRoom";
-import FunctionsHome from "../ui/screens/owner/OFunctions";
-import CreateFunction from "../ui/screens/owner/OCreateFunction";
-import EditFunction from "../ui/screens/owner/OEditFunction";
 import NavigatorConstant from "./NavigatorConstant";
 import {
     createDrawerNavigator,
@@ -35,20 +26,19 @@ function Logout(props) {
 export default function OwnerNavigator(props) {
     const ownerScreen = useSelector(state => state.owner.screen);
 
-    const baseOptions = {
-        
+    const baseOptions = {        
         headerStyle: { backgroundColor: '#E01D6F' },
         headerTintColor: '#fff',
         headerTitleStyle: { fontWeight: 'normal' },
         headerTitleAlign: 'center'
     };
 
-    console.log(ownerScreen);
+    console.log("🚀 ~ file: OwnerNavigator.jsx:37 ~ OwnerNavigator ~ ownerScreen:", ownerScreen)
 
     return (
-        <Drawer.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.START} screenOptions={{ headerShown: ownerScreen !== "OWNER_HOME", headerMode: "screen" }}
+        <Drawer.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.START} screenOptions={{ ...baseOptions, headerShown: ownerScreen === NavigatorConstant.OWNER.OWNER_HOME, headerMode: "screen" }}
             drawerContent={(props) => <Logout {...props} />}>
-            <Drawer.Screen name={"NavigatorConstant.OWNER.OWNER_HOME"} component={ONavigator} options={{ headerBackVisible: false, headerLeft: null }} />
+            <Drawer.Screen name={NavigatorConstant.OWNER.OWNER_DRAWER} component={ONavigator} options={{ headerBackVisible: false, headerLeft: null }} />
         </Drawer.Navigator>
     )
 }

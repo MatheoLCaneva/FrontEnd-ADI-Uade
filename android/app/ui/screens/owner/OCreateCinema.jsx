@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, ToastAndroid } from 'react-native';
+import { View, StyleSheet, Alert, ToastAndroid, BackHandler } from 'react-native';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Input from '../../components/Input';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import { CommonActions } from '@react-navigation/native';
+import { HeaderBackButton } from '@react-navigation/elements';
 import DualButtonFooter from '../../components/DualButtonFooter';
+import { setScreen } from '../../../redux/store';
+import NavigatorConstant from "../../../navigation/NavigatorConstant";
 
 export default function CreateCinema({ navigation }) {
     const user = useSelector(state => state.user);
@@ -22,6 +25,8 @@ export default function CreateCinema({ navigation }) {
     const handleCityChange = (text) => setCity(text);
     const handleDistrictChange = (text) => setDistrict(text);
     const handleCountryChange = (text) => setCountry(text);
+
+    const dispatch = useDispatch();
 
     const handleCreateCinema = async () => {
         if (address === '' || city === '' || district === '' || country === '') {
@@ -61,7 +66,7 @@ export default function CreateCinema({ navigation }) {
             if (response.data.status === 201) {
                 ToastAndroid.show("Cine creado con éxito.", ToastAndroid.SHORT)
             }
-            setIsLoading(false);            
+            setIsLoading(false);
             navigation.dispatch(
                 CommonActions.reset({
                     index: 0,
@@ -73,6 +78,29 @@ export default function CreateCinema({ navigation }) {
             setIsLoading(false);
         }
     };
+
+    const backAction = () => {
+        dispatch(setScreen(NavigatorConstant.OWNER.OWNER_HOME));
+    };
+    const completeBackAction = () => {
+        dispatch(setScreen(NavigatorConstant.OWNER.OWNER_HOME));
+        navigation.goBack();
+    };
+
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+        navigation.setOptions({
+            headerLeft: (props) => (
+                <HeaderBackButton
+                    {...props}
+                    onPress={completeBackAction}
+                />
+            )
+        });
+
+        return () => backHandler.remove();
+    }, []);
 
     const styles = StyleSheet.create({
         container: {
@@ -89,9 +117,9 @@ export default function CreateCinema({ navigation }) {
                 <Input placeholder='Barrio' marginTop={21} onChangeText={handleDistrictChange} />
                 <Input placeholder='Pais' marginTop={21} onChangeText={handleCountryChange} />
 
-                <DualButtonFooter primaryTitle='Crear Cine' onPressPrimary={handleCreateCinema} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()}/>
+                <DualButtonFooter primaryTitle='Crear Cine' onPressPrimary={handleCreateCinema} secondaryTitle='Cancelar' onPressSecondary={completeBackAction} />
             </View>
-            {isLoading && <LoadingIndicator/>}
+            {isLoading && <LoadingIndicator />}
         </View>
     );
 }

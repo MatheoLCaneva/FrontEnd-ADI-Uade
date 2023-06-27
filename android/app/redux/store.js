@@ -13,7 +13,9 @@ const userSlice = createSlice({
 
 const ownerSlice = createSlice({
   name: 'owner',
-  initialState: {},
+  initialState: {
+    screen: "OWNER_HOME",
+  },
   reducers: {
     setCinema: (state, action) => {
       return {
