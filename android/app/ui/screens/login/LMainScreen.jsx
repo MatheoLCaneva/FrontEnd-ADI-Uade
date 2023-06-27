@@ -1,15 +1,76 @@
-import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, Dimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, SafeAreaView, ImageBackground, Image, Dimensions, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native';
 import Logo from "../../components/Logo";
 import { useNavigation } from '@react-navigation/native';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
 
 export default function MainScreen() {
-  const halfScreenWidth = Dimensions.get('window').width / 2;
-  const calculatedValue = halfScreenWidth - 341 / 2 + 0.5;
-
+  const [user, setUser] = useState({})
   const navigation = useNavigation()
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '1081543611987-042b0pvntvmg0f6u2j39g0okrh5bcuk4.apps.googleusercontent.com',
+      offlineAccess: true,
+      forceCodeForRefreshToken: true,
+    });
+    isSignedIn()
+  }, [])
+
+  const signIn = async () => {
+
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log('due____', userInfo);
+      setUser(userInfo)
+    } catch (e) {
+      console.log('Message full_____', e)
+      console.log('Message____', e.message);
+      if (e.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('User Cancelled The Login Flow')
+      } else if (e.code === statusCodes.IN_PROGRESS) {
+        console.log('Signing in')
+      } else if (e.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('Play Services Not Available')
+      } else {
+        console.log('Some other error happened')
+      }
+
+    }
+  }
+
+  const isSignedIn = async () => {
+    const isSignedIn = await GoogleSignin.isSignedIn()
+    if (!!isSignedIn) {
+      getCurrentUserInfo()
+    } else {
+      console.log('Please Login')
+    }
+  }
+
+  const getCurrentUserInfo = async () => {
+    try {
+      const userInfo = await GoogleSignin.signInSilently();
+      console.log('edit____', user)
+      setUser(userInfo)
+    } catch (e) {
+      if (e.code === statusCodes.SIGN_IN_REQUIRED) {
+        Alert.alert('user has not signed in')
+      }
+    }
+  }
+
+  const signOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess()
+      await GoogleSignin.signOut()
+      setUser({})
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   const handlePress = () => {
     navigation.push('LOGIN')
@@ -63,6 +124,10 @@ export default function MainScreen() {
       color: 'white',
       textAlign: 'center',
       fontSize: 20
+    }, googleButton: {
+      width: 250,
+      height: 50,
+      marginLeft: 22
     }
   });
 
@@ -72,12 +137,24 @@ export default function MainScreen() {
         source={require('../../../assets/gradient.png')}
         style={styles.container}
       >
+
         <Logo />
         <View style={styles.container}>
           <Text style={styles.text}>Iniciar sesión como cliente</Text>
-          <Image style={styles.google} resizeMode='contain' source={require('../../../assets/googleimage.png')} />
+          {
+            !user.idToken ?
+              <GoogleSigninButton
+                style={styles.googleButton}
+                size={GoogleSigninButton.Size.Wide}
+                color={GoogleSigninButton.Color.Light}
+                onPress={signIn}
+              /> :
+              <TouchableOpacity onPress={signOut}>
+                <Text>SignOut</Text>
+              </TouchableOpacity>
+          }
           <TouchableOpacity style={{ marginTop: 200, flexDirection: 'row', alignSelf: 'center' }} onPress={handlePress}>
-            <Text style={styles.footer}>Sos dueño? </Text><Text style={styles.footerNegrita}>Ingresa aquí</Text>
+            <Text style={styles.footer}>Eres dueño? </Text><Text style={styles.footerNegrita}>Ingresa aquí</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
