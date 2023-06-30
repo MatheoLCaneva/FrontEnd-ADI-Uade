@@ -4,10 +4,15 @@ import { TouchableOpacity } from 'react-native';
 import Logo from "../../components/Logo";
 import { useNavigation } from '@react-navigation/native';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../../redux/store';
+import NavigatorConstant from '../../../navigation/NavigatorConstant';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function MainScreen() {
-  const [user, setUser] = useState({})
+  const [userr, setUserr] = useState({})
   const navigation = useNavigation()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -15,16 +20,28 @@ export default function MainScreen() {
       offlineAccess: true,
       forceCodeForRefreshToken: true,
     });
-    isSignedIn()
+    checkUser()
   }, [])
 
+  const checkUser = async () => {
+    const user = await AsyncStorage.getItem('user');
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      setUserr(parsedUser);
+      dispatch(setUser(parsedUser));
+      navigation.replace(NavigatorConstant.USER.HOME);
+    }
+  };
   const signIn = async () => {
 
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       console.log('due____', userInfo);
-      setUser(userInfo)
+      setUserr(userInfo)
+      dispatch(setUser(userInfo))
+      await AsyncStorage.setItem('user', JSON.stringify(userInfo))
+      navigation.replace(NavigatorConstant.USER.HOME)
     } catch (e) {
       console.log('Message full_____', e)
       console.log('Message____', e.message);
@@ -38,27 +55,6 @@ export default function MainScreen() {
         console.log('Some other error happened')
       }
 
-    }
-  }
-
-  const isSignedIn = async () => {
-    const isSignedIn = await GoogleSignin.isSignedIn()
-    if (!!isSignedIn) {
-      getCurrentUserInfo()
-    } else {
-      console.log('Please Login')
-    }
-  }
-
-  const getCurrentUserInfo = async () => {
-    try {
-      const userInfo = await GoogleSignin.signInSilently();
-      console.log('edit____', user)
-      setUser(userInfo)
-    } catch (e) {
-      if (e.code === statusCodes.SIGN_IN_REQUIRED) {
-        Alert.alert('user has not signed in')
-      }
     }
   }
 
@@ -142,7 +138,7 @@ export default function MainScreen() {
         <View style={styles.container}>
           <Text style={styles.text}>Iniciar sesión como cliente</Text>
           {
-            !user.idToken ?
+            !userr.idToken ?
               <GoogleSigninButton
                 style={styles.googleButton}
                 size={GoogleSigninButton.Size.Wide}

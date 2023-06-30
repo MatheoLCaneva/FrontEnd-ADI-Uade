@@ -4,6 +4,7 @@ const NAVIGATOR = {
     LOGIN: 'NAVIGATOR_LOGIN',
     DRAWER: 'NAVIGATOR_DRAWER',
     PASSWORD_RECOVERY: 'NAVIGATION_PASSWORD_RECOVERY',
+    USER_HOME: 'USER_HOME'
 };
 const LOGIN_STACK = {
     MAIN: 'MAIN',
@@ -32,9 +33,15 @@ const OWNER = {
     EDIT_FUNCTION: 'EDIT_FUNCTION',
 };
 
+const USER = {
+    HOME: 'USER_HOME',
+    MOVIE: 'MOVIE_DETAIL'
+}
+
 export default {
     NAVIGATOR,
     LOGIN_STACK,
     REGISTER,
     OWNER,
+    USER
 }
