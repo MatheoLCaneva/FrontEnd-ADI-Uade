@@ -5,6 +5,10 @@ import { View, Text, StyleSheet, SafeAreaView, ImageBackground, FlatList, ToastA
 import { useSelector } from 'react-redux';
 import CardFunctionUser from '../../components/cards/CardFunctionUser';
 import Dropdown from '../../components/Dropdown';
+import LoadingIndicator from '../../components/LoadingIndicator';
+import { useDispatch } from 'react-redux';
+import {setMovie, setScreenUser } from '../../../redux/store/';
+import NavigatorConstant from '../../../navigation/NavigatorConstant';
 
 export default function UserHome() {
     const [functions, setFunctions] = useState([]);
@@ -13,6 +17,7 @@ export default function UserHome() {
     const [filter, setFilter] = useState(null);
     const user = useSelector(state => state.user);
     const navigation = useNavigation();
+    const dispatch = useDispatch()
 
     useEffect(() => {
         navigation.setOptions({
@@ -97,6 +102,8 @@ export default function UserHome() {
     };
 
     const handleSelectMovie = (item) => {
+        dispatch(setMovie(item))
+        dispatch(setScreenUser(NavigatorConstant.USER.MOVIE))
         navigation.navigate('MOVIE_DETAIL')
     }
 
@@ -125,19 +132,6 @@ export default function UserHome() {
     const isPortrait = screenWidth < screenHeight;
     const numColumns = isPortrait ? 2 : 3;
 
-    if (isLoading) {
-        return (
-            <SafeAreaView style={{ flex: 1 }}>
-                <ImageBackground
-                    source={require('../../../assets/gradient.png')}
-                    style={styles.container}
-                >
-                    {/* Puedes mostrar un indicador de carga aquí si lo deseas */}
-                </ImageBackground>
-            </SafeAreaView>
-        );
-    }
-
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ImageBackground
@@ -149,13 +143,15 @@ export default function UserHome() {
                         Películas
                     </Text>
                     <Dropdown label='Seleccionar Cine' options={cinemas} selectedOption={filter} onSelectOption={setFilter} tipo={'cine'} />
+                </View>
+                {isLoading ?
+                    <LoadingIndicator /> :
                     <FlatList
                         data={functions}
                         renderItem={renderFunction}
                         keyExtractor={keyExtractor}
                         numColumns={numColumns}
-                    />
-                </View>
+                    />}
             </ImageBackground>
         </SafeAreaView>
     );

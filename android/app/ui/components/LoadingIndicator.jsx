@@ -5,7 +5,7 @@ export default function LoadingIndicator() {
     const styles = StyleSheet.create({
         loadingContainer: {
             ...StyleSheet.absoluteFill,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            // backgroundColor: 'rgba(0, 0, 0, 0.5)',
             alignItems: 'center',
             justifyContent: 'center',
         },

@@ -44,11 +44,33 @@ const ownerSlice = createSlice({
   },
 });
 
+const clientSlice = createSlice({
+  name: 'client',
+  initialState: {
+    screen: 'USER_HOME',
+  },
+  reducers: {
+    setMovie: (state, action) => {
+      return {
+        ...state,
+        movie: action.payload,
+      };
+    },
+    setScreenUser: (state, action) => {
+      return {
+        ...state,
+        screen: action.payload,
+      };
+    },
+  },
+})
+
 // Crea el store de Redux Toolkit
 const store = configureStore({
   reducer: {
     user: userSlice.reducer,
     owner: ownerSlice.reducer,
+    client: clientSlice.reducer,
   },
 });
 
@@ -56,5 +78,7 @@ const store = configureStore({
 export const { setUser } = userSlice.actions;
 
 export const { setCinema, setRoom, setFunction, setScreen } = ownerSlice.actions;
+
+export const { setMovie, setScreenUser } = clientSlice.actions;
 
 export default store;
