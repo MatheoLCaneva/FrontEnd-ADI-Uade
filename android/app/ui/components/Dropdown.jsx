@@ -11,7 +11,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Modal, FlatList } from 'react
  */
 export default function Dropdown(props) {
     const [modalVisible, setModalVisible] = useState(false);
-    const { label, options, onSelectOption, aEditar } = props;
+    const { label, options, onSelectOption, aEditar, tipo } = props;
     const [optionSelected, setSelectedOption] = useState('');
 
     const handleSelectOption = (option) => {
@@ -21,12 +21,61 @@ export default function Dropdown(props) {
     };
 
 
+    const styles = StyleSheet.create({
+        container: {
+            marginVertical: tipo == 'cine' ? 0 : 10,
+            marginHorizontal: tipo == 'cine' ? 0 : 32
+        },
+        label: {
+            fontSize: 16,
+            fontWeight: 'bold',
+            marginBottom: 5,
+            color: 'white'
+        },
+        dropdownButton: {
+            backgroundColor: '#EFEFEF',
+            paddingVertical: 10,
+            paddingHorizontal: 12,
+            borderRadius: 5,
+        },
+        dropdownButtonText: {
+            fontSize: 16,
+            color: '#555555',
+        },
+        modalContainer: {
+            flex: 1,
+            justifyContent: 'center',
+            backgroundColor: '#FFFFFF',
+        },
+        optionButton: {
+            padding: 16,
+            borderBottomWidth: 1,
+            borderBottomColor: '#CCCCCC',
+        },
+        optionText: {
+            fontSize: 16,
+            color: 'black'
+        },
+        closeButton: {
+            backgroundColor: '#EFEFEF',
+            paddingVertical: 16,
+            alignItems: 'center',
+        },
+        closeButtonText: {
+            fontSize: 16,
+            fontWeight: 'bold',
+            color: '#555555',
+        },
+    });
+
+
+
     return (
         <View style={styles.container}>
-            <Text style={styles.label}>{label ? label : null} {aEditar ? 'Película actual: ' + aEditar : null}</Text>
+            <Text style={tipo == 'cine' ? null : styles.label}>{tipo == 'cine' ? null : label ? label : null} {aEditar ? 'Película actual: ' + aEditar : null}</Text>
             <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.dropdownButton}>
                 <Text style={styles.dropdownButtonText}>
-                    {optionSelected ? optionSelected.title : 'Selecciona una pelicula'}
+                    {tipo !== 'cine' ? optionSelected ? optionSelected.title : 'Selecciona una pelicula' : optionSelected ? optionSelected.name : 'Selecciona un cine'}
                 </Text>
 
             </TouchableOpacity>
@@ -37,7 +86,7 @@ export default function Dropdown(props) {
                         keyExtractor={(item) => item._id}
                         renderItem={({ item }) => (
                             <TouchableOpacity onPress={() => handleSelectOption(item)} style={styles.optionButton}>
-                                <Text style={styles.optionText}>{item.title}</Text>
+                                <Text style={styles.optionText}>{tipo == 'cine' ? item.name : item.title}</Text>
                             </TouchableOpacity>
                         )}
                     />
@@ -49,50 +98,3 @@ export default function Dropdown(props) {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        marginVertical: 10,
-        marginHorizontal: 32
-    },
-    label: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 5,
-        color: 'white'
-    },
-    dropdownButton: {
-        backgroundColor: '#EFEFEF',
-        paddingVertical: 10,
-        paddingHorizontal: 12,
-        borderRadius: 5,
-    },
-    dropdownButtonText: {
-        fontSize: 16,
-        color: '#555555',
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#FFFFFF',
-    },
-    optionButton: {
-        padding: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: '#CCCCCC',
-    },
-    optionText: {
-        fontSize: 16,
-        color: 'black'
-    },
-    closeButton: {
-        backgroundColor: '#EFEFEF',
-        paddingVertical: 16,
-        alignItems: 'center',
-    },
-    closeButtonText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#555555',
-    },
-});
