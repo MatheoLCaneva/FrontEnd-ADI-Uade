@@ -62,6 +62,12 @@ const clientSlice = createSlice({
         screen: action.payload,
       };
     },
+    setFunctionsByMovie: (state, action) => {
+      return {
+        ...state,
+        functions: action.payload
+      }
+    }
   },
 })
 
@@ -79,6 +85,6 @@ export const { setUser } = userSlice.actions;
 
 export const { setCinema, setRoom, setFunction, setScreen } = ownerSlice.actions;
 
-export const { setMovie, setScreenUser } = clientSlice.actions;
+export const { setMovie, setScreenUser, setFunctionsByMovie } = clientSlice.actions;
 
 export default store;

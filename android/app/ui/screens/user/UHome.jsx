@@ -9,9 +9,11 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 import { useDispatch } from 'react-redux';
 import {setMovie, setScreenUser } from '../../../redux/store/';
 import NavigatorConstant from '../../../navigation/NavigatorConstant';
+import { setFunctionsByMovie } from '../../../redux/store';
 
 export default function UserHome() {
     const [functions, setFunctions] = useState([]);
+    const [functionsAll, setFunctionsAll] = useState([]);    
     const [cinemas, setCinemas] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [filter, setFilter] = useState(null);
@@ -38,6 +40,7 @@ export default function UserHome() {
         try {
             const response = await axios.get('https://backend-adi-uade.onrender.com/functions/');
             const functionsArray = response.data.Functions.docs;
+            setFunctionsAll(functionsArray)
             // Filtrar funciones por movie._id
             const filteredFunctions = functionsArray.reduce((accumulator, currentFunction) => {
                 const existingFunction = accumulator.find(item => item.movie._id === currentFunction.movie._id);
@@ -63,6 +66,7 @@ export default function UserHome() {
             if (response.data.data) {
                 console.log('hola')
                 const functionsArray = response.data.data.docs;
+                setFunctionsAll(functionsArray)
                 console.log(functionsArray)
                 const filteredFunctions = functionsArray.reduce((accumulator, currentFunction) => {
                     const existingFunction = accumulator.find(item => item.movie._id === currentFunction.movie._id);
@@ -102,7 +106,9 @@ export default function UserHome() {
     };
 
     const handleSelectMovie = (item) => {
-        dispatch(setMovie(item))
+        dispatch(setMovie(item.movie))
+        const functions = functionsAll.filter(func => func.movie.title == item.movie.title)
+        dispatch(setFunctionsByMovie(functions))
         dispatch(setScreenUser(NavigatorConstant.USER.MOVIE))
         navigation.navigate('MOVIE_DETAIL')
     }
