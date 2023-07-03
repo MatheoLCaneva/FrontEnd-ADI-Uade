@@ -29,7 +29,7 @@ export default function MainScreen() {
       const parsedUser = JSON.parse(user);
       setUserr(parsedUser);
       dispatch(setUser(parsedUser));
-      navigation.replace(NavigatorConstant.USER.HOME);
+      navigation.replace(NavigatorConstant.NAVIGATOR.USERS_TAB_HOME);
     }
   };
   const signIn = async () => {
@@ -41,7 +41,7 @@ export default function MainScreen() {
       setUserr(userInfo)
       dispatch(setUser(userInfo))
       await AsyncStorage.setItem('user', JSON.stringify(userInfo))
-      navigation.replace(NavigatorConstant.USER.HOME)
+      navigation.replace(NavigatorConstant.NAVIGATOR.USERS_TAB_HOME)
     } catch (e) {
       console.log('Message full_____', e)
       console.log('Message____', e.message);

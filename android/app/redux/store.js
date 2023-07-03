@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
+import NavigatorConstant from "../navigation/NavigatorConstant";
 
 // Crea un slice que contiene el estado y las acciones relacionadas con el usuario
 const userSlice = createSlice({
@@ -14,7 +15,7 @@ const userSlice = createSlice({
 const ownerSlice = createSlice({
   name: 'owner',
   initialState: {
-    screen: "OWNER_HOME",
+    screen: NavigatorConstant.OWNER.OWNER_HOME,
   },
   reducers: {
     setCinema: (state, action) => {
@@ -47,7 +48,7 @@ const ownerSlice = createSlice({
 const clientSlice = createSlice({
   name: 'client',
   initialState: {
-    screen: 'USER_HOME',
+    screen: NavigatorConstant.USER.HOME,
   },
   reducers: {
     setMovie: (state, action) => {
