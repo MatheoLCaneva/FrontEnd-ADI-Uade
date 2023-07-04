@@ -48,7 +48,9 @@ const USER_BOOKINGS = {
 
 const USER = {
     HOME: 'USER_HOME',
-    MOVIE: 'MOVIE_DETAIL'
+    MOVIE: 'MOVIE_DETAIL',
+    SELECT_PROPERTIES: 'SELECT_MOVIE_DETAIL',
+    SELECT_SEATS: 'SELECT_SEATS'
 }
 
 export default {

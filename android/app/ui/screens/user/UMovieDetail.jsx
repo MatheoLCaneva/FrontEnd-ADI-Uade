@@ -2,17 +2,23 @@ import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground, TouchableOpacity, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import DualButtonFooter from '../../components/DualButtonFooter';
+import ButtonAddDelete from '../../components/ButtonAddDeleteOwner';
+import NavigatorConstant from '../../../navigation/NavigatorConstant';
+import BackArrow from '../../components/BackArrow';
 
 export default function MovieDetail() {
     const navigation = useNavigation()
     const movie = useSelector(state => state.client.movie)
 
+    const handleGoBack = () => {
+        navigation.goBack()
+    }
     const handleSchedule = () => {
-        // navigation.navigate()
+        navigation.navigate(NavigatorConstant.USER.SELECT_PROPERTIES)
     }
     const styles = StyleSheet.create({
         container: {
+            flex: 1,
             marginHorizontal: 21,
             marginTop: 18
         },
@@ -44,6 +50,10 @@ export default function MovieDetail() {
             color: 'white',
             marginBottom: 6, // Añadir un margen izquierdo para separar el texto de la imagen
             marginLeft: 26
+        },
+        buttonContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between'
         }
     });
 
@@ -53,9 +63,7 @@ export default function MovieDetail() {
                 source={require('../../../assets/gradient.png')}
                 style={styles.container}
             >
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Image style={{ height: 20, width: 40 }} source={require('../../../assets/icons/arrowleft.png')} />
-                </TouchableOpacity>
+                <BackArrow onPress={handleGoBack} />
                 <Text style={styles.title}>{movie.title.toUpperCase()}</Text>
                 <View style={styles.descContainer}>
                     <Image style={styles.image} resizeMode="contain" source={{ uri: movie.image }} />
@@ -64,8 +72,20 @@ export default function MovieDetail() {
                 <Text style={styles.text}>Duracion: </Text>
                 <Text style={styles.text}>Género: {movie.genre.join(", ")}</Text>
                 <Text style={styles.text}>Fecha Lanzamiento: {movie.releaseDate}</Text>
+
+                <View style={styles.buttonContainer}>
+                    <ButtonAddDelete
+                        title={'Compartir'}
+                        color="#E01D6F"
+                        onPress={handleSchedule}
+                    />
+                    <ButtonAddDelete
+                        title={'Reservar'}
+                        color="#F0508C"
+                        onPress={handleSchedule}
+                    />
+                </View>
             </ImageBackground>
-            <DualButtonFooter primaryTitle='Reservar' secondaryTitle='Compartir' onPressPrimary={handleSchedule}/>
         </SafeAreaView>
     );
 }
