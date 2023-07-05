@@ -88,8 +88,14 @@ export default function CreateFunction({ navigation }) {
         };
 
         const obj = {
-            cinema: cinema._id,
-            room: room._id,
+            cinema: {
+                id: cinema._id,
+                name: cinema.name
+            },
+            room: {
+                id: room._id,
+                name: room.name
+            },
             movie: selectedOption,
             date: format(date, 'dd/MM').toString(),
             hour: format(new Date(time), 'HH:mm')

@@ -6,8 +6,6 @@ import { useSelector } from 'react-redux';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import axios from 'axios';
 import NavigatorConstant from '../../../navigation/NavigatorConstant';
-import { useDispatch } from 'react-redux';
-import { setFunctionToReserve } from '../../../redux/store';
 
 export default function SelectDateHour() {
     const [selectedDate, setSelectedDate] = useState('');
@@ -17,7 +15,6 @@ export default function SelectDateHour() {
     const navigation = useNavigation();
     const functions = useSelector(state => state.client.functions);
     const movie = useSelector(state => state.client.movie);
-    const dispatch = useDispatch()
 
     const handleGoBack = () => {
         navigation.goBack();
@@ -32,7 +29,7 @@ export default function SelectDateHour() {
         setSelectedHour(func.hour);
 
         try {
-            const response = await axios.get(`https://backend-adi-uade.onrender.com/rooms/${func.room}`);
+            const response = await axios.get(`https://backend-adi-uade.onrender.com/rooms/${func.room.id}`);
             setRoom(response.data.data.docs[0]);
         } catch (e) {
             alert(`Error al cargar función`);
@@ -62,10 +59,10 @@ export default function SelectDateHour() {
 
         const functionDetails = {
             ...functionRoom,
-            cantEntradas: cantEntradas
+            cantEntradas: cantEntradas,
+            price: room.price
         }
-        dispatch(setFunctionToReserve(functionDetails))
-        navigation.navigate(NavigatorConstant.USER.SELECT_SEATS)
+        navigation.navigate(NavigatorConstant.USER.SELECT_SEATS, { functionDetails })
     }
 
     const styles = StyleSheet.create({

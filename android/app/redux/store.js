@@ -72,7 +72,7 @@ const clientSlice = createSlice({
     setFunctionToReserve: (state, action) => {
       return {
         ...state,
-        functions: action.payload
+        functionToReserve: action.payload
       }
     }
   },

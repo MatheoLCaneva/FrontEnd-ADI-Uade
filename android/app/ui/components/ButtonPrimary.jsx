@@ -6,7 +6,7 @@ export default function ButtonPrimary(props) {
     const styles = StyleSheet.create({
         container: {
             marginHorizontal: 33,
-            marginTop: props.butacas ? 210 : 40,
+            marginTop: props.butacas ? 210 : props.selecAsientos ? 120 : props.confirmarReserva ? 0 : 40,
             height: 62,
         },
         button: {
