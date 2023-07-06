@@ -6,6 +6,7 @@ import MovieDetail from "../ui/screens/user/UMovieDetail";
 import SelectDateHour from "../ui/screens/user/USelectDateHour";
 import SelectSeats from "../ui/screens/user/USelectSeats";
 import ViewReserve  from "../ui/screens/user/UViewReserve";
+import ReserveDone from "../ui/screens/user/UReserveDone";
 const Stack = createNativeStackNavigator()
 
 export default function UserNavigator(props) {
@@ -16,6 +17,7 @@ export default function UserNavigator(props) {
             <Stack.Screen name={NavigatorConstant.USER.SELECT_PROPERTIES} component={SelectDateHour} options={{ headerShown: false }} />
             <Stack.Screen name={NavigatorConstant.USER.SELECT_SEATS} component={SelectSeats} options={{ headerShown: false }} />
             <Stack.Screen name={NavigatorConstant.USER.VIEW_RESERVE} component={ViewReserve} options={{ headerShown: false }} />
+            <Stack.Screen name={NavigatorConstant.USER.RESERVE_DONE} component={ReserveDone} options={{ headerShown: false }} />
         </Stack.Navigator>
     )
 }

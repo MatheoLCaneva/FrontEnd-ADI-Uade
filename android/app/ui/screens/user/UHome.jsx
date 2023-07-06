@@ -7,13 +7,13 @@ import CardFunctionUser from '../../components/cards/CardFunctionUser';
 import Dropdown from '../../components/Dropdown';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import { useDispatch } from 'react-redux';
-import {setMovie, setScreenUser } from '../../../redux/store/';
+import { setMovie, setScreenUser } from '../../../redux/store/';
 import NavigatorConstant from '../../../navigation/NavigatorConstant';
 import { setFunctionsByMovie } from '../../../redux/store';
 
 export default function UserHome() {
     const [functions, setFunctions] = useState([]);
-    const [functionsAll, setFunctionsAll] = useState([]);    
+    const [functionsAll, setFunctionsAll] = useState([]);
     const [cinemas, setCinemas] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [filter, setFilter] = useState(null);
@@ -63,11 +63,10 @@ export default function UserHome() {
 
         try {
             const response = await axios.get(`https://backend-adi-uade.onrender.com/functions/cinema/${filter._id}`);
+            console.log(response.data)
             if (response.data.data) {
-                console.log('hola')
                 const functionsArray = response.data.data.docs;
                 setFunctionsAll(functionsArray)
-                console.log(functionsArray)
                 const filteredFunctions = functionsArray.reduce((accumulator, currentFunction) => {
                     const existingFunction = accumulator.find(item => item.movie._id === currentFunction.movie._id);
                     if (!existingFunction) {

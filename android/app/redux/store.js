@@ -45,11 +45,17 @@ const ownerSlice = createSlice({
   },
 });
 
+const initialState = {
+  screen: NavigatorConstant.USER.HOME,
+  movie: null,
+  functions: [],
+  functionToReserve: null,
+  functionReserved: null,
+};
+
 const clientSlice = createSlice({
   name: 'client',
-  initialState: {
-    screen: NavigatorConstant.USER.HOME,
-  },
+  initialState,
   reducers: {
     setMovie: (state, action) => {
       return {
@@ -74,7 +80,14 @@ const clientSlice = createSlice({
         ...state,
         functionToReserve: action.payload
       }
-    }
+    },
+    setFunctionReserved: (state, action) => {
+      return {
+        ...state,
+        functionReserved: action.payload
+      }
+    },
+    resetClientState: () => initialState
   },
 })
 
@@ -92,6 +105,6 @@ export const { setUser } = userSlice.actions;
 
 export const { setCinema, setRoom, setFunction, setScreen } = ownerSlice.actions;
 
-export const { setMovie, setScreenUser, setFunctionsByMovie, setFunctionToReserve } = clientSlice.actions;
+export const { resetClientState, setMovie, setScreenUser, setFunctionsByMovie, setFunctionToReserve, setFunctionReserved } = clientSlice.actions;
 
 export default store;

@@ -1,15 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import BackArrow from '../../components/BackArrow';
 import { useNavigation } from '@react-navigation/native';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import axios from 'axios';
+import { setFunctionReserved } from '../../../redux/store';
+import NavigatorConstant from '../../../navigation/NavigatorConstant';
 
-export default function OwnerLogin() {
+export default function ViewReserve() {
     const reserve = useSelector(state => state.client.functionToReserve);
     const user = useSelector(state => state.user)
     const navigation = useNavigation();
+    const dispatch = useDispatch()
     const handleGoBack = () => {
         navigation.goBack();
     };
@@ -40,11 +43,13 @@ export default function OwnerLogin() {
             qrCode: 'none',
             functionId: reserve._id
         }
-
         console.log(obj)
         try {
             const response = await axios.post('https://backend-adi-uade.onrender.com/reservations/', obj, { headers })
-            console.log(response.data)
+            if (response.data.status == 201) {
+                dispatch(setFunctionReserved(response.data.created))
+                navigation.push(NavigatorConstant.USER.RESERVE_DONE)
+            }
         } catch (e) {
             alert('Error al reservar')
         }
