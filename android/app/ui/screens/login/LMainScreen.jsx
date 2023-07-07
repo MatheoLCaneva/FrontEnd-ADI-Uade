@@ -20,7 +20,7 @@ export default function MainScreen() {
       offlineAccess: true,
       forceCodeForRefreshToken: true,
     });
-    checkUser()
+    // checkUser()
   }, [])
 
   const checkUser = async () => {

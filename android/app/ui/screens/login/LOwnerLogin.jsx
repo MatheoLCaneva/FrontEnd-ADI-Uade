@@ -41,17 +41,16 @@ export default function OwnerLogin({ props, route, navigation }) {
 
     const handleLogin = async () => {
         setLoading(true)
-
         const headers = {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         }
-
+        
         const data = {
             email: email,
             password: password
         }
-
+        
         try {
             const response = await axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers });
             setLoading(false);

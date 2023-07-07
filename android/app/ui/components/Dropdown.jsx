@@ -20,7 +20,6 @@ export default function Dropdown(props) {
         setSelectedOption(option)
     };
 
-
     const styles = StyleSheet.create({
         container: {
             marginVertical: tipo == 'cine' ? 0 : 10,
@@ -37,6 +36,7 @@ export default function Dropdown(props) {
             paddingVertical: 10,
             paddingHorizontal: 12,
             borderRadius: 5,
+            opacity: props.disabled ? 0.6 : 1
         },
         dropdownButtonText: {
             fontSize: 16,
@@ -73,9 +73,9 @@ export default function Dropdown(props) {
     return (
         <View style={styles.container}>
             <Text style={tipo == 'cine' ? null : styles.label}>{tipo == 'cine' ? null : label ? label : null} {aEditar ? 'Película actual: ' + aEditar : null}</Text>
-            <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.dropdownButton}>
+            <TouchableOpacity disabled={props.disabled} onPress={() => setModalVisible(true)} style={styles.dropdownButton}>
                 <Text style={styles.dropdownButtonText}>
-                    {tipo !== 'cine' ? optionSelected ? optionSelected.title : 'Selecciona una pelicula' : optionSelected ? optionSelected.name : 'Selecciona un cine'}
+                    {tipo !== 'cine' ? optionSelected ? optionSelected.title : 'Selecciona una pelicula' : optionSelected ? optionSelected.name ? optionSelected.name : optionSelected: 'Selecciona un cine'}
                 </Text>
 
             </TouchableOpacity>
@@ -83,10 +83,10 @@ export default function Dropdown(props) {
                 <View style={styles.modalContainer}>
                     <FlatList
                         data={options}
-                        keyExtractor={(item) => item._id}
+                        keyExtractor={(item, index) => index}
                         renderItem={({ item }) => (
                             <TouchableOpacity onPress={() => handleSelectOption(item)} style={styles.optionButton}>
-                                <Text style={styles.optionText}>{tipo == 'cine' ? item.name : item.title}</Text>
+                                <Text style={styles.optionText}>{tipo == 'cine' ? item.name ? item.name : item : item.title}</Text>
                             </TouchableOpacity>
                         )}
                     />
