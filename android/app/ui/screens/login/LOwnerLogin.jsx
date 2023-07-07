@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ImageBackground, ToastAndroid, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ImageBackground, ToastAndroid, TouchableOpacity, ActivityIndicator, Keyboard } from 'react-native';
 import CheckButton from '../../components/CheckButton';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import Logo from '../../components/Logo';
@@ -40,6 +40,7 @@ export default function OwnerLogin({ props, route, navigation }) {
     };
 
     const handleLogin = async () => {
+        Keyboard.dismiss()
         setLoading(true)
         const headers = {
             Accept: 'application/json',

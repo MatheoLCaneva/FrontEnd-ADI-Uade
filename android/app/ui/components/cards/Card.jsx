@@ -20,9 +20,9 @@ export default Card = ({
     onPressBtnEdit = () => console.error('No existe función para onPressBtnEdit'),
     showSideButtons = false,
 }) => {
-    const listItems = items.map(item => {
+    const listItems = items.map((item, index) => {
         return (
-            <Text style={styles.description}>
+            <Text key={index} style={styles.description}>
                 {item.description ? item.description + ': ' : ''}
                 {item.value}
             </Text>
