@@ -97,7 +97,7 @@ export default function OwnerHome({ navigation }) {
             screenName={'Mis Cines'}
             total={cinemas.length}
             onPressButtonAdd={handleCreateCinema}
-            cards={cinemas.map(cinema => {
+            cards={cinemas.map((cinema, index) => {
                 const activeRoomsCount = cinema.rooms.reduce((count, room) => {
                     if (room.status === true) {
                         return count + 1;
@@ -112,7 +112,7 @@ export default function OwnerHome({ navigation }) {
 
                 return (
                     <CardCinema
-                        key={cinema._id}
+                        key={index}
                         name={cinema.name}
                         address={cinema.address.name}
                         rooms={roomsCount}

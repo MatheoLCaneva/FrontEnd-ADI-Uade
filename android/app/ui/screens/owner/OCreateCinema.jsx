@@ -1,63 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, ToastAndroid, BackHandler } from 'react-native';
+import { View, StyleSheet, Alert, ToastAndroid, BackHandler, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import Input from '../../components/Input';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import { CommonActions } from '@react-navigation/native';
 import { HeaderBackButton } from '@react-navigation/elements';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DualButtonFooter from '../../components/DualButtonFooter';
 import { setScreen } from '../../../redux/store';
 import NavigatorConstant from "../../../navigation/NavigatorConstant";
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import AddressAutocomplete from '../../components/InputAddress/Index';
 
 export default function CreateCinema({ navigation }) {
     const user = useSelector(state => state.user);
-
+    const dispatch = useDispatch();
+    const address = useSelector(state => state.owner.cinemaAddress)
     const [name, setName] = useState('');
-    const [address, setAddress] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [city, setCity] = useState('');
     const [district, setDistrict] = useState('');
     const [country, setCountry] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleNameChange = (text) => setName(text);
-    const handleAddressChange = (text) => setAddress(text);
-    const handleCityChange = (text) => setCity(text);
-    const handleDistrictChange = (text) => setDistrict(text);
-    const handleCountryChange = (text) => setCountry(text);
-
-    const dispatch = useDispatch();
 
     const handleCreateCinema = async () => {
-        if (address === '' || city === '' || district === '' || country === '') {
-            Alert.alert('Error en los datos', 'Los campos no pueden estar vacíos (únicamente "Nombre").');
-            return;
-        }
 
-        setIsLoading(true);
-
+        // setIsLoading(true);
+        console.log(address.properties)
         const headers = {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         };
 
-        let cinemaName = name;
-        if (name === '') {
-            cinemaName = district;
-        }
-
         const obj = {
-            name: cinemaName,
+            name: name !== '' ? name : address.properties.suburb ? address.properties.suburb : address.properties.county,
             owner: user._id,
             address: {
-                name: address,
-                city: city,
-                district: district,
-                country: country,
+                name: address.properties.address_line1,
+                city: address.properties.city,
+                district: address.properties.suburb ? address.properties.suburb : address.properties.county,
+                country: address.properties.country,
             },
             location: {
-                lat: "0",
-                long: "0"
+                lat: address.properties.lat,
+                long: address.properties.lon
             }
         };
 
@@ -105,21 +94,18 @@ export default function CreateCinema({ navigation }) {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-        }
+            flexDirection: 'column'
+        },
     });
 
     return (
-        <View style={styles.container}>
-            <View>
-                <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} />
-                <Input placeholder='Direccion' marginTop={21} onChangeText={handleAddressChange} />
-                <Input placeholder='Ciudad' marginTop={21} onChangeText={handleCityChange} />
-                <Input placeholder='Barrio' marginTop={21} onChangeText={handleDistrictChange} />
-                <Input placeholder='Pais' marginTop={21} onChangeText={handleCountryChange} />
-
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <SafeAreaView style={styles.container}>
+                <Input placeholder='Nombre' marginTop={77} editable={true} onChangeText={handleNameChange} />
+                <AddressAutocomplete placeHolderText="Ingrese la ubicación" target="origin" />
                 <DualButtonFooter primaryTitle='Crear Cine' onPressPrimary={handleCreateCinema} secondaryTitle='Cancelar' onPressSecondary={completeBackAction} />
-            </View>
-            {isLoading && <LoadingIndicator />}
-        </View>
+                {isLoading && <LoadingIndicator />}
+            </SafeAreaView>
+        </TouchableWithoutFeedback>
     );
 }

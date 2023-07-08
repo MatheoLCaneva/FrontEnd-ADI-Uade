@@ -14,6 +14,7 @@ export default function DropdownUserFilter(props) {
     const [modalVisible, setModalVisible] = useState(false);
     const { label, options, onSelectOption, aEditar, tipo } = props;
     const [optionSelected, setSelectedOption] = useState('');
+    const [filters, setFilters] = useState({})
     // const [setTipo] = useState('pelicula');
     // const [optionSelected, setOptionSelected] = useState('');
 
@@ -22,11 +23,9 @@ export default function DropdownUserFilter(props) {
         onSelectOption(option)
         setSelectedOption(option)
     };
-
-
     const styles = StyleSheet.create({
         container: {
-            marginVertical:  10,
+            marginVertical: 10,
             marginHorizontal: 32
         },
         label: {
@@ -40,6 +39,7 @@ export default function DropdownUserFilter(props) {
             paddingVertical: 10,
             paddingHorizontal: 12,
             borderRadius: 5,
+            opacity: props.disabled ? 0.6 : 1
         },
         dropdownButtonText: {
             fontSize: 16,
@@ -75,25 +75,28 @@ export default function DropdownUserFilter(props) {
 
     const getText = () => {
         switch (tipo) {
-          case 'cine':
-            return optionSelected ?  optionSelected.name : 'Selecciona un cine';
-          case 'pelicula':
-            return optionSelected ? optionSelected.title : 'Selecciona una película';
-          case 'genero':
-            return optionSelected ? optionSelected.genre : 'Selecciona un genero';
-          case 'calificacion':
-            return optionSelected ? optionSelected.rate : 'Selecciona una calificación';
-          case 'distancia':
-            return optionSelected ? optionSelected.distance : 'Selecciona una distancia';
-          default:
-            return '';
+            case 'cine':
+                return optionSelected ? optionSelected.name : 'Selecciona un cine';
+            case 'pelicula':
+                return optionSelected ? optionSelected.title : 'Selecciona una película';
+            case 'genero':
+                return optionSelected ? optionSelected : 'Selecciona un genero';
+            case 'calificacion':
+                return optionSelected ? optionSelected.rate : 'Selecciona una calificación';
+            case 'distancia':
+                return optionSelected ? optionSelected : 'Selecciona una distancia';
+            default:
+                return '';
         }
-      };
+    };
+
+    //   console.log(options)
+
     //   {getText()}
     return (
         <View style={styles.container}>
 
-            <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.dropdownButton}>
+            <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.dropdownButton} disabled={props.disabled}>
                 <Text style={styles.dropdownButtonText}>
                     {/* {tipo !== 'cine' ? optionSelected ? optionSelected.title : 'Selecciona una pelicula' : optionSelected ? optionSelected.name : 'Selecciona un cine'} */}
                     {getText()}
@@ -108,7 +111,7 @@ export default function DropdownUserFilter(props) {
                         renderItem={({ item }) => (
                             <TouchableOpacity onPress={() => handleSelectOption(item)} style={styles.optionButton}>
                                 <Text style={styles.optionText}>
-                                    {(tipo !== "genero" ) ? Object.values(item)[1] : Object.values(item)[3]}
+                                    {(tipo !== "genero") ? tipo == 'cine' ? item.name : tipo == 'pelicula' ? item.title : tipo == 'distancia' ? item : null : item}
                                 </Text>
                             </TouchableOpacity>
                         )}

@@ -8,12 +8,14 @@ export default function DualButtonFooter({
     onPressPrimary = () => console.error('No existe función para onPressPrimary'),
     onPressSecondary = () =>
         console.error('No existe función para onPressSecondary'),
+    cine = false
 }) {
     const styles = StyleSheet.create({
         buttons: {
-            flex: 1,
+            flex: 0.5,
             flexDirection: 'row-reverse',
             justifyContent: 'space-evenly',
+            marginTop: cine ? 100 : 0
         },
     });
 

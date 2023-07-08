@@ -1,18 +1,46 @@
-import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ImageBackground, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, SafeAreaView, ImageBackground, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import DualButtonFooter from '../../components/DualButtonFooter';
+import ButtonAddDelete from '../../components/ButtonAddDeleteOwner';
+import NavigatorConstant from '../../../navigation/NavigatorConstant';
+import BackArrow from '../../components/BackArrow';
+import axios from 'axios';
+import LoadingIndicator from '../../components/LoadingIndicator';
 
 export default function MovieDetail() {
+    const [isLoading, setIsLoading] = useState(true);
+    const [comments, setComments] = useState([])
     const navigation = useNavigation()
     const movie = useSelector(state => state.client.movie)
+    const user = useSelector(state => state.user.user)
 
+
+    const fetchComments = async () => {
+        try {
+            const response = await axios.get(`https://backend-adi-uade.onrender.com/comments/user/${user.email}/${movie._id}`)
+            setComments(response.data.data.docs)
+        } catch (e) {
+            console.log(e)
+        }
+        setIsLoading(false)
+    }
+
+    useEffect(() => {
+        setIsLoading(true)
+        fetchComments()
+
+    }, [])
+
+    const handleGoBack = () => {
+        navigation.goBack()
+    }
     const handleSchedule = () => {
-        // navigation.navigate()
+        navigation.navigate(NavigatorConstant.USER.SELECT_PROPERTIES)
     }
     const styles = StyleSheet.create({
         container: {
+            flex: 1,
             marginHorizontal: 21,
             marginTop: 18
         },
@@ -44,6 +72,43 @@ export default function MovieDetail() {
             color: 'white',
             marginBottom: 6, // Añadir un margen izquierdo para separar el texto de la imagen
             marginLeft: 26
+        },
+        buttonContainer: {
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+        },
+        commentTitle: {
+            fontSize: 20,
+            marginHorizontal: 15,
+            marginTop: 20,
+            color: 'white',
+            fontWeight: '600',
+            textDecorationLine: 'underline'
+        },
+        commentContainer: {
+            backgroundColor: '#E01D6F',
+            height: 85,
+            padding: 10,
+            marginHorizontal: 5,
+            borderBottomColor: 'black',
+            borderBottomWidth: 1,
+            borderRadius: 5
+
+        },
+        scroll: {
+            flexGrow: 0.85,
+            marginTop: 11
+        },
+        userComment: {
+            fontSize: 18,
+            color: 'white',
+            fontWeight: '600'
+        },
+        commentText: {
+            color: 'white',
+            fontStyle: 'italic',
+            fontSize: 13
+
         }
     });
 
@@ -53,9 +118,7 @@ export default function MovieDetail() {
                 source={require('../../../assets/gradient.png')}
                 style={styles.container}
             >
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Image style={{ height: 20, width: 40 }} source={require('../../../assets/icons/arrowleft.png')} />
-                </TouchableOpacity>
+                <BackArrow onPress={handleGoBack} />
                 <Text style={styles.title}>{movie.title.toUpperCase()}</Text>
                 <View style={styles.descContainer}>
                     <Image style={styles.image} resizeMode="contain" source={{ uri: movie.image }} />
@@ -64,8 +127,32 @@ export default function MovieDetail() {
                 <Text style={styles.text}>Duracion: </Text>
                 <Text style={styles.text}>Género: {movie.genre.join(", ")}</Text>
                 <Text style={styles.text}>Fecha Lanzamiento: {movie.releaseDate}</Text>
+                <Text style={styles.commentTitle}>Comentarios</Text>
+                <ScrollView style={styles.scroll}>
+                    {isLoading ? (<LoadingIndicator />) : (
+                        comments.map((item, index) => (
+                            <View style={styles.commentContainer} key={index}>
+                                <Text style={styles.userComment}>{item.user.name}</Text>
+                                <Text style={styles.commentText}>{item.comment}</Text>
+                            </View>
+                        ))
+                    )
+                    }
+                </ScrollView>
+
+                <View style={styles.buttonContainer}>
+                    <ButtonAddDelete
+                        title={'Compartir'}
+                        color="#E01D6F"
+                        onPress={handleSchedule}
+                    />
+                    <ButtonAddDelete
+                        title={'Reservar'}
+                        color="#F0508C"
+                        onPress={handleSchedule}
+                    />
+                </View>
             </ImageBackground>
-            <DualButtonFooter primaryTitle='Reservar' secondaryTitle='Compartir' onPressPrimary={handleSchedule}/>
         </SafeAreaView>
     );
 }

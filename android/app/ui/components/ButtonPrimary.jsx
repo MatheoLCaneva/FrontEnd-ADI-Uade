@@ -6,7 +6,7 @@ export default function ButtonPrimary(props) {
     const styles = StyleSheet.create({
         container: {
             marginHorizontal: 33,
-            marginTop: 40,
+            marginTop: props.butacas ? 210 : props.selecAsientos ? 120 : props.confirmarReserva ? 0 : 40,
             height: 62,
         },
         button: {
@@ -33,24 +33,3 @@ export default function ButtonPrimary(props) {
         </TouchableOpacity>
     )
 }
-
-// const styles = StyleSheet.create({
-//     container: {
-//         marginHorizontal: 33,
-//         marginTop: 50,
-//         height: 62,
-//     },
-//     button: {
-//         borderRadius: 20,
-//         backgroundColor: '#E01D6F',
-//         opacity: disabled ?
-//         paddingVertical: 10,
-//     },
-//     text: {
-//         fontSize: 18,
-//         textAlign: 'center',
-//         color: 'white',
-//         fontWeight: 600,
-//         paddingVertical: 5
-//     }
-// })

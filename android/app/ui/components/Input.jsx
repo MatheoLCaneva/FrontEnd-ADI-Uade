@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 /**
  * Componente de entrada de texto.
@@ -11,6 +11,10 @@ import { StyleSheet, TextInput } from 'react-native';
  * @param {number} props.marginTop - El valor de margen superior.
  */
 export default function Input(props) {
+    const handleScreenTouch = () => {
+        Keyboard.dismiss();
+    };
+
     const styles = StyleSheet.create({
         input: {
             backgroundColor: 'white',
@@ -18,24 +22,25 @@ export default function Input(props) {
             marginTop: props.marginTop,
             marginHorizontal: 32,
             paddingLeft: 20,
+            opacity: props.editable ? 1 : 0.7,
             fontSize: props.small ? 14 : 16, // Ajusta el tamaño de fuente según sea necesario
             paddingHorizontal: props.small ? 30 : 20, // Ajusta el padding horizontal según sea necesario
             flex: props.small ? 1 : null, // Ajusta el ancho de la entrada para ocupar todo el espacio disponible solo si es small
-            color: 'black'
+            color: 'black',
         },
-
     });
 
     return (
-        <TextInput
-            style={styles.input}
-            placeholder={props.placeholder}
-            placeholderTextColor='#590B2C'
-            onChangeText={props.onChangeText}
-            secureTextEntry={props.secure}
-            editable={props.editable !== undefined ? props.editable : true} 
-            value={props.value}
-        />
+        <TouchableWithoutFeedback onPress={handleScreenTouch}>
+            <TextInput
+                style={styles.input}
+                placeholder={props.placeholder}
+                placeholderTextColor="#590B2C"
+                onChangeText={props.onChangeText}
+                secureTextEntry={props.secure}
+                editable={props.editable !== undefined ? props.editable : true}
+                value={props.value}
+            />
+        </TouchableWithoutFeedback>
     );
 }
-

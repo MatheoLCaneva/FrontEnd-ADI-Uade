@@ -24,6 +24,12 @@ const ownerSlice = createSlice({
         cinema: action.payload,
       };
     },
+    setCinemaAddress: (state, action) => {
+      return {
+        ...state,
+        cinemaAddress: action.payload,
+      };
+    },
     setRoom: (state, action) => {
       return {
         ...state,
@@ -45,11 +51,17 @@ const ownerSlice = createSlice({
   },
 });
 
+const initialState = {
+  screen: NavigatorConstant.USER.HOME,
+  movie: null,
+  functions: [],
+  functionToReserve: null,
+  functionReserved: null,
+};
+
 const clientSlice = createSlice({
   name: 'client',
-  initialState: {
-    screen: NavigatorConstant.USER.HOME,
-  },
+  initialState,
   reducers: {
     setMovie: (state, action) => {
       return {
@@ -68,7 +80,38 @@ const clientSlice = createSlice({
         ...state,
         functions: action.payload
       }
-    }
+    },
+    setFunctionToReserve: (state, action) => {
+      return {
+        ...state,
+        functionToReserve: action.payload
+      }
+    },
+    setFunctionReserved: (state, action) => {
+      return {
+        ...state,
+        functionReserved: action.payload
+      }
+    },
+    setLocation: (state, action) => {
+      return {
+        ...state,
+        location: action.payload
+      }
+    },
+    setReserve: (state, action) => {
+      return {
+        ...state,
+        reserve: action.payload
+      }
+    },
+    setFilters: (state, action) => {
+      return {
+        ...state,
+        filters: action.payload
+      }
+    },
+    resetClientState: () => initialState
   },
 })
 
@@ -84,8 +127,8 @@ const store = configureStore({
 // Exporta el slice y las acciones
 export const { setUser } = userSlice.actions;
 
-export const { setCinema, setRoom, setFunction, setScreen } = ownerSlice.actions;
+export const { setCinema, setRoom, setFunction, setScreen, setCinemaAddress } = ownerSlice.actions;
 
-export const { setMovie, setScreenUser, setFunctionsByMovie } = clientSlice.actions;
+export const { resetClientState, setMovie, setScreenUser, setFunctionsByMovie, setFunctionToReserve, setFunctionReserved, setLocation, setReserve, setFilters } = clientSlice.actions;
 
 export default store;
