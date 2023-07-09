@@ -36,9 +36,9 @@ export default function OwnerNavigator(props) {
     console.log("🚀 ~ file: OwnerNavigator.jsx:37 ~ OwnerNavigator ~ ownerScreen:", ownerScreen)
 
     return (
-        <Drawer.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.START} screenOptions={{ ...baseOptions, headerShown: ownerScreen === NavigatorConstant.OWNER.OWNER_HOME, headerMode: "screen" }}
+        <Drawer.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.OWNER_DRAWER} screenOptions={{ ...baseOptions, headerShown: ownerScreen === NavigatorConstant.OWNER.OWNER_HOME, headerMode: "screen" }}
             drawerContent={(props) => <Logout {...props} />}>
-            <Drawer.Screen name={NavigatorConstant.OWNER.OWNER_DRAWER} component={ONavigator} options={{ headerBackVisible: false, headerLeft: null }} />
+            <Drawer.Screen name={NavigatorConstant.OWNER.OWNER_NAVIGATOR} component={ONavigator} options={{ headerBackVisible: false, headerLeft: null }} />
         </Drawer.Navigator>
     )
 }
