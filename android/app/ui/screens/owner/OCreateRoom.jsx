@@ -61,13 +61,13 @@ export default function CreateRoom({ navigation }) {
                 ToastAndroid.show("Sala creada con éxito.", ToastAndroid.SHORT)
             }
             setIsLoading(false);
-            // navigation.dispatch(
-            //     CommonActions.reset({
-            //         index: 0,
-            //         routes: [{ name: 'ROOMS_HOME', params: { transition: 'slide_from_left' }, }],
-            //     })
-            // );
-            navigation.goBack();
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: 'ROOMS_HOME', params: { transition: 'slide_from_left' }, }],
+                })
+            );
+           
         } catch (e) {
             Alert.alert("Error", "Ha ocurrido un error al crear su sala, reintente en unos minutos.");
             setIsLoading(false);
