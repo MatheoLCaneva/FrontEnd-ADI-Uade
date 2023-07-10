@@ -27,6 +27,9 @@ export default function UserTabsNavigator(props) {
           tabBarIcon: ({ }) => (
             <Image source={require('../assets/icons/home.png')} size={26} />
           ),
+          tabBarActiveTintColor:'white',
+          
+          tabBarInactiveTintColor:'black',
         }}
       />
       <Tab.Screen
