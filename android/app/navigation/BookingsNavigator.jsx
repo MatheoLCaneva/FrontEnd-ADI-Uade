@@ -13,7 +13,7 @@ export default function BookingsNavigator(props) {
     return (
         <Stack.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.START} screenOptions={{ headerShown: true }}>
             <Stack.Screen name={NavigatorConstant.USER_BOOKINGS.HOME} component={BookingsHome} options={{...baseOptions, headerTitle: 'Reservas'}} />
-            <Stack.Screen name={NavigatorConstant.USER_BOOKINGS.BOOKING} component={BookingDetail} options={{...baseOptions, headerTitle: 'Detalle de Reserva'}} />
+            <Stack.Screen name={NavigatorConstant.USER_BOOKINGS.BOOKING} component={BookingDetail} options={{...baseOptions, headerTitle: 'Detalle de Reserva', animation: 'slide_from_right'}} />
         </Stack.Navigator>
     )
 }

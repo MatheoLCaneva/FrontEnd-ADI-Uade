@@ -40,7 +40,7 @@ export default function EditFunction({ navigation }) {
     };
 
     const formatDate = () => {
-        if(typeof date === 'string') {
+        if (typeof date === 'string') {
             let dateArray = date.split('/');
             let day = parseInt(dateArray[0]);
             let month = parseInt(dateArray[1]) - 1;
@@ -63,7 +63,7 @@ export default function EditFunction({ navigation }) {
 
     const formatTime = () => {
         let editableTime = new Date();
-        if(typeof time === 'string') {
+        if (typeof time === 'string') {
             let timeArray = time.split(':');
             editableTime.setHours(parseInt(timeArray[0]));
             editableTime.setMinutes(parseInt(timeArray[1]));
@@ -111,7 +111,8 @@ export default function EditFunction({ navigation }) {
     }, [room, navigation]);
 
     const handleEditFunction = async () => {
-        if(selectedOption === null) {
+        setIsLoading(true)
+        if (selectedOption === null) {
             setAlertText("Por favor, seleccione una película");
             setAlertVisible(true);
             return;
@@ -124,8 +125,15 @@ export default function EditFunction({ navigation }) {
 
         const obj = {
             _id: func._id,
-            cinema: cinema._id,
-            room: room._id,
+            cinema: {
+                id: cinema._id,
+                name: cinema.name,
+                location: cinema.location
+            },
+            room: {
+                id: room._id,
+                name: room.name
+            },
             movie: selectedOption,
             date: format(formatDate(), 'dd/MM').toString(),
             hour: format(formatTime(), 'HH:mm')
@@ -195,7 +203,7 @@ export default function EditFunction({ navigation }) {
                 <DualButtonFooter primaryTitle='Editar Función' onPressPrimary={handleEditFunction} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
 
             </View>
-            {isAlertVisible && <CustomAlert text={alertText} primaryTitle='Aceptar' onPress={() => setAlertVisible(false)}/>}
+            {isAlertVisible && <CustomAlert text={alertText} primaryTitle='Aceptar' onPress={() => setAlertVisible(false)} />}
             {isLoading && <LoadingIndicator />}
         </View>
     );

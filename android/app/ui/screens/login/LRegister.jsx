@@ -5,8 +5,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Logo from '../../components/Logo';
 import Input from '../../components/Input';
 import axios from 'axios';
-import DocumentPicker from 'react-native-document-picker';
-import { useCallback, useState } from 'react';
+import LoadingIndicator from '../../components/LoadingIndicator';
 
 export default function Register({ navigation }) {
 
@@ -16,13 +15,10 @@ export default function Register({ navigation }) {
     const [password, setPassword] = React.useState('');
     const [passwordRepeat, setPasswordRepeat] = React.useState('');
     const [passwordMismatch, setPasswordMismatch] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
     const [verificationCode, setVerificationCode] = React.useState('');
     const [enteredCode, setEnteredCode] = React.useState('');
-    const [fileResponse, setFileResponse] = useState([]);
     const [modalVisible, setModalVisible] = React.useState(false);
-
-
-    // const [showPassword, setShowPassword] = React.useState(false);
 
     const handleNameChange = text => setName(text)
 
@@ -74,20 +70,8 @@ export default function Register({ navigation }) {
         return true; // La contraseña es válida
     };
 
-    const handleSelectFile = useCallback(async () => {
-        try {
-            const response = await DocumentPicker.pick({
-                presentationStyle: 'fullScreen',
-                type: [DocumentPicker.types.images]
-            });
-            setFileResponse(response);
-        } catch (err) {
-            console.warn(err);
-        }
-    }, []);
-
-
     const handleModal = () => {
+        setIsLoading(true)
         if (password !== passwordRepeat) {
             ToastAndroid.show('Las contraseñas no coinciden', ToastAndroid.SHORT);
         }
@@ -114,47 +98,58 @@ export default function Register({ navigation }) {
                 .then(
                     response => {
                         setVerificationCode(response.data.code)
+                        setIsLoading(false)
                         setModalVisible(true)
                     }
                 )
                 .catch(
-                    err => console.log(err)
+                    err => {
+                        console.log(err)
+                        setIsLoading(false)
+                    }
                 )
         }
 
     }
     const handleRegister = () => {
-
+        setIsLoading(true)
         const headers = {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         }
 
+        const data = {
+            email: email.trim().toLowerCase(),
+            password: password.trim(),
+            name: name.trim(),
+            lastName: lastName.trim(),
+            rol: 'Owner',
+            imgUser: 'Foto'
+        };
 
+        axios.post('https://backend-adi-uade.onrender.com/users/', data, { headers })
+            .then(
+                response => {
+                    if (response.data.status == 201) {
+                        ToastAndroid.show('Registro exitoso', ToastAndroid.SHORT);
+                        navigation.navigate('LOGIN')
+                        setIsLoading(false)
 
-        // const data = {
-        //     email: email,
-        //     password: password,
-        //     name: name,
-        //     lastName: lastName,
-        //     rol: 'Owner',
-        //     imgUser: 'Foto'
-        // }
-        // axios.post('https://backend-adi-uade.onrender.com/users/', data, { headers })
-        //     .then(
-        //         response => {
-        //             if (response.data.status == 201) {
-        //                 ToastAndroid.show('Registro exitoso', ToastAndroid.SHORT);
-        //                 navigation.navigate('LOGIN')
-        //             }
-        //             else if (response.data.status == 409) {
-        //                 ToastAndroid.show('Email existente', ToastAndroid.SHORT);
-        //             }
-        //         }
-        //     )
-        //     .catch(
-        //         err => ToastAndroid.show('Ocurrio un error, verifique los datos ingresados', ToastAndroid.SHORT)
-        //     )
+                    }
+                    else if (response.data.status == 409) {
+                        ToastAndroid.show('Email existente', ToastAndroid.SHORT);
+                        setIsLoading(false)
+
+                    }
+                }
+            )
+            .catch(
+                err => {
+                    console.log(err)
+                    ToastAndroid.show('Ocurrio un error, verifique los datos ingresados', ToastAndroid.SHORT)
+                    setIsLoading(false)
+                }
+            )
 
     };
 
@@ -251,6 +246,7 @@ export default function Register({ navigation }) {
             borderRadius: 20,
             marginHorizontal: 32,
             paddingHorizontal: 50,
+            color: 'black'
         },
         modalBackground: {
             flex: 1,
@@ -260,52 +256,60 @@ export default function Register({ navigation }) {
         },
     });
 
-    return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <ImageBackground
-                source={require('../../../assets/gradient.png')}
-                style={styles.container}
-            >
+    if (isLoading) {
+        return (
+            <View style={styles.container}>
+                <LoadingIndicator />
+            </View>
+        )
+    }
+    else {
+        return (
+            <SafeAreaView style={{ flex: 1 }}>
+                <ImageBackground
+                    source={require('../../../assets/gradient.png')}
+                    style={styles.container}
+                >
 
-                <KeyboardAwareScrollView>
-                    <View styles={styles.container}>
-                        <Logo />
-                        <Input editable={true} onChangeText={handleNameChange} marginTop={18} placeholder='Ingrese su nombre' />
-                        <Input editable={true} onChangeText={handleLastNameChange} marginTop={11} placeholder='Ingrese una apellido' />
-                        <Input editable={true} onChangeText={handleEmailChange} marginTop={11} placeholder='Repita su email' />
-                        <Input editable={true} onChangeText={handlePasswordChange} marginTop={11} placeholder='Ingrese una contraseña' secure={true} />
-                        <Input editable={true} onChangeText={handleRepeatPasswordChange} marginTop={11} placeholder='Repita su contraseña' secure={true} />
-                        <ButtonPrimary onPress={handleModal} title='Registrarse' />
-
-                        {modalVisible && (
-                            <View style={styles.modalBackground}>
-                                <Modal
-                                    animationType="popup"
-                                    transparent={true}
-                                    visible={modalVisible}>
-                                    <View>
-                                        <View style={styles.modalView}>
-                                            <Text style={styles.modalText}>Se ha enviado un código de verificación al mail ingresado. Por favor ingréselo</Text>
-                                            <TextInput style={styles.input} onChangeText={handleEnteredCode} placeholder='Ingrese el código' textAlign='center' />
-                                            <Pressable
-                                                onPress={handleVerification}
-                                                style={[styles.button, styles.buttonClose]}
-                                            >
-                                                <Text style={styles.textStyle}>Validar</Text>
-                                            </Pressable>
+                    <KeyboardAwareScrollView>
+                        <View styles={styles.container}>
+                            <Logo />
+                            <Input editable={true} onChangeText={handleNameChange} marginTop={18} placeholder='Ingrese su nombre' />
+                            <Input editable={true} onChangeText={handleLastNameChange} marginTop={11} placeholder='Ingrese una apellido' />
+                            <Input editable={true} onChangeText={handleEmailChange} marginTop={11} placeholder='Ingrese su email' />
+                            <Input editable={true} onChangeText={handlePasswordChange} marginTop={11} placeholder='Ingrese una contraseña' secure={true} />
+                            <Input editable={true} onChangeText={handleRepeatPasswordChange} marginTop={11} placeholder='Repita su contraseña' secure={true} />
+                            <ButtonPrimary onPress={handleModal} title='Registrarse' />
+                            {modalVisible && (
+                                <View style={styles.modalBackground}>
+                                    <Modal
+                                        animationType="popup"
+                                        transparent={true}
+                                        visible={modalVisible}>
+                                        <View>
+                                            <View style={styles.modalView}>
+                                                <Text style={styles.modalText}>Se ha enviado un código de verificación al mail ingresado. Por favor ingréselo</Text>
+                                                <TextInput style={styles.input} onChangeText={handleEnteredCode} placeholderTextColor={'black'} placeholder='Ingrese el código' textAlign='center' />
+                                                <Pressable
+                                                    onPress={handleVerification}
+                                                    style={[styles.button, styles.buttonClose]}
+                                                >
+                                                    <Text style={styles.textStyle}>Validar</Text>
+                                                </Pressable>
+                                            </View>
                                         </View>
-                                    </View>
-                                </Modal>
-                            </View>
-                        )}
+                                    </Modal>
+                                </View>
+                            )}
+                            <TouchableOpacity style={{ marginTop: 11, flexDirection: 'row', alignSelf: 'center' }} onPress={handleOwnerLogin}>
+                                <Text style={styles.footer}>Ya estas registrado?</Text><Text style={styles.footerNegrita}> Inicia sesión</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </KeyboardAwareScrollView>
+                </ImageBackground>
 
-                        <TouchableOpacity style={{ marginTop: 11, flexDirection: 'row', alignSelf: 'center' }} onPress={handleOwnerLogin}>
-                            <Text style={styles.footer}>Ya estas registrado?</Text><Text style={styles.footerNegrita}> Inicia sesión</Text>
-                        </TouchableOpacity>
-                    </View>
-                </KeyboardAwareScrollView>
-            </ImageBackground>
+            </SafeAreaView>
+        );
+    }
 
-        </SafeAreaView>
-    );
 }
