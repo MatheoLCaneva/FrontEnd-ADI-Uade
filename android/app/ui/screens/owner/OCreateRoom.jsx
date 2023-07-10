@@ -84,7 +84,7 @@ export default function CreateRoom({ navigation }) {
         <View style={styles.container}>
             <View>
                 <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} />
-                <Input placeholder='Precio' marginTop={21} onChangeText={handlePriceChange} />
+                <NumericInput placeholder='Precio' marginTop={21} onChangeText={handlePriceChange} />
                 <View style={styles.flexRow}>
                     <NumericInput placeholder='Nro Columnas' marginTop={21} small onChangeText={handleColumnsChange} />
                     <NumericInput placeholder='Nro Filas' marginTop={21} small onChangeText={handleRowsChange} />
