@@ -54,6 +54,7 @@ export default function CreateCinema({ navigation }) {
             const response = await axios.post(`https://backend-adi-uade.onrender.com/cinemas/`, obj, { headers });
             if (response.data.status === 201) {
                 ToastAndroid.show("Cine creado con éxito.", ToastAndroid.SHORT)
+
             }
             setIsLoading(false);
             navigation.dispatch(
@@ -67,6 +68,8 @@ export default function CreateCinema({ navigation }) {
             setIsLoading(false);
         }
     };
+
+
 
     const backAction = () => {
         dispatch(setScreen(NavigatorConstant.OWNER.OWNER_HOME));

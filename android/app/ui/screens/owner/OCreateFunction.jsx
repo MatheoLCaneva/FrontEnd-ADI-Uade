@@ -109,13 +109,12 @@ export default function CreateFunction({ navigation }) {
                 ToastAndroid.show("Función creada con éxito.", ToastAndroid.SHORT)
             }
             setIsLoading(false);
-            // navigation.dispatch(
-            //     CommonActions.reset({
-            //         index: 0,
-            //         routes: [{ name: 'ROOMS_HOME', params: { transition: 'slide_from_left' }, }],
-            //     })
-            // );
-            navigation.popToTop();
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 0,
+                    routes: [{ name: 'FUNCTIONS_HOME', params: { transition: 'slide_from_left' }, }],
+                })
+            );
         } catch (e) {
             Alert.alert("Error", "Ha ocurrido un error al crear su función, reintente en unos minutos.");
             setIsLoading(false);
