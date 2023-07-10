@@ -19,28 +19,32 @@ export default function OwnerFunctions({ navigation }) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setIsLoading(true);
-        navigation.setOptions({ title: `Funciones de ${room.name}` });
+        const unsubscribe = navigation.addListener('focus', () => {
+            setIsLoading(true);
+            navigation.setOptions({ title: `Funciones de ${room.name}` });
 
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(
-                    `https://backend-adi-uade.onrender.com/functions/room/${room._id}`,
-                );
-                setFunctions(response.data.data.docs);
-            } catch (e) {
-                console.error(e);
-                Alert.alert(
-                    'Error',
-                    'Ha ocurrido un error al importar sus funciones para esta sala, reintente en unos minutos.',
-                );
-            } finally {
-                setIsLoading(false);
-            }
-        };
+            const fetchData = async () => {
+                try {
+                    const response = await axios.get(
+                        `https://backend-adi-uade.onrender.com/functions/room/${room._id}`,
+                    );
+                    setFunctions(response.data.data.docs);
+                } catch (e) {
+                    console.error(e);
+                    Alert.alert(
+                        'Error',
+                        'Ha ocurrido un error al importar sus funciones para esta sala, reintente en unos minutos.',
+                    );
+                } finally {
+                    setIsLoading(false);
+                }
+            };
 
-        fetchData();
-    }, [room, navigation]);
+            fetchData();
+        });
+    
+        return unsubscribe;
+    }, [navigation]);
 
     const deleteFunc = async (func) => {
 

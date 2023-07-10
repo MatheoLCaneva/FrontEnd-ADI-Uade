@@ -58,28 +58,32 @@ export default function OwnerRooms({ navigation }) {
     }
 
     useEffect(() => {
-        setIsLoading(true);
-        navigation.setOptions({ title: `Salas de ${cinema.name}` });
-
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(
-                    `https://backend-adi-uade.onrender.com/rooms/cinema/${cinema._id}`,
-                );
-                setRooms(response.data.data.docs);
-            } catch (e) {
-                console.error(e);
-                Alert.alert(
-                    'Error',
-                    'Ha ocurrido un error al importar sus salas, reintente en unos minutos.',
-                );
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [cinema, navigation]);
+        const unsubscribe = navigation.addListener('focus', () => {
+            setIsLoading(true);
+            navigation.setOptions({ title: `Salas de ${cinema.name}` });
+    
+            const fetchData = async () => {
+                try {
+                    const response = await axios.get(
+                        `https://backend-adi-uade.onrender.com/rooms/cinema/${cinema._id}`,
+                    );
+                    setRooms(response.data.data.docs);
+                } catch (e) {
+                    console.error(e);
+                    Alert.alert(
+                        'Error',
+                        'Ha ocurrido un error al importar sus salas, reintente en unos minutos.',
+                    );
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+    
+            fetchData();
+        });
+    
+        return unsubscribe;
+    }, [navigation]);
 
     const backAction = () => {
         dispatch(setScreen(NavigatorConstant.OWNER.OWNER_HOME));

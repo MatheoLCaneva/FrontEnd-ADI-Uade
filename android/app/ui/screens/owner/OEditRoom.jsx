@@ -3,6 +3,7 @@ import { View, StyleSheet, Alert, ToastAndroid } from 'react-native';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import Input from '../../components/Input';
+import NumericInput from '../../components/NumericInput';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import DualButtonFooter from '../../components/DualButtonFooter';
 
@@ -12,8 +13,8 @@ export default function EditRoom({ navigation }) {
     const cinema = useSelector(state => state.owner.cinema);
     const room = useSelector(state => state.owner.room);
 
-    const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
+    const [name, setName] = useState(room.name);
+    const [price, setPrice] = useState(String(room.price));
     const [rows, setRows] = useState('');
     const [columns, setColumns] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +32,6 @@ export default function EditRoom({ navigation }) {
             setColumns(text);
         }
     };
-
 
     const handleEditRoom = async () => {
         setIsLoading(true);
@@ -74,13 +74,7 @@ export default function EditRoom({ navigation }) {
                 }
             }
             setIsLoading(false);
-            /*navigation.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [{ name: 'ROOMS_HOME', params: { transition: 'slide_from_left' }, }],
-                })
-            );*/
-            navigation.popToTop();
+            navigation.goBack();
         } catch (e) {
             Alert.alert("Error", "Ha ocurrido un error al modificar su sala, reintente en unos minutos.");
             setIsLoading(false);
@@ -128,13 +122,7 @@ export default function EditRoom({ navigation }) {
                 }
             }
             setIsLoading(false);
-            /*navigation.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [{ name: 'ROOMS_HOME', params: { transition: 'slide_from_left' }, }],
-                })
-            );*/
-            navigation.popToTop();
+            navigation.goBack();
         } catch (e) {
             Alert.alert("Error", "Ha ocurrido un error al modificar su sala, reintente en unos minutos.");
             setIsLoading(false);
@@ -157,8 +145,8 @@ export default function EditRoom({ navigation }) {
     return (
         <View style={styles.container}>
             <View>
-                <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} />
-                <Input placeholder='Precio' marginTop={21} onChangeText={handlePriceChange} />
+                <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} value={name}/>
+                <NumericInput placeholder='Precio' marginTop={21} onChangeText={handlePriceChange} value={price} />
                 {/* <View style={styles.flexRow}>
                     <Input placeholder='Nro Columnas' marginTop={21} small onChangeText={handleColumnsChange} />
                     <Input placeholder='Nro Filas' marginTop={21} small onChangeText={handleRowsChange} />

@@ -54,12 +54,7 @@ export default function CreateCinema({ navigation, route }) {
                 ToastAndroid.show("Cine modificado con éxito.", ToastAndroid.SHORT)
                 
                 setIsLoading(false);
-                navigation.dispatch(
-                    CommonActions.reset({
-                        index: 0,
-                        routes: [{ name: 'OWNER_HOME', params: { transition: 'slide_from_left' }, }],
-                    })
-                );
+                navigation.goBack();
             }
 
         } catch (e) {

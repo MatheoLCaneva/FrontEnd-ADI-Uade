@@ -57,12 +57,7 @@ export default function CreateCinema({ navigation }) {
 
             }
             setIsLoading(false);
-            navigation.dispatch(
-                CommonActions.reset({
-                    index: 0,
-                    routes: [{ name: 'OWNER_HOME', params: { transition: 'slide_from_left' }, }],
-                })
-            );
+            navigation.goBack();
         } catch (e) {
             Alert.alert("Error", "Ha ocurrido un error al crear su cine, reintente en unos minutos.");
             setIsLoading(false);

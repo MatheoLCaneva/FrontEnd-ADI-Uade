@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import axios from 'axios';
 import CardCinema from '../../components/cards/CardCinema';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCinema } from '../../../redux/store';
+import { setCinema, setScreen } from '../../../redux/store';
 import OListScreen from './OListScreen';
 import NavigatorConstant from "../../../navigation/NavigatorConstant";
 
@@ -38,26 +38,34 @@ export default function OwnerHome({ navigation }) {
     }
 
     useEffect(() => {
-        setIsLoading(true);
+        const unsubscribe = navigation.addListener('focus', () => {
+            setIsLoading(true);
 
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(
-                    `https://backend-adi-uade.onrender.com/cinemas/owner/${user._id}`,
-                );
-                setCinemas(response.data.data.docs);
-            } catch (e) {
-                Alert.alert(
-                    'Error',
-                    'Ha ocurrido un error al importar sus cines, reintente en unos minutos.',
-                );
-            } finally {
-                setIsLoading(false);
-            }
-        };
+            const fetchData = async () => {
+                try {
+                    const response = await axios.get(
+                        `https://backend-adi-uade.onrender.com/cinemas/owner/${user._id}`,
+                    );
+                    setCinemas(response.data.data.docs);
+                } catch (e) {
+                    Alert.alert(
+                        'Error',
+                        'Ha ocurrido un error al importar sus cines, reintente en unos minutos.',
+                    );
+                } finally {
+                    setIsLoading(false);
+                }
+            };
 
-        fetchData();
-    }, [user, navigation]);
+            fetchData();
+        });
+    
+        return unsubscribe;
+    }, [navigation]);
+
+    useEffect(() => {
+
+    }, []);
 
     const handleCreateCinema = () => {
         navigation.push(NavigatorConstant.OWNER.CREATE_CINEMA);

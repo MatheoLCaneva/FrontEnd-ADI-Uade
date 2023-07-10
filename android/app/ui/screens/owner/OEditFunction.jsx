@@ -106,15 +106,9 @@ export default function EditFunction({ navigation }) {
                 ToastAndroid.show("Función editada con éxito.", ToastAndroid.SHORT)
                 setIsLoading(false);
 
-                navigation.popToTop();
+                navigation.goBack();
 
             }
-            // navigation.dispatch(
-            //     CommonActions.reset({
-            //         index: 0,
-            //         routes: [{ name: 'ROOMS_HOME', params: { transition: 'slide_from_left' }, }],
-            //     })
-            // );
         } catch (e) {
             console.log(e)
             Alert.alert("Error", "Ha ocurrido un error al editar su función, reintente en unos minutos.");
