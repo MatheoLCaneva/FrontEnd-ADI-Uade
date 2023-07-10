@@ -7,7 +7,20 @@ const userSlice = createSlice({
   initialState: null,
   reducers: {
     setUser: (state, action) => {
-      return action.payload;
+      if(action.payload.idToken)
+        return action.payload;
+      else {
+        return {
+          ...action.payload,
+          user: {
+            email: action.payload.email,
+            familyName: action.payload.lastName,
+            givenName: action.payload.name,
+            name: `${action.payload.name} ${action.payload.lastName}`,
+            photo: undefined,
+          }
+        }
+      }
     },
   },
 });

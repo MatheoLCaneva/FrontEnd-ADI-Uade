@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import OwnerHome from "../ui/screens/owner/OHome";
 import CreateCinema from "../ui/screens/owner/OCreateCinema";
@@ -20,10 +20,12 @@ export default function ONavigator({ navigation }) {
 
     const baseOptions = { /*headerShown: false,*/ headerStyle: { backgroundColor: '#E01D6F' }, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'normal' }, headerTitleAlign: 'center' };
 
-    navigation.setOptions({ title: 'Hola ' + user.name });
+    useEffect(() => {
+        navigation.setOptions({ headerTitle: 'Hola ' + user.name });
+    }, []);
 
     return (
-        <Stack.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.START} screenOptions={{ headerShown: true }}>
+        <Stack.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.OWNER_FLOW} screenOptions={{ headerShown: true }}>
             <Stack.Screen name={NavigatorConstant.OWNER.OWNER_HOME} component={OwnerHome} options={{ headerShown: false, headerBackVisible: false, headerLeft: null }} />
             <Stack.Screen name={NavigatorConstant.OWNER.CREATE_CINEMA} component={CreateCinema} options={{ ...baseOptions, headerTitle: 'Agregar Cine' }} />
             <Stack.Screen name={NavigatorConstant.OWNER.EDIT_CINEMA} component={EditCinema} options={{ ...baseOptions, headerTitle: 'Editar Cine' }} />
