@@ -12,7 +12,7 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 export default function BookingsHome() {
     const [isLoading, setIsLoading] = useState(false);
     const [reserves, setReserves] = useState([]);
-    const user = useSelector(state => state.user.user)
+    const user = useSelector(state => state.user)
     const isFocused = useIsFocused()
     const navigation = useNavigation()
     const dispatch = useDispatch()

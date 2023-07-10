@@ -9,6 +9,8 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../../redux/store';
 import { CommonActions } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import NavigatorConstant from '../../../navigation/NavigatorConstant';
 
 export default function OwnerLogin({ props, route, navigation }) {
 
@@ -59,9 +61,11 @@ export default function OwnerLogin({ props, route, navigation }) {
             const user = response.data.loginUser.user;
             console.log("🚀 ~ file: LOwnerLogin.jsx:60 ~ handleLogin ~ user:", user)
             dispatch(setUser(user));
-            navigation.replace('OWNER_HOME');
+            AsyncStorage.setItem('Owner', JSON.stringify(user))
+            navigation.replace(NavigatorConstant.OWNER.OWNER_HOME);
         } catch (err) {
             console.log("🚀 ~ file: LOwnerLogin.jsx:62 ~ handleLogin ~ err:", err)
+            console.error(err)
             ToastAndroid.show("Error de usuario y/o contraseña", ToastAndroid.LONG);
             setLoading(false);
         }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppRegistry, ScrollView, Image, Text, View } from 'react-native';
+import { StyleSheet, AppRegistry, ScrollView, Image, Text, View } from 'react-native';
 import UserHome from '../ui/screens/user/UHome';
 import UFilters from '../ui/screens/user/UFilters';
 import NavigatorConstant from './NavigatorConstant';
@@ -11,6 +11,13 @@ import BookingsNavigator from './BookingsNavigator';
 const Tab = createBottomTabNavigator();
 
 export default function UserTabsNavigator(props) {
+
+  const styles = StyleSheet.create({
+    icon: {
+      marginTop: 15
+    }
+  })
+
   return (
     <Tab.Navigator
       initialRouteName={NavigatorConstant.NAVIGATOR.UsersTabsNavigator}
@@ -24,9 +31,12 @@ export default function UserTabsNavigator(props) {
         options={{
           headerShown: false,
           tabBarLabel: '',
-          tabBarIcon: ({ }) => (
-            <Image source={require('../assets/icons/home.png')} size={26} />
+          tabBarIcon: ({ focused }) => (
+            <Image style={styles.icon} source={require('../assets/icons/home.png')} size={26} />
           ),
+          tabBarActiveTintColor:'white',
+          
+          tabBarInactiveTintColor:'black',
         }}
       />
       <Tab.Screen
@@ -39,7 +49,7 @@ export default function UserTabsNavigator(props) {
           headerTitleAlign: 'center',
           tabBarLabel: '',
           tabBarIcon: ({ }) => (
-            <Image source={require('../assets/icons/search.png')} size={26} />
+            <Image style={styles.icon} source={require('../assets/icons/search.png')} size={26} />
           ),
         }}
       />
@@ -50,7 +60,7 @@ export default function UserTabsNavigator(props) {
           headerShown: false,
           tabBarLabel: '',
           tabBarIcon: ({ }) => (
-            <Image source={require('../assets/icons/bookmark.png')} size={26} />
+            <Image style={styles.icon} source={require('../assets/icons/bookmark.png')} size={26} />
           ),
         }}
       />
@@ -58,10 +68,13 @@ export default function UserTabsNavigator(props) {
         name={NavigatorConstant.USER_TABS.PROFILE}
         component={UserProfile}
         options={{
+          unmountOnBlur: true,
           headerShown: false,
           tabBarLabel: '',
-          tabBarIcon: ({ }) => (
-            <Image source={require('../assets/icons/settings.png')} size={26} />
+          tabBarIcon: ({
+            
+           }) => (
+            <Image style={styles.icon} source={require('../assets/icons/settings.png')} size={26} />
           ),
         }}
       />

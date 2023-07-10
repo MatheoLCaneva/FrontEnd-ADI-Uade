@@ -16,6 +16,7 @@ import { useDispatch } from 'react-redux';
 import { setUser } from '../../../redux/store';
 import NavigatorConstant from '../../../navigation/NavigatorConstant';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export default function MainScreen() {
   const [userr, setUserr] = useState({});
@@ -29,8 +30,18 @@ export default function MainScreen() {
       offlineAccess: true,
       forceCodeForRefreshToken: true,
     });
-    checkUser();
-  }, []);
+    checkOwner()
+    checkUser()
+  }, [])
+
+  const checkOwner = async () => {
+    const user = await AsyncStorage.getItem('Owner');
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      dispatch(setUser(parsedUser));
+      navigation.replace(NavigatorConstant.OWNER.OWNER_HOME);
+    }
+  };
 
   const checkUser = async () => {
     const user = await AsyncStorage.getItem('user');
@@ -45,11 +56,40 @@ export default function MainScreen() {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log('due____', userInfo);
-      setUserr(userInfo);
-      dispatch(setUser(userInfo));
-      await AsyncStorage.setItem('user', JSON.stringify(userInfo));
-      navigation.replace(NavigatorConstant.NAVIGATOR.USERS_TAB_HOME);
+      const headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      }
+      const data = {
+        email: userInfo.user.email,
+        rol: 'User',
+      }
+
+      try {
+        const response = await axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers });
+        if (response.data.status === 201) {
+          dispatch(setUser(response.data.loginUser))
+          await AsyncStorage.setItem('user', JSON.stringify(response.data.loginUser))
+          navigation.replace(NavigatorConstant.NAVIGATOR.USERS_TAB_HOME)
+        }
+      }
+      catch (e) {
+        const obj = {
+          email: userInfo.user.email,
+          name: userInfo.user.givenName,
+          lastName: userInfo.user.familyName,
+          rol: 'User',
+          imgUser: userInfo.user.photo
+        }
+        const response = await axios.post('https://backend-adi-uade.onrender.com/users/', obj, { headers })
+        if (response.data.status === 201) {
+          setUserr(userInfo)
+          dispatch(setUser(response.data.createdUser))
+          await AsyncStorage.setItem('user', JSON.stringify(response.data.createdUser))
+          navigation.replace(NavigatorConstant.NAVIGATOR.USERS_TAB_HOME)
+
+        }
+      }
     } catch (e) {
       console.log('Message full_____', e);
       console.log('Message____', e.message);

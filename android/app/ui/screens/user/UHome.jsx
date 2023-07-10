@@ -23,17 +23,12 @@ export default function UserHome() {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const filters = useSelector(state => state.client.filters);
-    const [filterUpdate, setFilterUpdate] = useState(0); // Estado adicional
-    const isFocused = useIsFocused();
     const ubi = useSelector(state => state.client.location)
-
-    // console.log(ubi)
-    
 
     useEffect(() => {
         Geolocation.getCurrentPosition(info => dispatch(setLocation(info.coords)));
         navigation.setOptions({
-            headerTitle: 'Hola ' + user.user.givenName
+            headerTitle: 'Hola ' + user.name
         });
 
         setIsLoading(true);
@@ -45,15 +40,15 @@ export default function UserHome() {
             if (Object.keys(filters).length === 0) {
                 fetchFunctions();
             } else {
-                fetchFunctionsWithFilter();
                 fetchCinemas();
+                fetchFunctionsWithFilter();
             }
         } else {
             fetchFunctions();
             fetchCinemas();
         }
 
-    }, [filters, filterCinema]); // Agregar filterUpdate como dependencia
+    }, [filters, filterCinema]);
 
     const fetchFunctions = async () => {
         try {
@@ -83,6 +78,7 @@ export default function UserHome() {
             const functionsArray = response.data.Functions.docs;
             setFunctionsAll(functionsArray);
             const filteredFunctions = checkFilters(filters, functionsArray);
+            console.log(filteredFunctions)
             setFunctions(filteredFunctions);
             setIsLoading(false);
         } catch (e) {
@@ -99,7 +95,6 @@ export default function UserHome() {
             if (response.data.data) {
                 const functionsArray = response.data.data.docs;
                 const filteredFunctions = checkFilters(filters, functionsArray)
-                console.log(filteredFunctions)
                 setFunctionsAll(functionsArray);
                 setFunctions(filteredFunctions);
                 setIsLoading(false);
@@ -121,10 +116,6 @@ export default function UserHome() {
         dispatch(setFunctionsByMovie(functions));
         dispatch(setScreenUser(NavigatorConstant.USER.MOVIE));
         navigation.navigate('MOVIE_DETAIL');
-    };
-
-    const handleFilterChange = () => {
-        setFilterUpdate(prev => prev + 1); // Incrementar el estado adicional para forzar una actualización completa del componente
     };
 
     const renderFunction = ({ item }) => {
@@ -165,13 +156,35 @@ export default function UserHome() {
     const isPortrait = screenWidth < screenHeight;
     const numColumns = isPortrait ? 2 : 3;
 
+    const calculateDistance = (lat1, lon1, lat2, lon2) => {
+        const R = 6371; // Radio de la Tierra en kilómetros
+
+        const degToRad = (degrees) => {
+            return degrees * (Math.PI / 180);
+        };
+
+        const dLat = degToRad(lat2 - lat1);
+        const dLon = degToRad(lon2 - lon1);
+
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(degToRad(lat1)) *
+            Math.cos(degToRad(lat2)) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c;
+
+        return distance;
+    };
+
     const checkFilters = (filters, functions) => {
-        const { cine, movie, genre } = filters;
+        const { cine, movie, genre, distance } = filters;
 
-        if (!cine && !movie && !genre) {
-
+        if (!cine && !movie && !genre && !distance) {
             const filteredFunctions = functions.reduce((accumulator, currentFunction) => {
-                const existingFunction = accumulator.find(item => item.movie._id === currentFunction.movie._id);
+                const existingFunction = accumulator.find((item) => item.movie._id === currentFunction.movie._id);
                 if (!existingFunction) {
                     accumulator.push(currentFunction);
                 }
@@ -181,25 +194,55 @@ export default function UserHome() {
             return filteredFunctions;
         }
 
-        const func = functions.filter(func => {
+        const func = functions.filter((func) => {
             const matchCine = !cine || func.cinema.name === cine.name;
             const matchMovie = !movie || func.movie.title === movie.title;
             const matchGenre = !genre || func.movie.genre.includes(genre);
-            return matchCine && matchMovie && matchGenre;
+
+            let withinDistance = false;
+
+            if (distance === "-1KM") {
+                // Comparar si la distancia es menor a 1 kilómetro
+                withinDistance = calculateDistance(
+                    ubi.latitude,
+                    ubi.longitude,
+                    func.cinema.location.lat,
+                    func.cinema.location.long
+                ) < 1;
+            } else if (distance === "1KM-2KM") {
+                // Comparar si la distancia está entre 1 y 2 kilómetros (inclusive)
+                const funcDistance = calculateDistance(
+                    ubi.latitude,
+                    ubi.longitude,
+                    func.cinema.location.lat,
+                    func.cinema.location.long
+                );
+                withinDistance = funcDistance >= 1 && funcDistance <= 2;
+            } else if (distance === "+2KM") {
+                // Comparar si la distancia es mayor a 2 kilómetros
+                withinDistance = calculateDistance(
+                    ubi.latitude,
+                    ubi.longitude,
+                    func.cinema.location.lat,
+                    func.cinema.location.long
+                ) > 2;
+            } else {
+                // Opción de distancia no válida, se considera como fuera de distancia
+                withinDistance = false;
+            }
+
+            return matchCine && matchMovie && matchGenre && withinDistance;
         });
 
-        console.log(func)
-
         const filteredFunctions = func.reduce((accumulator, currentFunction) => {
-            const existingFunction = accumulator.find(item => item.movie._id === currentFunction.movie._id);
+            const existingFunction = accumulator.find((item) => item.movie._id === currentFunction.movie._id);
             if (!existingFunction) {
                 accumulator.push(currentFunction);
             }
             return accumulator;
         }, []);
 
-
-        return filteredFunctions
+        return filteredFunctions;
     };
 
     return (
@@ -212,17 +255,23 @@ export default function UserHome() {
                     <Text style={styles.title}>
                         Películas
                     </Text>
-                    <Dropdown disabled={cineDisabled} label="Seleccionar Cine" options={["Todos", ...cinemas]} selectedOption={filterCinema} onSelectOption={setFilterCinema} onOptionChange={handleFilterChange} tipo={"cine"} />
+                    <Dropdown disabled={cineDisabled} label="Seleccionar Cine" options={["Todos", ...cinemas]} selectedOption={filterCinema} onSelectOption={setFilterCinema} tipo={"cine"} />
                 </View>
                 {isLoading ? (
                     <LoadingIndicator />
                 ) : (
-                    <FlatList
-                        data={functions}
-                        renderItem={renderFunction}
-                        keyExtractor={keyExtractor}
-                        numColumns={numColumns}
-                    />
+                    functions.length > 0 ? (
+                        // Renderizar contenido cuando isLoading es false y functions tiene elementos
+                        <FlatList
+                            data={functions}
+                            renderItem={renderFunction}
+                            keyExtractor={keyExtractor}
+                            numColumns={numColumns}
+                        />
+                    ) : (
+                        // Renderizar contenido cuando isLoading es false pero functions está vacío
+                        <Text>No hay funciones disponibles para los filtros seleccionados</Text>
+                    )
                 )}
             </ImageBackground>
         </SafeAreaView>
