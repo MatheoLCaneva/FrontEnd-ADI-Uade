@@ -134,7 +134,6 @@ export default function EditFunction({ navigation }) {
         try {
             const response = await axios.put(`https://backend-adi-uade.onrender.com/functions/`, obj, { headers });
             if (response.data.status === 200) {
-                console.log(response.data)
                 ToastAndroid.show("Función editada con éxito.", ToastAndroid.SHORT)
                 setIsLoading(false);
 

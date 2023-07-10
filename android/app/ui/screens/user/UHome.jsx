@@ -33,7 +33,6 @@ export default function UserHome() {
         setIsLoading(true);
 
         if (filters !== undefined) {
-            console.log(filters)
             if (Object.keys(filters).length !== 0) {
                 fetchFunctionsWithFilter();
             }
@@ -41,10 +40,7 @@ export default function UserHome() {
                 fetchCinemas()
                 fetchFunctions()
             }
-            // if (filterCinema && filterCinema !== 'Todos') {
-            //     fetchFunctionsByCinema();
-            //     fetchCinemas();
-            // }
+
         }
         else {
             fetchCinemas()
@@ -69,7 +65,6 @@ export default function UserHome() {
             setIsLoading(false);
         } catch (e) {
             ToastAndroid.show('Error al cargar las funciones disponibles', ToastAndroid.SHORT);
-            console.log(e);
             setIsLoading(false);
             return false;
         }
@@ -92,7 +87,6 @@ export default function UserHome() {
         } catch (e) {
             console.error(e)
             ToastAndroid.show('Error al cargar las funciones disponibles', ToastAndroid.SHORT);
-            console.log(e);
             setIsLoading(false);
             return false;
         }
@@ -139,10 +133,6 @@ export default function UserHome() {
                 return accumulator;
             }, []);
 
-
-
-            console.log(filterCinemas)
-            // console.log(a)
             setFunctionsAll(functionsArray);
             setFunctions(filteredFunctions);
             setCinemas(filterCinemas)
@@ -157,7 +147,6 @@ export default function UserHome() {
 
     const handleSelectMovie = (item) => {
         dispatch(setMovie(item.movie));
-        console.log(item)
         const functions = functionsAll.filter(func => func.movie.title === item.movie.title && func.cinema.id === item.cinema.id);
         dispatch(setFunctionsByMovie(functions));
         dispatch(setScreenUser(NavigatorConstant.USER.MOVIE));

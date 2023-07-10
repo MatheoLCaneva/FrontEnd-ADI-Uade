@@ -22,7 +22,6 @@ export default function Register({ navigation }) {
     const [modalVisible, setModalVisible] = React.useState(false);
 
 
-    console.log(fileResponse)
     // const [showPassword, setShowPassword] = React.useState(false);
 
     const handleNameChange = text => setName(text)

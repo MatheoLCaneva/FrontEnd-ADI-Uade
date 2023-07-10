@@ -89,10 +89,6 @@ export default function DropdownUserFilter(props) {
                 return '';
         }
     };
-
-    //   console.log(options)
-
-    //   {getText()}
     return (
         <View style={styles.container}>
 

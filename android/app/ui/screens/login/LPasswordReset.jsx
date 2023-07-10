@@ -57,7 +57,6 @@ export default function PasswordReset({ navigation }) {
                     email: email,
                     asunto: 'Codigo de recuperación de contraseña'
                 }
-                console.log(data)
                 const res = await axios.post('https://backend-adi-uade.onrender.com/users/sendMail/', data, { headers })
                 setVerificationCode(res.data.code)
                 setIsLoading(false)

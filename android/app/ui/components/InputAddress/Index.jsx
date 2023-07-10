@@ -47,7 +47,6 @@ const AddressAutocomplete = ({ placeHolderText, target }) => {
             location: item?.geometry?.coordinates,
             description: item?.formatted || item?.properties?.formatted,
         };
-        console.log(item)
         dispatch(setCinemaAddress(item))
         setShowList(false)
     };

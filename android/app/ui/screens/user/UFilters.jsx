@@ -65,7 +65,6 @@ export default function UFilters(props) {
                 setGenreDisabled(false)
             }
             else {
-                console.log('No functions')
                 setMovieDisabled(true)
                 setGenreDisabled(true)
                 ToastAndroid.show('No existen películas para el cine seleccionado', ToastAndroid.SHORT)
@@ -110,7 +109,6 @@ export default function UFilters(props) {
 
             setCinemas(cinemasArray);
             setIsLoading(false);
-            // console.log(cinemasArray);
         } catch (e) {
             ToastAndroid.show('Error al cargar los cines disponibles', ToastAndroid.SHORT);
             setIsLoading(false);
@@ -160,8 +158,6 @@ export default function UFilters(props) {
         );
     }
 
-    const IMAGEN = require('../../../assets/logo.png')
-
     const styles = StyleSheet.create({
         filtersContainer: {
             marginTop: 47
@@ -175,7 +171,7 @@ export default function UFilters(props) {
                 <DropdownUserFilter label='Seleccionar un cine' options={[{ name: 'Todos' }, ...cinemas]} selectedOption={filter} onSelectOption={(option) => handleSelectOption('cine', option)} tipo={'cine'} />
                 <DropdownUserFilter disabled={movieDisabled} options={[{ title: 'Todas' }, ...movies]} selectedOption={filter} onSelectOption={(option) => handleSelectOption('movie', option)} tipo={'pelicula'} />
                 <DropdownUserFilter disabled={genreDisabled} label='Seleccionar un genero' options={['Todos', ...genre]} selectedOption={filter} onSelectOption={(option) => handleSelectOption('genre', option)} tipo={'genero'} />
-                <DropdownUserFilter options={distance} selectedOption={filter} onSelectOption={(option) => handleSelectOption('distance', option)} tipo={'distancia'} />
+                <DropdownUserFilter disabled={movieDisabled} options={distance} selectedOption={filter} onSelectOption={(option) => handleSelectOption('distance', option)} tipo={'distancia'} />
                 <ButtonPrimary disabled={filter == null} title='Aplicar Filtros' onPress={handleSelectFilters} />
                 <ButtonPrimary title='Deshacer Filtros' onPress={handleUndoFilters} />
             </View>

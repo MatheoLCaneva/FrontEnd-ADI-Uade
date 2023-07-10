@@ -30,7 +30,6 @@ export default function SelectDateHour() {
 
         try {
             const response = await axios.get(`https://backend-adi-uade.onrender.com/rooms/${func.room.id}`);
-            console.log(response.data)
             setRoom(response.data.data.docs[0]);
         } catch (e) {
             alert(`Error al cargar función`);

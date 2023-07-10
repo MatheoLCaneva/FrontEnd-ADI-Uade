@@ -14,7 +14,6 @@ import CustomAlert from '../../components/CustomAlert';
 export default function CreateCinema({ navigation, route }) {
 
     let cinema = useSelector(state => state.owner.cinema)
-    console.log("🚀 ~ file: OEditCinema.jsx:16 ~ CreateCinema ~ cinema:", cinema)
     const dispatch = useDispatch();
 
     const [name, setName] = useState(cinema.name);
@@ -33,7 +32,6 @@ export default function CreateCinema({ navigation, route }) {
             setAlertVisible(true);
             return;
         }
-        console.log("🚀 ~ file: OEditCinema.jsx:37 ~ handleEditCinema ~ address:", address)
         if(address === undefined) {
             setAlertText("Por favor, ingrese la dirección del cine");
             setAlertVisible(true);

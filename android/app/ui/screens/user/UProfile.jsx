@@ -55,8 +55,6 @@ export default function UserProfile({ navigation }) {
             name: GivenName ? GivenName : user.name,
             lastName: FamilyName ? FamilyName : user.lastName,
         }
-        console.log(obj)
-
         try {
             const response = await axios.put('https://backend-adi-uade.onrender.com/users', obj, { headers })
             if (response.data.status === 200) {

@@ -110,7 +110,6 @@ export default function CreateFunction({ navigation }) {
             hour: format(new Date(time), 'HH:mm')
         };
 
-        console.log(obj)
 
         try {
             const response = await axios.post(`https://backend-adi-uade.onrender.com/functions/`, obj, { headers });

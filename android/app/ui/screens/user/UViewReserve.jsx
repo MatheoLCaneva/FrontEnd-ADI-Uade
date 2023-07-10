@@ -43,7 +43,6 @@ export default function ViewReserve() {
             qrCode: 'none',
             functionId: reserve._id
         }
-        console.log(obj)
         try {
             const response = await axios.post('https://backend-adi-uade.onrender.com/reservations/', obj, { headers })
             if (response.data.status == 201) {
