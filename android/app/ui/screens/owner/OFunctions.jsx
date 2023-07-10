@@ -96,7 +96,7 @@ export default function OwnerFunctions({ navigation }) {
                 return (
                     <CardFunction
                         key={func._id}
-                        name={func.movie.title}
+                        name={func.movie ? func.movie.title : "ERROR DE PELI"}
                         date={func.date}
                         hour={func.hour}
                         occupiedSeats={"0"}
