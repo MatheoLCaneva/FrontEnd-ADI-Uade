@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ImageBackground } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import QRCode from 'react-native-qrcode-svg';
 import DualButtonFooter from '../../components/DualButtonFooter';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 import NavigatorConstant from '../../../navigation/NavigatorConstant';
 import { resetClientState } from '../../../redux/store';
 
-export default function ReserveDone() {
+export default function ReserveDone({ navigation }) {
     const func = useSelector(state => state.client.functionReserved)
-    const navigation = useNavigation()
     const dispatch = useDispatch()
     const logo = require('../../../assets/logo.png')
 
@@ -18,8 +17,13 @@ export default function ReserveDone() {
         dispatch(resetClientState)
     }
 
-    const handleViewReserves = () => {
-        navigation.replace(NavigatorConstant.USER_TABS.BOOKINGS)
+    const handleViewReserves = () => {        
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [{ name: NavigatorConstant.USER_TABS.BOOKINGS }]
+            })
+        );
     }
 
     const styles = StyleSheet.create({
@@ -50,34 +54,12 @@ export default function ReserveDone() {
             color: 'white',
             textAlign: 'center'
         },
-        sutitle: {
-            fontSize: 20,
-            marginHorizontal: 15,
-            marginTop: 20,
-            color: 'white',
-            fontWeight: '600',
-        },
         text: {
             color: 'white',
             fontSize: 18,
             marginTop: 27,
             fontWeight: '600',
             marginHorizontal: 25
-        },
-        dateHour: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: 5
-        },
-        seats: {
-            flex: 1,
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-            flexGrow: 0.80
-        },
-        price: {
-            marginBottom: 40
         },
         qr: {
             // marginTop: 200
