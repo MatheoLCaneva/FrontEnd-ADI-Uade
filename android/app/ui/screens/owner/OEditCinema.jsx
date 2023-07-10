@@ -109,7 +109,7 @@ export default function CreateCinema({ navigation, route }) {
     return (
         <View style={styles.container}>
             <View>
-                <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} value={name} />
+                <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} value={name} editable={true}/>
                 <AddressAutocomplete placeHolderText="Ingrese la ubicación" target="origin" />
                 <DualButtonFooter primaryTitle='Modificar Cine' onPressPrimary={handleEditCinema} secondaryTitle='Cancelar' onPressSecondary={completeBackAction} />
             </View>

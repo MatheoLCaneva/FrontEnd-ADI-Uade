@@ -8,7 +8,8 @@ export default function DualButtonFooter({
     onPressPrimary = () => console.error('No existe función para onPressPrimary'),
     onPressSecondary = () =>
         console.error('No existe función para onPressSecondary'),
-    cine = false
+    cine = false,
+    disablePrimary = false,
 }) {
     const styles = StyleSheet.create({
         buttons: {
@@ -25,6 +26,7 @@ export default function DualButtonFooter({
                 title={primaryTitle}
                 color="#E01D6F"
                 onPress={onPressPrimary}
+                disablePrimary={disablePrimary}
             />
             <ButtonAddDelete
                 title={secondaryTitle}

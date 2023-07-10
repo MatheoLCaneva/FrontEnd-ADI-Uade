@@ -14,8 +14,7 @@ export default function ReserveDone() {
     const logo = require('../../../assets/logo.png')
 
     const handleGoBack = () => {
-        navigation.replace('HOME_USUARIO')
-        console.log('ME VOY')
+        navigation.replace(NavigatorConstant.NAVIGATOR.USERS_TAB_HOME)
         dispatch(resetClientState)
     }
 

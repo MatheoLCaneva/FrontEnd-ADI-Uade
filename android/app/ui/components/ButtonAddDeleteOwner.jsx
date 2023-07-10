@@ -17,6 +17,7 @@ export default function ButtonAddDelete(props) {
         container: {
             marginTop: 50,
             height: 55,
+            opacity: props.disablePrimary ? 0.5 : 1
         },
         button: {
             borderRadius: 20,
@@ -34,7 +35,7 @@ export default function ButtonAddDelete(props) {
 
 
     return (
-        <TouchableOpacity style={styles.container} onPress={props.onPress}>
+        <TouchableOpacity disabled={props.disablePrimary} style={styles.container} onPress={props.onPress}>
             <View style={styles.button}>
                 <Text style={styles.text}>
                     {props.title}

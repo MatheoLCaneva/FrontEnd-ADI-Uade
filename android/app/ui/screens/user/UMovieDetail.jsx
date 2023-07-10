@@ -13,7 +13,7 @@ export default function MovieDetail() {
     const [comments, setComments] = useState([])
     const navigation = useNavigation()
     const movie = useSelector(state => state.client.movie)
-    const user = useSelector(state => state.user.user)
+    const user = useSelector(state => state.user)
 
 
     const fetchComments = async () => {

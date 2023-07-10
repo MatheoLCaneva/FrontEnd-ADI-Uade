@@ -62,9 +62,6 @@ export default function CreateFunction({ navigation }) {
 
         const fetchData = async () => {
             try {
-
-                //TODO: Están las funciones en el back?
-                //Por si quiero ver todas las salas para probar
                 const response = await axios.get(
                     `https://backend-adi-uade.onrender.com/movies/`,
                 );
@@ -83,7 +80,8 @@ export default function CreateFunction({ navigation }) {
     }, [room, navigation]);
 
     const handleCreateFunction = async () => {
-        if(selectedOption === null) {
+        setIsLoading(true)
+        if (selectedOption === null) {
             setAlertText("Por favor, seleccione una película");
             setAlertVisible(true);
             return;
@@ -97,7 +95,11 @@ export default function CreateFunction({ navigation }) {
         const obj = {
             cinema: {
                 id: cinema._id,
-                name: cinema.name
+                name: cinema.name,
+                location: {
+                    lat: cinema.location.lat,
+                    long: cinema.location.long
+                }
             },
             room: {
                 id: room._id,
@@ -149,31 +151,40 @@ export default function CreateFunction({ navigation }) {
         },
     });
 
-    return (
-        <View style={styles.container}>
-            <View>
-                <Input placeholder='Nombre' marginTop={77} value={cinema.name} editable={false} />
-                <Input placeholder='Precio' marginTop={21} value={room.name} editable={false} />
-                <Dropdown label='Seleccionar Función' options={movies} selectedOption={selectedOption} onSelectOption={setSelectedOption} />
-                <Text style={styles.dropdownButtonLabel}>Seleccionar Fecha</Text>
-                <TouchableOpacity
-                    style={[styles.containerPicker, styles.dropdownButton]}
-                    onPress={showDatepicker}
-                >
-                    <Text style={styles.dropdownButtonText}>{format(date, 'dd/MM')}</Text>
-                </TouchableOpacity>
-                <Text style={styles.dropdownButtonLabel}>Seleccionar Hora</Text>
-                <TouchableOpacity
-                    style={[styles.containerPicker, styles.dropdownButton]}
-                    onPress={showTimepicker}
-                >
-                    <Text style={styles.dropdownButtonText}>{format(new Date(time), 'HH:mm')}</Text>
-                </TouchableOpacity>
-                <DualButtonFooter primaryTitle='Crear Funcion' onPressPrimary={handleCreateFunction} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
+    if (isLoading) {
+        return (<View style={styles.container}>
+            <LoadingIndicator />
+        </View>)
 
+
+    }
+    else {
+        return (
+            <View style={styles.container}>
+                <View>
+                    <Input placeholder='Nombre' marginTop={77} value={cinema.name} editable={false} />
+                    <Input placeholder='Precio' marginTop={21} value={room.name} editable={false} />
+                    <Dropdown label='Seleccionar Función' options={movies} selectedOption={selectedOption} onSelectOption={setSelectedOption} />
+                    <Text style={styles.dropdownButtonLabel}>Seleccionar Fecha</Text>
+                    <TouchableOpacity
+                        style={[styles.containerPicker, styles.dropdownButton]}
+                        onPress={showDatepicker}
+                    >
+                        <Text style={styles.dropdownButtonText}>{format(date, 'dd/MM')}</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.dropdownButtonLabel}>Seleccionar Hora</Text>
+                    <TouchableOpacity
+                        style={[styles.containerPicker, styles.dropdownButton]}
+                        onPress={showTimepicker}
+                    >
+                        <Text style={styles.dropdownButtonText}>{format(new Date(time), 'HH:mm')}</Text>
+                    </TouchableOpacity>
+                    <DualButtonFooter primaryTitle='Crear Funcion' onPressPrimary={handleCreateFunction} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
+
+                </View>
+                {isAlertVisible && <CustomAlert text={alertText} primaryTitle='Aceptar' onPress={() => setAlertVisible(false)} />}
             </View>
-            {isAlertVisible && <CustomAlert text={alertText} primaryTitle='Aceptar' onPress={() => setAlertVisible(false)}/>}
-            {isLoading && <LoadingIndicator />}
-        </View>
-    );
+        );
+    }
+
 }

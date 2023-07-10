@@ -150,6 +150,16 @@ export default function UFilters(props) {
         );
     };
 
+    const handleUndoFilters = () => {
+        dispatch(setFilters(undefined))
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [{ name: NavigatorConstant.NAVIGATOR.USERS_TAB_HOME }]
+            })
+        );
+    }
+
     const IMAGEN = require('../../../assets/logo.png')
 
     const styles = StyleSheet.create({
@@ -181,6 +191,7 @@ export default function UFilters(props) {
 
                 <DropdownUserFilter options={distance} selectedOption={filter} onSelectOption={(option) => handleSelectOption('distance', option)} tipo={'distancia'} />
                 <ButtonPrimary disabled={filter == null} title='Aplicar Filtros' onPress={handleSelectFilters} />
+                <ButtonPrimary title='Deshacer Filtros' onPress={handleUndoFilters} />
             </View>
         </SafeAreaView>
 

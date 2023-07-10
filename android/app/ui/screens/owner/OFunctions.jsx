@@ -18,6 +18,7 @@ export default function OwnerFunctions({ navigation }) {
 
 
     const dispatch = useDispatch();
+    console.log(funcs)
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
@@ -97,13 +98,16 @@ export default function OwnerFunctions({ navigation }) {
             total={funcs.length}
             onPressButtonAdd={handleCreateFunction}
             cards={funcs.map(func => {
+                // Contar la cantidad de isUsed
+                const occupiedSeatsCount = func.seats.filter(seat => seat.isUsed).length;
+
                 return (
                     <CardFunction
                         key={func._id}
                         name={func.movie ? func.movie.title : "ERROR DE PELI"}
                         date={func.date}
                         hour={func.hour}
-                        occupiedSeats={"0"}
+                        occupiedSeats={occupiedSeatsCount.toString()} 
                         onPress={() => { }}
                         onPressBtnEdit={() => handleEditFunction(func)}
                         onPressBtnDelete={() => handleDeleteFunc(func)}
@@ -111,5 +115,6 @@ export default function OwnerFunctions({ navigation }) {
                 );
             })}
         />
+
     );
 }

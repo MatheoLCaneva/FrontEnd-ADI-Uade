@@ -57,17 +57,22 @@ export default function OwnerLogin({ props, route, navigation }) {
 
         try {
             const response = await axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers });
-            setLoading(false);
-            const user = response.data.loginUser.user;
-            console.log("🚀 ~ file: LOwnerLogin.jsx:60 ~ handleLogin ~ user:", user)
-            dispatch(setUser(user));
-            AsyncStorage.setItem('Owner', JSON.stringify(user))
-            navigation.replace(NavigatorConstant.OWNER.OWNER_HOME);
+            console.log(response.data)
+            if (response.data.status == 201) {
+                setLoading(false);
+                const user = response.data.loginUser.user;
+                console.log("🚀 ~ file: LOwnerLogin.jsx:60 ~ handleLogin ~ user:", user)
+                dispatch(setUser(user));
+                AsyncStorage.setItem('Owner', JSON.stringify(user))
+                navigation.replace(NavigatorConstant.OWNER.OWNER_HOME);
+            }
         } catch (err) {
-            console.log("🚀 ~ file: LOwnerLogin.jsx:62 ~ handleLogin ~ err:", err)
-            console.error(err)
-            ToastAndroid.show("Error de usuario y/o contraseña", ToastAndroid.LONG);
-            setLoading(false);
+            if (err.response.status === 400) {
+                console.log("🚀 ~ file: LOwnerLogin.jsx:62 ~ handleLogin ~ err:", err)
+                ToastAndroid.show("Error de usuario y/o contraseña", ToastAndroid.LONG);
+                setLoading(false);
+            }
+
         }
     };
 

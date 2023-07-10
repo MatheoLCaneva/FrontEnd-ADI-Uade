@@ -27,8 +27,8 @@ export default function ViewReserve() {
 
         const obj = {
             user: {
-                email: user.user.email,
-                name: user.user.name
+                email: user.email,
+                name: user.name
             },
             cinema: reserve.cinema,
             room: reserve.room,
