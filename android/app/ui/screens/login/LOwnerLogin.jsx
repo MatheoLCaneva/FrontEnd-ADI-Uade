@@ -57,6 +57,7 @@ export default function OwnerLogin({ props, route, navigation }) {
             const response = await axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers });
             setLoading(false);
             const user = response.data.loginUser.user;
+            console.log("🚀 ~ file: LOwnerLogin.jsx:60 ~ handleLogin ~ user:", user)
             dispatch(setUser(user));
             navigation.replace('OWNER_HOME');
         } catch (err) {

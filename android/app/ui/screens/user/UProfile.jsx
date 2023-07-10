@@ -16,6 +16,10 @@ export default function UserProfile() {
     const handleGivenNameChange = (text) => setGivenName(text);
     const handleFamilyNameChange = (text) => setFamilyName(text);
 
+    useEffect(() => {        
+        console.log("🚀 ~ file: UProfile.jsx:12 ~ UserProfile ~ user:", user)
+    }, []);
+
     // const handleEditCinema = async () => {
     //     setIsLoading(true)
     //     const updatedCinema = {
@@ -111,7 +115,7 @@ export default function UserProfile() {
             <TextInput style={styles.input} placeholder={user.user.familyName} textAlign='center' onChangeText={handleFamilyNameChange}/>
             <TextInput style={styles.input} placeholder={user.user.email} textAlign='center' />
             {/* <DualButtonFooter primaryTitle='Confirmar' onPressPrimary={this.handleFormSubmit} secondaryTitle='Cerrar Sesion' onPressSecondary={completeBackAction} /> */}
-            <DualButtonFooter primaryTitle='Confirmar' onPressPrimary={this.handleFormSubmit} secondaryTitle='Cerrar Sesion' onPressSecondary={signOut}  />
+            {!user.rol && <DualButtonFooter primaryTitle='Confirmar' onPressPrimary={this.handleFormSubmit} secondaryTitle='Cerrar Sesion' onPressSecondary={signOut}  />}
         </SafeAreaView>
     );
 }
