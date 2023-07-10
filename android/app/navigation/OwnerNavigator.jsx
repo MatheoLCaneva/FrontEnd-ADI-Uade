@@ -9,8 +9,10 @@ import {
     DrawerItemList,
     DrawerItem,
 } from '@react-navigation/drawer';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import UserProfile from '../ui/screens/user/UProfile';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setUser } from '../redux/store';
 
 const HOME_ICON = require('../assets/icons/home.png');
 const SETTINGS_ICON = require('../assets/icons/settings.png');
@@ -44,7 +46,7 @@ function Logout(props) {
             <DrawerItem
                 label="Log Out"
                 inactiveTintColor={drawerStyles.drawerInactiveTintColor}
-                onPress={() => console.log('LOGOUT')}
+                onPress={props.onPress}
                 icon={() => (
                     <Image
                         source={LOGOUT_ICON}
@@ -56,7 +58,8 @@ function Logout(props) {
     );
 }
 
-export default function OwnerNavigator(props) {
+export default function OwnerNavigator({ navigation }) {
+    const dispatch = useDispatch();
     const ownerScreen = useSelector(state => state.owner.screen);
 
     const headerOptions = {
@@ -67,6 +70,12 @@ export default function OwnerNavigator(props) {
         headerMode: 'screen',
     };
 
+    const logout = () => {
+        AsyncStorage.removeItem('user')
+        navigation.replace(NavigatorConstant.NAVIGATOR.LOGIN);
+        dispatch(setUser({}));
+    };
+
     return (
         <Drawer.Navigator
             initialRouteName={NavigatorConstant.NAVIGATOR.OWNER_DRAWER}
@@ -74,7 +83,7 @@ export default function OwnerNavigator(props) {
                 ...headerOptions,
                 headerShown: ownerScreen === NavigatorConstant.OWNER.OWNER_HOME,
             }}
-            drawerContent={props => <Logout {...props} />}>
+            drawerContent={props => <Logout {...props} onPress={logout} />}>
             <Drawer.Screen
                 name={NavigatorConstant.OWNER.OWNER_NAVIGATOR}
                 component={ONavigator}

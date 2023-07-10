@@ -28,7 +28,7 @@ export default function UserProfile({ navigation }) {
     const handleGivenNameChange = (text) => setGivenName(text);
     const handleFamilyNameChange = (text) => setFamilyName(text);
 
-    useEffect(() => {
+    useEffect(() => {        
         navigation.setOptions({ headerTitle: 'Perfil de ' + user.name });
     }, []);
   
@@ -44,6 +44,13 @@ export default function UserProfile({ navigation }) {
     const styles = StyleSheet.create({
         input: {
             backgroundColor: 'white',
+            borderRadius: 20,
+            marginHorizontal: 32,
+            paddingHorizontal: 50,
+            marginTop: 28,
+        },
+        disabledInput: {
+            backgroundColor: 'gray',
             borderRadius: 20,
             marginHorizontal: 32,
             paddingHorizontal: 50,
@@ -70,34 +77,32 @@ export default function UserProfile({ navigation }) {
     return (
 
         <SafeAreaView style={{ flex: 1 }}>
-            {user.user.photo && <Image source={{ uri: user.user.photo }} style={styles.photo} />}
-            {!user.user.photo && <Image source={require("../../../assets/onlyLogo.png")} style={styles.photo} />}
+            {user.imgUser && <Image source={{ uri: user.imgUser }} style={styles.photo} />}
+            {!user.imgUser && <Image source={require("../../../assets/onlyLogo.png")} style={styles.photo} />}
             <TextInput
                 style={styles.input}
                 placeholderTextColor={'black'}
                 textAlign='left'
-                placeholder={user.user.givenName}
+                placeholder={user.name}
                 onChangeText={handleGivenNameChange}
-                editable={!user.rol}
+                editable={(user.rol === "User")}
             />
             <TextInput
                 style={styles.input}
                 placeholderTextColor={'black'}
                 textAlign='left'
-                placeholder={user.user.familyName}
+                placeholder={user.lastName}
                 onChangeText={handleFamilyNameChange}
-                editable={!user.rol}
+                editable={(user.rol === "User")}
             />
-            {!user.rol && (
-                <TextInput
-                    style={styles.input}
-                    placeholderTextColor={'black'}
-                    textAlign='left'
-                    placeholder={user.user.email}
-                    editable={false}
-                />
-            )}
-            {!user.rol && (
+            <TextInput
+                style={styles.disabledInput}
+                placeholderTextColor={'black'}
+                textAlign='left'
+                placeholder={user.email}
+                editable={false}
+            />
+            {(user.rol === "User") && (
                 <DualButtonFooter
                     primaryTitle="Confirmar"
                     onPressPrimary={this.handleFormSubmit}
