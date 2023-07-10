@@ -1,17 +1,12 @@
-import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigation, CommonActions } from '@react-navigation/native';
+import axios from 'axios';
 import { View, Text, StyleSheet, SafeAreaView, ToastAndroid } from 'react-native';
-import { useSelector } from 'react-redux';
-import CardFunctionUser from '../../components/cards/CardFunctionUser';
 import DropdownUserFilter from '../../components/DropdownUserFilter';
-import LoadingIndicator from '../../components/LoadingIndicator';
 import { useDispatch } from 'react-redux';
-import { setMovie, setScreenUser } from '../../../redux/store/';
 import NavigatorConstant from '../../../navigation/NavigatorConstant';
 import { setFilters, setFunctionsByMovie } from '../../../redux/store';
 import { Rating } from 'react-native-elements';
-import Logo from '../../components/Logo';
 import ButtonPrimary from '../../components/ButtonPrimary';
 
 export default function UFilters(props) {
@@ -26,14 +21,13 @@ export default function UFilters(props) {
     const dispatch = useDispatch()
     const distance = ['-1KM', '1KM-2KM', '+2KM']
 
-    
     useEffect(() => {
         navigation.setOptions({
             headerTitle: 'Filtros '
         });
         setIsLoading(true)
-        
-        if (filter) {            
+
+        if (filter) {
             if (filter.cine && !filter.movie) {
                 fetchFunctionsByCinema();
             }
@@ -42,6 +36,9 @@ export default function UFilters(props) {
             }
             else {
                 setGenreDisabled(false)
+                fetchCinemas();
+                fetchMovies();
+
             }
         }
         else {
@@ -57,13 +54,12 @@ export default function UFilters(props) {
             if (response.data.data.docs.length !== 0) {
                 const functionsArray = response.data.data.docs;
                 const filteredFunctions = functionsArray.reduce((accumulator, currentFunction) => {
-                    const existingFunction = accumulator.find(item => item.movie._id === currentFunction.movie._id);
+                    const existingFunction = accumulator.find(item => item._id === currentFunction.movie._id);
                     if (!existingFunction) {
                         accumulator.push(currentFunction.movie);
                     }
                     return accumulator;
                 }, []);
-
                 setMovies(filteredFunctions)
                 setMovieDisabled(false)
                 setGenreDisabled(false)
@@ -74,8 +70,6 @@ export default function UFilters(props) {
                 setGenreDisabled(true)
                 ToastAndroid.show('No existen películas para el cine seleccionado', ToastAndroid.SHORT)
             }
-
-
         } catch (e) {
             ToastAndroid.show('Error al cargar las funciones disponibles', ToastAndroid.SHORT);
         }
@@ -131,6 +125,14 @@ export default function UFilters(props) {
                 return newFilters;
             });
         } else {
+
+            if (option.title && filter.genre) {
+                setFilter(prevFilters => {
+                    const newFilters = { ...prevFilters }
+                    delete newFilters['genre']
+                    return newFilters
+                })
+            }
             setFilter(prevFilters => ({
                 ...prevFilters,
                 [tipo]: option
@@ -139,9 +141,14 @@ export default function UFilters(props) {
     };
 
     const handleSelectFilters = () => {
-        dispatch(setFilters(filter))
-        navigation.navigate(NavigatorConstant.NAVIGATOR.USERS_TAB_HOME)
-    }
+        dispatch(setFilters(filter));
+        navigation.dispatch(
+            CommonActions.reset({
+                index: 0,
+                routes: [{ name: NavigatorConstant.NAVIGATOR.USERS_TAB_HOME }]
+            })
+        );
+    };
 
     const IMAGEN = require('../../../assets/logo.png')
 
