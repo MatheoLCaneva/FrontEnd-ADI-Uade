@@ -10,7 +10,7 @@ import { StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard } from 'react
  * @param {boolean} props.secure - Indica si el campo de texto debe ser seguro.
  * @param {number} props.marginTop - El valor de margen superior.
  */
-export default function Input(props) {
+export default function Input(props, editable=true) {
     const handleScreenTouch = () => {
         Keyboard.dismiss();
     };

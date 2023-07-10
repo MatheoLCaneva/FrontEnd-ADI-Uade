@@ -101,8 +101,8 @@ export default function NewPw({ navigation, route }) {
             >
                 <View styles={styles.container}>
                     <Logo />
-                    <Input onChangeText={handlePasswordChange} marginTop={10} placeholder='Ingrese su nueva contraseña' secure={true} />
-                    <Input onChangeText={handlePasswordRepeatChange} marginTop={27} placeholder='Repita su nueva contraseña' secure={true} />
+                    <Input editable={true} onChangeText={handlePasswordChange} marginTop={10} placeholder='Ingrese su nueva contraseña' secure={true} />
+                    <Input editable={true} onChangeText={handlePasswordRepeatChange} marginTop={27} placeholder='Repita su nueva contraseña' secure={true} />
                     <ButtonPrimary onPress={handleNewPw} title='Actualizar contraseña' />
 
                 </View>

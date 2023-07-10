@@ -20,12 +20,13 @@ export default function BookingDetail() {
 
     const fetchComment = async () => {
         try {
-            const response = await axios.get('https://backend-adi-uade.onrender.com/comments/')
-            if (response.data.Comments.docs.length !== 0) {
+            const response = await axios.get(`https://backend-adi-uade.onrender.com/comments/user/${reserve.user.email}/${reserve.movie.id}`)
+            if (response.data.data.docs.length !== 0) {
                 setIsComment(true)
             }
         } catch (e) {
-            ToastAndroid.show('Error al enviar su comentario', ToastAndroid.SHORT)
+            ToastAndroid.show('Error al cargar comentarios', ToastAndroid.SHORT)
+            console.error(e)
         }
         setIsLoading(false)
     }
@@ -145,7 +146,7 @@ export default function BookingDetail() {
                     </View>
                     <Text style={[styles.sutitle, styles.price]}>Total: ${reserve.totalPrice} </Text>
                     <View style={styles.qr}>
-                        <QRCode size={reserve.seats.length > 2 ? 180: 200} logo={logo} logoSize={20} value="dssas" />
+                        <QRCode size={reserve.seats.length > 2 ? 180: 200} logo={logo} logoSize={20} value="codigo" />
                     </View>
                 </ImageBackground>
             </SafeAreaView>

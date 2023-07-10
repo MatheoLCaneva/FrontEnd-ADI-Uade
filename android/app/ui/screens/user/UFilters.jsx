@@ -175,20 +175,6 @@ export default function UFilters(props) {
                 <DropdownUserFilter label='Seleccionar un cine' options={[{ name: 'Todos' }, ...cinemas]} selectedOption={filter} onSelectOption={(option) => handleSelectOption('cine', option)} tipo={'cine'} />
                 <DropdownUserFilter disabled={movieDisabled} options={[{ title: 'Todas' }, ...movies]} selectedOption={filter} onSelectOption={(option) => handleSelectOption('movie', option)} tipo={'pelicula'} />
                 <DropdownUserFilter disabled={genreDisabled} label='Seleccionar un genero' options={['Todos', ...genre]} selectedOption={filter} onSelectOption={(option) => handleSelectOption('genre', option)} tipo={'genero'} />
-                <Rating
-                    type='custom'
-                    showRating
-                    ratingImage={IMAGEN}
-                    ratingColor='#E01D6F'
-                    ratingBackgroundColor='white'
-                    ratingCount={10}
-                    imageSize={33}
-                    startingValue={5}
-                    defaultRating={5}
-                    onFinishRating={this.ratingCompleted}
-                    style={{ paddingVertical: 10 }}
-                />
-
                 <DropdownUserFilter options={distance} selectedOption={filter} onSelectOption={(option) => handleSelectOption('distance', option)} tipo={'distancia'} />
                 <ButtonPrimary disabled={filter == null} title='Aplicar Filtros' onPress={handleSelectFilters} />
                 <ButtonPrimary title='Deshacer Filtros' onPress={handleUndoFilters} />

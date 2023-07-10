@@ -130,8 +130,22 @@ export default function UserHome() {
                 }
                 return accumulator;
             }, []);
+
+            const filterCinemas = functionsArray.reduce((accumulator, currentFunction) => {
+                const existingCinema = accumulator.find(item => item.id === currentFunction.cinema.id);
+                if (!existingCinema) {
+                    accumulator.push(currentFunction.cinema);
+                }
+                return accumulator;
+            }, []);
+
+
+
+            console.log(filterCinemas)
+            // console.log(a)
             setFunctionsAll(functionsArray);
             setFunctions(filteredFunctions);
+            setCinemas(filterCinemas)
             setIsLoading(false);
         } catch (e) {
             ToastAndroid.show('Error al cargar las funciones disponibles', ToastAndroid.SHORT);
@@ -187,7 +201,7 @@ export default function UserHome() {
         setIsLoading(true)
         if (cinema !== 'Todos') {
             setFilterCinema(cinema)
-            const uptFuncAll = functionsAll.filter(item => item.cinema.id == cinema._id)
+            const uptFuncAll = functionsAll.filter(item => item.cinema.id == cinema.id)
             if (uptFuncAll.length !== 0) {
                 const filteredFunctions = uptFuncAll.reduce((accumulator, currentFunction) => {
                     const existingFunction = accumulator.find(item => item.movie._id === currentFunction.movie._id);

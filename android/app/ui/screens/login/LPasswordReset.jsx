@@ -178,6 +178,7 @@ export default function PasswordReset({ navigation }) {
             borderRadius: 20,
             marginHorizontal: 32,
             paddingHorizontal: 50,
+            color: 'black'
         },
         modalBackground: {
             flex: 1,
@@ -196,7 +197,7 @@ export default function PasswordReset({ navigation }) {
             >
                 <View styles={styles.container}>
                     <Logo />
-                    <Input onChangeText={handleEmailChange} marginTop={80} placeholder='Ingrese su email' />
+                    <Input editable={true} onChangeText={handleEmailChange} marginTop={80} placeholder='Ingrese su email' />
 
                     {modalVisible && (
                         <View style={styles.modalBackground}>
@@ -207,7 +208,7 @@ export default function PasswordReset({ navigation }) {
                                 <View>
                                     <View style={styles.modalView}>
                                         <Text style={styles.modalText}>Se ha enviado un código de verificación al mail ingresado. Por favor ingréselo</Text>
-                                        <TextInput style={styles.input} onChangeText={handleEnteredCode} placeholder='Ingrese el código' textAlign='center' />
+                                        <TextInput editable={true} style={styles.input} onChangeText={handleEnteredCode} placeholderTextColor={'black'} placeholder='Ingrese el código' textAlign='center' />
                                         <Pressable
                                             onPress={handleVerification}
                                             style={[styles.button, styles.buttonClose]}

@@ -18,6 +18,10 @@ export default function ReserveDone() {
         dispatch(resetClientState)
     }
 
+    const handleViewReserves = () => {
+        navigation.replace(NavigatorConstant.USER_TABS.BOOKINGS)
+    }
+
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -99,7 +103,7 @@ export default function ReserveDone() {
                     <QRCode size={200} logo={logo} logoSize={20} value="dssas" />
                 </View>
                 {/* ...componentes */}
-                <DualButtonFooter onPressPrimary={handleGoBack} primaryTitle='Volver' secondaryTitle='Mis Reservas'/>
+                <DualButtonFooter onPressPrimary={handleGoBack} primaryTitle='Volver' onPressSecondary={handleViewReserves}  secondaryTitle='Mis Reservas'/>
             </ImageBackground>
         </SafeAreaView>
     );

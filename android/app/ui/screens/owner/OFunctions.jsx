@@ -18,7 +18,6 @@ export default function OwnerFunctions({ navigation }) {
 
 
     const dispatch = useDispatch();
-    console.log(funcs)
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {

@@ -119,8 +119,8 @@ export default function OwnerLogin({ props, route, navigation }) {
     return (
         <View styles={styles.container}>
             <Logo />
-            <Input onChangeText={handleEmailChange} marginTop={10} placeholder='Ingrese su email' />
-            <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
+            <Input editable={true} onChangeText={handleEmailChange} marginTop={10} placeholder='Ingrese su email' />
+            <Input editable={true} onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
             <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
                 <Text style={styles.toggleButtonText}>
                     {showPassword ? 'Ocultar' : 'Mostrar'}

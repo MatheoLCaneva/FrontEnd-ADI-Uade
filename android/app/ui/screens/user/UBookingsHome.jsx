@@ -28,14 +28,32 @@ export default function BookingsHome() {
         try {
             const response = await axios.get(`https://backend-adi-uade.onrender.com/reservations/user/${user.email}`)
             if (response.data.status === 200) {
-                setReserves(response.data.data.docs)
+                const reserves = response.data.data.docs.map(reserve => {
+                    // Convertir la fecha en formato "DD/MM" a un objeto Date válido
+                    const reserveDateParts = reserve.date.split('/');
+                    const reserveDate = new Date();
+                    reserveDate.setDate(parseInt(reserveDateParts[0]));
+                    reserveDate.setMonth(parseInt(reserveDateParts[1]) - 1); // Restar 1 ya que los meses en JavaScript son base 0
+
+                    // Comprobar si la fecha es menor a la fecha actual
+                    const currentDate = new Date();
+
+                    if (reserveDate < currentDate) {
+                        reserve.status = true; // Establecer status en false
+                    }
+
+                    return reserve;
+                });
+
+                setReserves(reserves);
             }
         } catch (e) {
-            console.error(e)
+            console.error(e);
         }
-        setIsLoading(false)
-
+        setIsLoading(false);
     }
+
+
 
     const handleSelectBooking = (booking) => {
         dispatch(setReserve(booking))
