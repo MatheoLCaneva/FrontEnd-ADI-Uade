@@ -6,27 +6,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setScreen } from '../../../redux/store';
 import NavigatorConstant from "../../../navigation/NavigatorConstant";
 import Input from '../../components/Input';
-import { CommonActions } from '@react-navigation/native';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import DualButtonFooter from '../../components/DualButtonFooter';
+import AddressAutocomplete from '../../components/InputAddress/Index';
 
 export default function CreateCinema({ navigation, route }) {
 
     let cinema = useSelector(state => state.owner.cinema)
+    console.log("🚀 ~ file: OEditCinema.jsx:16 ~ CreateCinema ~ cinema:", cinema)
     const dispatch = useDispatch();
 
-    const [name, setName] = useState('');
+    const [name, setName] = useState(cinema.name);
     const [address, setAddress] = useState('');
-    const [city, setCity] = useState('');
-    const [district, setDistrict] = useState('');
-    const [country, setCountry] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const handleNameChange = (text) => setName(text);
     const handleAddressChange = (text) => setAddress(text);
-    const handleCityChange = (text) => setCity(text);
-    const handleDistrictChange = (text) => setDistrict(text);
-    const handleCountryChange = (text) => setCountry(text);
 
     const handleEditCinema = async () => {
         setIsLoading(true)
@@ -98,11 +93,8 @@ export default function CreateCinema({ navigation, route }) {
     return (
         <View style={styles.container}>
             <View>
-                <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} />
-                <Input placeholder='Direccion' marginTop={21} onChangeText={handleAddressChange} />
-                <Input placeholder='Ciudad' marginTop={21} onChangeText={handleCityChange} />
-                <Input placeholder='Barrio' marginTop={21} onChangeText={handleDistrictChange} />
-                <Input placeholder='Pais' marginTop={21} onChangeText={handleCountryChange} />
+                <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} value={name} />
+                <AddressAutocomplete placeHolderText="Ingrese la ubicación" target="origin" />
                 <DualButtonFooter primaryTitle='Modificar Cine' onPressPrimary={handleEditCinema} secondaryTitle='Cancelar' onPressSecondary={completeBackAction} />
             </View>
             {isLoading && <LoadingIndicator />}

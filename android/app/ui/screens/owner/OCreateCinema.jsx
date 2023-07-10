@@ -101,7 +101,7 @@ export default function CreateCinema({ navigation }) {
     return (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <SafeAreaView style={styles.container}>
-                <Input placeholder='Nombre' marginTop={77} editable={true} onChangeText={handleNameChange} />
+                <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} />
                 <AddressAutocomplete placeHolderText="Ingrese la ubicación" target="origin" />
                 <DualButtonFooter primaryTitle='Crear Cine' onPressPrimary={handleCreateCinema} secondaryTitle='Cancelar' onPressSecondary={completeBackAction} />
                 {isLoading && <LoadingIndicator />}

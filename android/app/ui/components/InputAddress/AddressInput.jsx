@@ -16,6 +16,8 @@ const AddressInput = ({
             marginHorizontal: 32,
             paddingLeft: 20,
             color: 'black',
+            opacity: 1,
+            fontSize: 16, // Ajusta el tamaño de fuente según sea necesario
         },
     });
     return (
@@ -23,7 +25,7 @@ const AddressInput = ({
             <TextInput style={styles.input}
                 className="bg-gray-200 py-1 text-left px-3 ml-2 rounded text-base border-b-0"
                 placeholder={placeHolderText}
-                placeholderTextColor={'black'}
+                placeholderTextColor="#590B2C"
                 value={enterdText}
                 onChangeText={onChangeAddressHandler}
             />

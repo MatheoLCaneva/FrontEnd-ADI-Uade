@@ -16,12 +16,13 @@ export default function EditFunction({ navigation }) {
     const cinema = useSelector(state => state.owner.cinema);
     const room = useSelector(state => state.owner.room)
     const func = useSelector(state => state.owner.function);
+    console.log("🚀 ~ file: OEditFunction.jsx:19 ~ EditFunction ~ func:", func)
 
     const [movies, setMovies] = useState([])
     const [isLoading, setIsLoading] = useState(false);
     const [selectedOption, setSelectedOption] = useState(null)
-    const [date, setDate] = useState(new Date()); // Fecha actual
-    const [time, setTime] = useState(new Date());
+    const [date, setDate] = useState(func.date); // Fecha actual
+    const [time, setTime] = useState(func.hour);
 
 
     const onDateChange = (event, selectedDate) => {
@@ -35,18 +36,44 @@ export default function EditFunction({ navigation }) {
         setTime(currentTime);
     };
 
+    const formatDate = () => {
+        if(typeof date === 'string') {
+            let dateArray = date.split('/');
+            let day = parseInt(dateArray[0]);
+            let month = parseInt(dateArray[1]) - 1;
+            let year = new Date().getFullYear();
+            return new Date(year, month, day);
+        }
+        else {
+            return date;
+        }
+    }
+
     const showDatepicker = () => {
         DateTimePickerAndroid.open({
-            value: date || new Date(),
+            value: formatDate(),
             onChange: onDateChange,
             mode: 'date',
             is24Hour: true,
         });
     };
 
+    const formatTime = () => {
+        let editableTime = new Date();
+        if(typeof time === 'string') {
+            let timeArray = time.split(':');
+            editableTime.setHours(parseInt(timeArray[0]));
+            editableTime.setMinutes(parseInt(timeArray[1]));
+        }
+        else {
+            editableTime = time;
+        }
+        return editableTime;
+    }
+
     const showTimepicker = () => {
         DateTimePickerAndroid.open({
-            value: time || new Date().setHours(0, 0, 0, 0),
+            value: formatTime(),
             onChange: onTimeChange,
             mode: 'time',
             is24Hour: true,
@@ -60,7 +87,6 @@ export default function EditFunction({ navigation }) {
 
         const fetchData = async () => {
             try {
-
                 //TODO: Están las funciones en el back?
                 //Por si quiero ver todas las salas para probar
                 const response = await axios.get(
@@ -82,7 +108,6 @@ export default function EditFunction({ navigation }) {
     }, [room, navigation]);
 
     const handleEditFunction = async () => {
-
         const headers = {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -93,8 +118,8 @@ export default function EditFunction({ navigation }) {
             cinema: cinema._id,
             room: room._id,
             movie: selectedOption,
-            date: format(date, 'dd/MM').toString(),
-            hour: format(new Date(time), 'HH:mm')
+            date: format(formatDate(), 'dd/MM').toString(),
+            hour: format(formatTime(), 'HH:mm')
         };
 
         console.log(obj)
@@ -124,17 +149,6 @@ export default function EditFunction({ navigation }) {
             marginVertical: 10,
             marginHorizontal: 32,
         },
-        flexRow: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 0,
-        },
-        label: {
-            fontSize: 16,
-            fontWeight: 'bold',
-            marginBottom: 5,
-            color: 'white'
-        },
         dropdownButton: {
             backgroundColor: '#EFEFEF',
             paddingVertical: 10,
@@ -149,31 +163,6 @@ export default function EditFunction({ navigation }) {
             fontSize: 16,
             color: '#FFFFFF',
             marginHorizontal: 32
-
-        },
-        modalContainer: {
-            flex: 1,
-            justifyContent: 'center',
-            backgroundColor: '#FFFFFF',
-        },
-        optionButton: {
-            padding: 16,
-            borderBottomWidth: 1,
-            borderBottomColor: '#CCCCCC',
-        },
-        optionText: {
-            fontSize: 16,
-            color: 'black'
-        },
-        closeButton: {
-            backgroundColor: '#EFEFEF',
-            paddingVertical: 16,
-            alignItems: 'center',
-        },
-        closeButtonText: {
-            fontSize: 16,
-            fontWeight: 'bold',
-            color: '#555555',
         },
     });
 
@@ -188,16 +177,16 @@ export default function EditFunction({ navigation }) {
                     style={[styles.containerPicker, styles.dropdownButton]}
                     onPress={showDatepicker}
                 >
-                    <Text style={styles.dropdownButtonText}>{format(date, 'dd/MM')}</Text>
+                    <Text style={styles.dropdownButtonText}>{(typeof date === 'string') ? date : format(date, 'dd/MM')}</Text>
                 </TouchableOpacity>
                 <Text style={styles.dropdownButtonLabel}>Seleccionar Hora</Text>
                 <TouchableOpacity
                     style={[styles.containerPicker, styles.dropdownButton]}
                     onPress={showTimepicker}
                 >
-                    <Text style={styles.dropdownButtonText}>{format(new Date(time), 'HH:mm')}</Text>
+                    <Text style={styles.dropdownButtonText}>{(typeof time === 'string') ? time : format(new Date(time), 'HH:mm')}</Text>
                 </TouchableOpacity>
-                <DualButtonFooter primaryTitle='Crear Funcion' onPressPrimary={handleEditFunction} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
+                <DualButtonFooter primaryTitle='Editar Función' onPressPrimary={handleEditFunction} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
 
             </View>
             {isLoading && <LoadingIndicator />}

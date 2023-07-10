@@ -6,6 +6,7 @@ import Input from '../../components/Input';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import { CommonActions } from '@react-navigation/native';
 import DualButtonFooter from '../../components/DualButtonFooter';
+import NumericInput from '../../components/NumericInput';
 
 export default function CreateRoom({ navigation }) {
     const user = useSelector(state => state.user);
@@ -85,8 +86,8 @@ export default function CreateRoom({ navigation }) {
                 <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} />
                 <Input placeholder='Precio' marginTop={21} onChangeText={handlePriceChange} />
                 <View style={styles.flexRow}>
-                    <Input placeholder='Nro Columnas' marginTop={21} small onChangeText={handleColumnsChange} />
-                    <Input placeholder='Nro Filas' marginTop={21} small onChangeText={handleRowsChange} />
+                    <NumericInput placeholder='Nro Columnas' marginTop={21} small onChangeText={handleColumnsChange} />
+                    <NumericInput placeholder='Nro Filas' marginTop={21} small onChangeText={handleRowsChange} />
                 </View>
                 <DualButtonFooter primaryTitle='Crear Sala' onPressPrimary={handleCreateRoom} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
             </View>
