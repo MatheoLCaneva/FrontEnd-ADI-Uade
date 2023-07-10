@@ -10,6 +10,7 @@ import Dropdown from '../../components/Dropdown';
 // import DatePicker from '../../components/DatePicker';
 import format from 'date-fns/format';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import CustomAlert from '../../components/CustomAlert';
 
 
 export default function CreateFunction({ navigation }) {
@@ -21,6 +22,8 @@ export default function CreateFunction({ navigation }) {
     const [selectedOption, setSelectedOption] = useState(null)
     const [date, setDate] = useState(new Date()); // Fecha actual
     const [time, setTime] = useState(new Date());
+    const [isAlertVisible, setAlertVisible] = useState(false);
+    const [alertText, setAlertText] = useState("");
 
 
     const onDateChange = (event, selectedDate) => {
@@ -76,11 +79,15 @@ export default function CreateFunction({ navigation }) {
                 setIsLoading(false);
             }
         };
-
         fetchData();
     }, [room, navigation]);
 
     const handleCreateFunction = async () => {
+        if(selectedOption === null) {
+            setAlertText("Por favor, seleccione una película");
+            setAlertVisible(true);
+            return;
+        }
 
         const headers = {
             Accept: 'application/json',
@@ -124,17 +131,6 @@ export default function CreateFunction({ navigation }) {
             marginVertical: 10,
             marginHorizontal: 32,
         },
-        flexRow: {
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 0,
-        },
-        label: {
-            fontSize: 16,
-            fontWeight: 'bold',
-            marginBottom: 5,
-            color: 'white'
-        },
         dropdownButton: {
             backgroundColor: '#EFEFEF',
             paddingVertical: 10,
@@ -150,30 +146,6 @@ export default function CreateFunction({ navigation }) {
             color: '#FFFFFF',
             marginHorizontal: 32
 
-        },
-        modalContainer: {
-            flex: 1,
-            justifyContent: 'center',
-            backgroundColor: '#FFFFFF',
-        },
-        optionButton: {
-            padding: 16,
-            borderBottomWidth: 1,
-            borderBottomColor: '#CCCCCC',
-        },
-        optionText: {
-            fontSize: 16,
-            color: 'black'
-        },
-        closeButton: {
-            backgroundColor: '#EFEFEF',
-            paddingVertical: 16,
-            alignItems: 'center',
-        },
-        closeButtonText: {
-            fontSize: 16,
-            fontWeight: 'bold',
-            color: '#555555',
         },
     });
 
@@ -200,6 +172,7 @@ export default function CreateFunction({ navigation }) {
                 <DualButtonFooter primaryTitle='Crear Funcion' onPressPrimary={handleCreateFunction} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
 
             </View>
+            {isAlertVisible && <CustomAlert text={alertText} primaryTitle='Aceptar' onPress={() => setAlertVisible(false)}/>}
             {isLoading && <LoadingIndicator />}
         </View>
     );

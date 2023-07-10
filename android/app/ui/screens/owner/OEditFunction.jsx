@@ -10,6 +10,7 @@ import Dropdown from '../../components/Dropdown';
 // import DatePicker from '../../components/DatePicker';
 import format from 'date-fns/format';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import CustomAlert from '../../components/CustomAlert';
 
 
 export default function EditFunction({ navigation }) {
@@ -23,6 +24,9 @@ export default function EditFunction({ navigation }) {
     const [selectedOption, setSelectedOption] = useState(null)
     const [date, setDate] = useState(func.date); // Fecha actual
     const [time, setTime] = useState(func.hour);
+
+    const [isAlertVisible, setAlertVisible] = useState(false);
+    const [alertText, setAlertText] = useState("");
 
 
     const onDateChange = (event, selectedDate) => {
@@ -108,6 +112,12 @@ export default function EditFunction({ navigation }) {
     }, [room, navigation]);
 
     const handleEditFunction = async () => {
+        if(selectedOption === null) {
+            setAlertText("Por favor, seleccione una película");
+            setAlertVisible(true);
+            return;
+        }
+
         const headers = {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -189,6 +199,7 @@ export default function EditFunction({ navigation }) {
                 <DualButtonFooter primaryTitle='Editar Función' onPressPrimary={handleEditFunction} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
 
             </View>
+            {isAlertVisible && <CustomAlert text={alertText} primaryTitle='Aceptar' onPress={() => setAlertVisible(false)}/>}
             {isLoading && <LoadingIndicator />}
         </View>
     );
