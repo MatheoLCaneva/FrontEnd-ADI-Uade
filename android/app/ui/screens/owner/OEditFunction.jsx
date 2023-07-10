@@ -17,7 +17,6 @@ export default function EditFunction({ navigation }) {
     const cinema = useSelector(state => state.owner.cinema);
     const room = useSelector(state => state.owner.room)
     const func = useSelector(state => state.owner.function);
-    console.log("🚀 ~ file: OEditFunction.jsx:19 ~ EditFunction ~ func:", func)
 
     const [movies, setMovies] = useState([])
     const [isLoading, setIsLoading] = useState(false);
@@ -132,8 +131,6 @@ export default function EditFunction({ navigation }) {
             hour: format(formatTime(), 'HH:mm')
         };
 
-        console.log(obj)
-
         try {
             const response = await axios.put(`https://backend-adi-uade.onrender.com/functions/`, obj, { headers });
             if (response.data.status === 200) {
@@ -145,7 +142,7 @@ export default function EditFunction({ navigation }) {
 
             }
         } catch (e) {
-            console.log(e)
+            console.error(e)
             Alert.alert("Error", "Ha ocurrido un error al editar su función, reintente en unos minutos.");
             setIsLoading(false);
         }

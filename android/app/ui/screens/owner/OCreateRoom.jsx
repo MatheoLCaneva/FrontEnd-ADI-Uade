@@ -7,6 +7,7 @@ import LoadingIndicator from '../../components/LoadingIndicator';
 import { CommonActions } from '@react-navigation/native';
 import DualButtonFooter from '../../components/DualButtonFooter';
 import NumericInput from '../../components/NumericInput';
+import CustomAlert from '../../components/CustomAlert';
 
 export default function CreateRoom({ navigation }) {
     const user = useSelector(state => state.user);
@@ -18,6 +19,9 @@ export default function CreateRoom({ navigation }) {
     const [rows, setRows] = useState('');
     const [columns, setColumns] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    const [isAlertVisible, setAlertVisible] = useState(false);
+    const [alertText, setAlertText] = useState("");
 
     const handleNameChange = (text) => setName(text);
     const handlePriceChange = (text) => setPrice(text);
@@ -35,8 +39,24 @@ export default function CreateRoom({ navigation }) {
 
 
     const handleCreateRoom = async () => {
-        if (name === '' || price === '' || rows === '' || columns === '') {
-            Alert.alert('Error en los datos', 'Los campos no pueden estar vacíos.');
+        if(name === '') {
+            setAlertText("Por favor, ingrese un nombre de sala");
+            setAlertVisible(true);
+            return;
+        }
+        if(price === '') {
+            setAlertText("Por favor, ingrese un precio de sala");
+            setAlertVisible(true);
+            return;
+        }
+        if(columns === '') {
+            setAlertText("Por favor, ingrese las columnas de la sala");
+            setAlertVisible(true);
+            return;
+        }
+        if(rows === '') {
+            setAlertText("Por favor, ingrese las filas de la sala");
+            setAlertVisible(true);
             return;
         }
 
@@ -91,6 +111,7 @@ export default function CreateRoom({ navigation }) {
                 </View>
                 <DualButtonFooter primaryTitle='Crear Sala' onPressPrimary={handleCreateRoom} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
             </View>
+            {isAlertVisible && <CustomAlert text={alertText} primaryTitle='Aceptar' onPress={() => setAlertVisible(false)}/>}
             {isLoading && <LoadingIndicator />}
         </View>
     );

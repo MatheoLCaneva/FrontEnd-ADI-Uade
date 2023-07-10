@@ -31,7 +31,7 @@ export default function BookingsHome() {
                 setReserves(response.data.data.docs)
             }
         } catch (e) {
-            console.log(e)
+            console.error(e)
         }
         setIsLoading(false)
 

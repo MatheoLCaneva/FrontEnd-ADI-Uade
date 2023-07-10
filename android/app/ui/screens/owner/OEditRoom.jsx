@@ -6,6 +6,7 @@ import Input from '../../components/Input';
 import NumericInput from '../../components/NumericInput';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import DualButtonFooter from '../../components/DualButtonFooter';
+import CustomAlert from '../../components/CustomAlert';
 
 export default function EditRoom({ navigation }) {
     const user = useSelector(state => state.user);
@@ -18,6 +19,9 @@ export default function EditRoom({ navigation }) {
     const [rows, setRows] = useState('');
     const [columns, setColumns] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    const [isAlertVisible, setAlertVisible] = useState(false);
+    const [alertText, setAlertText] = useState("");
 
     const handleNameChange = (text) => setName(text);
     const handlePriceChange = (text) => setPrice(text);
@@ -34,6 +38,17 @@ export default function EditRoom({ navigation }) {
     };
 
     const handleEditRoom = async () => {
+        if(name === '') {
+            setAlertText("Por favor, ingrese un nombre de sala");
+            setAlertVisible(true);
+            return;
+        }
+        if(price === '') {
+            setAlertText("Por favor, ingrese un precio de sala");
+            setAlertVisible(true);
+            return;
+        }
+        
         setIsLoading(true);
 
         const headers = {
@@ -53,7 +68,6 @@ export default function EditRoom({ navigation }) {
                 // ToastAndroid.show("Sala modificada con éxito.", ToastAndroid.SHORT)
                 try {
                     const updatedRooms = [...cinema.rooms];
-                    console.log(updatedRooms)
                     // Encontrar el índice de la sala eliminada en la copia del array
                     const index = updatedRooms.findIndex(r => r._id === room._id);
                     if (index !== -1) {
@@ -101,7 +115,6 @@ export default function EditRoom({ navigation }) {
                 // ToastAndroid.show("Sala modificada con éxito.", ToastAndroid.LONG)
                 try {
                     const updatedRooms = [...cinema.rooms];
-                    console.log(updatedRooms)
                     // Encontrar el índice de la sala eliminada en la copia del array
                     const index = updatedRooms.findIndex(r => r._id === room._id);
                     if (index !== -1) {
@@ -154,6 +167,7 @@ export default function EditRoom({ navigation }) {
                 <DualButtonFooter primaryTitle='Editar' onPressPrimary={handleEditRoom} secondaryTitle={room.status ? 'Desactivar' : 'Activar'}
                     onPressSecondary={() => handleStopRoom()} />
             </View>
+            {isAlertVisible && <CustomAlert text={alertText} primaryTitle='Aceptar' onPress={() => setAlertVisible(false)}/>}
             {isLoading && <LoadingIndicator />}
         </View>
     );

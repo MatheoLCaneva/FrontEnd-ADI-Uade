@@ -13,6 +13,7 @@ import NavigatorConstant from "../../../navigation/NavigatorConstant";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import AddressAutocomplete from '../../components/InputAddress/Index';
+import CustomAlert from '../../components/CustomAlert';
 
 export default function CreateCinema({ navigation }) {
     const user = useSelector(state => state.user);
@@ -24,12 +25,24 @@ export default function CreateCinema({ navigation }) {
     const [district, setDistrict] = useState('');
     const [country, setCountry] = useState('');
 
+    const [isAlertVisible, setAlertVisible] = useState(false);
+    const [alertText, setAlertText] = useState("");
+
     const handleNameChange = (text) => setName(text);
 
     const handleCreateCinema = async () => {
+        if(name === '') {
+            setAlertText("Por favor, ingrese un nombre de cine");
+            setAlertVisible(true);
+            return;
+        }
+        if(address === undefined) {
+            setAlertText("Por favor, ingrese la dirección del cine");
+            setAlertVisible(true);
+            return;
+        }
 
         // setIsLoading(true);
-        console.log(address.properties)
         const headers = {
             Accept: 'application/json',
             'Content-Type': 'application/json',
@@ -104,6 +117,7 @@ export default function CreateCinema({ navigation }) {
                 <Input placeholder='Nombre' marginTop={77} onChangeText={handleNameChange} />
                 <AddressAutocomplete placeHolderText="Ingrese la ubicación" target="origin" />
                 <DualButtonFooter primaryTitle='Crear Cine' onPressPrimary={handleCreateCinema} secondaryTitle='Cancelar' onPressSecondary={completeBackAction} />
+                {isAlertVisible && <CustomAlert text={alertText} primaryTitle='Aceptar' onPress={() => setAlertVisible(false)}/>}
                 {isLoading && <LoadingIndicator />}
             </SafeAreaView>
         </TouchableWithoutFeedback>

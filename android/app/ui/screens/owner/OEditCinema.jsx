@@ -9,6 +9,7 @@ import Input from '../../components/Input';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import DualButtonFooter from '../../components/DualButtonFooter';
 import AddressAutocomplete from '../../components/InputAddress/Index';
+import CustomAlert from '../../components/CustomAlert';
 
 export default function CreateCinema({ navigation, route }) {
 
@@ -20,10 +21,25 @@ export default function CreateCinema({ navigation, route }) {
     const [address, setAddress] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    const [isAlertVisible, setAlertVisible] = useState(false);
+    const [alertText, setAlertText] = useState("");
+
     const handleNameChange = (text) => setName(text);
     const handleAddressChange = (text) => setAddress(text);
 
     const handleEditCinema = async () => {
+        if(name === '') {
+            setAlertText("Por favor, ingrese un nombre de cine");
+            setAlertVisible(true);
+            return;
+        }
+        console.log("🚀 ~ file: OEditCinema.jsx:37 ~ handleEditCinema ~ address:", address)
+        if(address === undefined) {
+            setAlertText("Por favor, ingrese la dirección del cine");
+            setAlertVisible(true);
+            return;
+        }
+
         setIsLoading(true)
         const updatedCinema = {
             ...cinema,
@@ -97,6 +113,7 @@ export default function CreateCinema({ navigation, route }) {
                 <AddressAutocomplete placeHolderText="Ingrese la ubicación" target="origin" />
                 <DualButtonFooter primaryTitle='Modificar Cine' onPressPrimary={handleEditCinema} secondaryTitle='Cancelar' onPressSecondary={completeBackAction} />
             </View>
+            {isAlertVisible && <CustomAlert text={alertText} primaryTitle='Aceptar' onPress={() => setAlertVisible(false)}/>}
             {isLoading && <LoadingIndicator />}
         </View>
     );
