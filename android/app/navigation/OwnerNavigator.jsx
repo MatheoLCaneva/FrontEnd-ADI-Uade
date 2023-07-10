@@ -9,6 +9,7 @@ import {
     DrawerItem,
 } from '@react-navigation/drawer';
 import { useSelector } from 'react-redux';
+import UserProfile from '../ui/screens/user/UProfile';
 
 
 const Stack = createNativeStackNavigator()
@@ -26,19 +27,18 @@ function Logout(props) {
 export default function OwnerNavigator(props) {
     const ownerScreen = useSelector(state => state.owner.screen);
 
-    const baseOptions = {        
+    const baseOptions = {
         headerStyle: { backgroundColor: '#E01D6F' },
         headerTintColor: '#fff',
         headerTitleStyle: { fontWeight: 'normal' },
         headerTitleAlign: 'center'
     };
 
-    console.log("🚀 ~ file: OwnerNavigator.jsx:37 ~ OwnerNavigator ~ ownerScreen:", ownerScreen)
-
     return (
         <Drawer.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.OWNER_DRAWER} screenOptions={{ ...baseOptions, headerShown: ownerScreen === NavigatorConstant.OWNER.OWNER_HOME, headerMode: "screen" }}
             drawerContent={(props) => <Logout {...props} />}>
-            <Drawer.Screen name={NavigatorConstant.OWNER.OWNER_NAVIGATOR} component={ONavigator} options={{ headerBackVisible: false, headerLeft: null }} />
+            <Drawer.Screen name={NavigatorConstant.OWNER.OWNER_NAVIGATOR} component={ONavigator} options={{ title: "Home", headerBackVisible: false, headerLeft: null }} />
+            <Drawer.Screen name={NavigatorConstant.OWNER.OWNER_PROFILE} component={UserProfile} options={{ title: "Perfil", headerBackVisible: false, headerLeft: null, drawerItemStyle: { backgroundColor: '#E01D6F'} }} />
         </Drawer.Navigator>
     )
 }

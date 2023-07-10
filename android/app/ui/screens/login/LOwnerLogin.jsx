@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ImageBackground, ToastAndroid, TouchableOpacity, ActivityIndicator, Keyboard } from 'react-native';
+import { View, Text, StyleSheet, ToastAndroid, TouchableOpacity, ActivityIndicator, Keyboard } from 'react-native';
 import CheckButton from '../../components/CheckButton';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import Logo from '../../components/Logo';
@@ -46,12 +46,13 @@ export default function OwnerLogin({ props, route, navigation }) {
             Accept: 'application/json',
             'Content-Type': 'application/json',
         }
-        
+
         const data = {
             email: email,
-            password: password
+            password: password,
+            rol: 'Owner',
         }
-        
+
         try {
             const response = await axios.post('https://backend-adi-uade.onrender.com/users/login', data, { headers });
             setLoading(false);
@@ -59,6 +60,7 @@ export default function OwnerLogin({ props, route, navigation }) {
             dispatch(setUser(user));
             navigation.replace('OWNER_HOME');
         } catch (err) {
+            console.log("🚀 ~ file: LOwnerLogin.jsx:62 ~ handleLogin ~ err:", err)
             ToastAndroid.show("Error de usuario y/o contraseña", ToastAndroid.LONG);
             setLoading(false);
         }
@@ -105,42 +107,35 @@ export default function OwnerLogin({ props, route, navigation }) {
     });
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <ImageBackground
-                source={require('../../../assets/gradient.png')}
-                style={styles.container}
-            >
-                <View styles={styles.container}>
-                    <Logo />
-                    <Input onChangeText={handleEmailChange} marginTop={10} placeholder='Ingrese su email' />
-                    <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
-                    <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
-                        <Text style={styles.toggleButtonText}>
-                            {showPassword ? 'Ocultar' : 'Mostrar'}
-                        </Text>
-                    </TouchableOpacity>
+        <View styles={styles.container}>
+            <Logo />
+            <Input onChangeText={handleEmailChange} marginTop={10} placeholder='Ingrese su email' />
+            <Input onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
+            <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
+                <Text style={styles.toggleButtonText}>
+                    {showPassword ? 'Ocultar' : 'Mostrar'}
+                </Text>
+            </TouchableOpacity>
 
-                    {/* <CheckButton style={{ marginTop: 30, flexDirection: 'row', alignSelf: 'center' }} /> */}
+            {/* <CheckButton style={{ marginTop: 30, flexDirection: 'row', alignSelf: 'center' }} /> */}
 
-                    <View style={styles.buttonContainer}>
-                        <ButtonPrimary onPress={handleLogin} title='Ingresar' disabled={isLoading} />
-                        {isLoading ? (
-                            <ActivityIndicator style={styles.loadingIndicator} size="small" color="#ffffff" />
-                        ) : (
-                            null
-                        )
-                        }
-                    </View>
+            <View style={styles.buttonContainer}>
+                <ButtonPrimary onPress={handleLogin} title='Ingresar' disabled={isLoading} />
+                {isLoading ? (
+                    <ActivityIndicator style={styles.loadingIndicator} size="small" color="#ffffff" />
+                ) : (
+                    null
+                )
+                }
+            </View>
 
-                    <TouchableOpacity style={{ marginTop: 40 }} onPress={handlePressRecoveryPass}>
-                        <Text style={styles.footer}>Olvidé mi contraseña</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ marginTop: 30, flexDirection: 'row', alignSelf: 'center' }} onPress={handlePressRegister}>
-                        <Text style={styles.footer}>No estas registrado?</Text><Text style={styles.footerNegrita}> Registrate</Text>
-                    </TouchableOpacity>
+            <TouchableOpacity style={{ marginTop: 40 }} onPress={handlePressRecoveryPass}>
+                <Text style={styles.footer}>Olvidé mi contraseña</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={{ marginTop: 30, flexDirection: 'row', alignSelf: 'center' }} onPress={handlePressRegister}>
+                <Text style={styles.footer}>No estas registrado?</Text><Text style={styles.footerNegrita}> Registrate</Text>
+            </TouchableOpacity>
 
-                </View>
-            </ImageBackground>
-        </SafeAreaView>
+        </View>
     );
 }

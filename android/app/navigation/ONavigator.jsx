@@ -21,7 +21,7 @@ export default function ONavigator({ navigation }) {
     const baseOptions = { /*headerShown: false,*/ headerStyle: { backgroundColor: '#E01D6F' }, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'normal' }, headerTitleAlign: 'center' };
 
     useEffect(() => {
-        navigation.setOptions({ title: 'Hola ' + user.name });
+        navigation.setOptions({ headerTitle: 'Hola ' + user.name });
     }, []);
 
     return (
