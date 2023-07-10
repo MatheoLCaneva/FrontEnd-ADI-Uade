@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, ToastAndroid } from 'react-native';
+import { Alert, ToastAndroid, BackHandler } from 'react-native';
+import { HeaderBackButton } from '@react-navigation/elements';
 import axios from 'axios';
 import CardRoom from '../../components/cards/CardRoom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setRoom } from '../../../redux/store';
+import { setRoom, setScreen } from '../../../redux/store';
+import NavigatorConstant from "../../../navigation/NavigatorConstant";
 import OListScreen from './OListScreen';
 
 export default function OwnerRooms({ navigation }) {
@@ -78,6 +80,31 @@ export default function OwnerRooms({ navigation }) {
 
         fetchData();
     }, [cinema, navigation]);
+
+    const backAction = () => {
+        dispatch(setScreen(NavigatorConstant.OWNER.OWNER_HOME));
+    };
+    const completeBackAction = () => {
+        dispatch(setScreen(NavigatorConstant.OWNER.OWNER_HOME));
+        navigation.goBack();
+    };
+
+    useEffect(() => {
+        dispatch(setScreen(NavigatorConstant.OWNER.ROOMS_HOME));
+
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+        navigation.setOptions({
+            headerLeft: (props) => (
+                <HeaderBackButton
+                    {...props}
+                    onPress={completeBackAction}
+                />
+            )
+        });
+
+        return () => backHandler.remove();
+    }, []);
 
     const handleCreateRoom = () => {
         navigation.push('CREATE_ROOM');

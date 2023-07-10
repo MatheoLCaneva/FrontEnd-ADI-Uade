@@ -79,7 +79,9 @@ export default function CreateCinema({ navigation }) {
         navigation.goBack();
     };
 
-    useEffect(() => {
+    useEffect(() => {        
+        dispatch(setScreen(NavigatorConstant.OWNER.CREATE_CINEMA));
+        
         const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
 
         navigation.setOptions({

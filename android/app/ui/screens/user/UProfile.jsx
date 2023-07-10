@@ -33,7 +33,7 @@ export default function UserProfile({ navigation }) {
     }, []);
   
     const dispatch = useDispatch();
-    const navigation = useNavigation();
+    //const navigation = useNavigation();
 
     const logout = () => {
         AsyncStorage.removeItem('user')
@@ -77,7 +77,6 @@ export default function UserProfile({ navigation }) {
                 placeholderTextColor={'black'}
                 textAlign='left'
                 placeholder={user.user.givenName}
-                textAlign="center"
                 onChangeText={handleGivenNameChange}
                 editable={!user.rol}
             />
@@ -86,7 +85,6 @@ export default function UserProfile({ navigation }) {
                 placeholderTextColor={'black'}
                 textAlign='left'
                 placeholder={user.user.familyName}
-                textAlign="center"
                 onChangeText={handleFamilyNameChange}
                 editable={!user.rol}
             />
@@ -96,7 +94,6 @@ export default function UserProfile({ navigation }) {
                     placeholderTextColor={'black'}
                     textAlign='left'
                     placeholder={user.user.email}
-                    textAlign="center"
                     editable={false}
                 />
             )}

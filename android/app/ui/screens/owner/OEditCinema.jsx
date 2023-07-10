@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, ToastAndroid } from 'react-native';
+import { View, StyleSheet, Alert, ToastAndroid, BackHandler } from 'react-native';
+import { HeaderBackButton } from '@react-navigation/elements';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setScreen } from '../../../redux/store';
+import NavigatorConstant from "../../../navigation/NavigatorConstant";
 import Input from '../../components/Input';
 import { CommonActions } from '@react-navigation/native';
 import LoadingIndicator from '../../components/LoadingIndicator';
@@ -10,6 +13,7 @@ import DualButtonFooter from '../../components/DualButtonFooter';
 export default function CreateCinema({ navigation, route }) {
 
     let cinema = useSelector(state => state.owner.cinema)
+    const dispatch = useDispatch();
 
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
@@ -65,6 +69,31 @@ export default function CreateCinema({ navigation, route }) {
 
     };
 
+    const backAction = () => {
+        dispatch(setScreen(NavigatorConstant.OWNER.OWNER_HOME));
+    };
+    const completeBackAction = () => {
+        dispatch(setScreen(NavigatorConstant.OWNER.OWNER_HOME));
+        navigation.goBack();
+    };
+
+    useEffect(() => {
+        dispatch(setScreen(NavigatorConstant.OWNER.EDIT_CINEMA));
+
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+        navigation.setOptions({
+            headerLeft: (props) => (
+                <HeaderBackButton
+                    {...props}
+                    onPress={completeBackAction}
+                />
+            )
+        });
+
+        return () => backHandler.remove();
+    }, []);
+
     const styles = StyleSheet.create({
         container: {
             flex: 1,
@@ -79,7 +108,7 @@ export default function CreateCinema({ navigation, route }) {
                 <Input placeholder='Ciudad' marginTop={21} onChangeText={handleCityChange} />
                 <Input placeholder='Barrio' marginTop={21} onChangeText={handleDistrictChange} />
                 <Input placeholder='Pais' marginTop={21} onChangeText={handleCountryChange} />
-                <DualButtonFooter primaryTitle='Modificar Cine' onPressPrimary={handleEditCinema} secondaryTitle='Cancelar' onPressSecondary={() => navigation.goBack()} />
+                <DualButtonFooter primaryTitle='Modificar Cine' onPressPrimary={handleEditCinema} secondaryTitle='Cancelar' onPressSecondary={completeBackAction} />
             </View>
             {isLoading && <LoadingIndicator />}
         </View>

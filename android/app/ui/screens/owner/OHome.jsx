@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import axios from 'axios';
 import CardCinema from '../../components/cards/CardCinema';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCinema, setScreen } from '../../../redux/store';
+import { setCinema } from '../../../redux/store';
 import OListScreen from './OListScreen';
 import NavigatorConstant from "../../../navigation/NavigatorConstant";
 
@@ -60,12 +60,10 @@ export default function OwnerHome({ navigation }) {
     }, [user, navigation]);
 
     const handleCreateCinema = () => {
-        dispatch(setScreen(NavigatorConstant.OWNER.CREATE_CINEMA));
         navigation.push(NavigatorConstant.OWNER.CREATE_CINEMA);
     };
     const handleEditCinema = (cinema) => {
         dispatch(setCinema(cinema));
-        dispatch(setScreen(NavigatorConstant.OWNER.EDIT_CINEMA));
         navigation.push(NavigatorConstant.OWNER.EDIT_CINEMA)
     };
     const handleDeleteCinema = cinema => {
@@ -75,7 +73,6 @@ export default function OwnerHome({ navigation }) {
     };
     const handlePressCinema = cinema => {
         dispatch(setCinema(cinema));
-        dispatch(setScreen(NavigatorConstant.OWNER.ROOMS_HOME));
         navigation.push(NavigatorConstant.OWNER.ROOMS_HOME);
     };
     const handlePressDeleteAlert = async result => {
