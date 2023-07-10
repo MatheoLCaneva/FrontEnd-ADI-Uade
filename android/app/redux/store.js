@@ -17,7 +17,7 @@ const userSlice = createSlice({
             familyName: action.payload.lastName,
             givenName: action.payload.name,
             name: `${action.payload.name} ${action.payload.lastName}`,
-            photo: '',
+            photo: undefined,
           }
         }
       }
