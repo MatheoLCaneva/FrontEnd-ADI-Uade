@@ -71,7 +71,7 @@ export default function OwnerNavigator({ navigation }) {
     };
 
     const logout = () => {
-        AsyncStorage.removeItem('user')
+        AsyncStorage.removeItem('Owner')
         navigation.replace(NavigatorConstant.NAVIGATOR.LOGIN);
         dispatch(setUser({}));
     };
