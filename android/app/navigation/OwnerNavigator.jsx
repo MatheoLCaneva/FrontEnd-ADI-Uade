@@ -13,6 +13,8 @@ import { useSelector } from 'react-redux';
 import UserProfile from '../ui/screens/user/UProfile';
 
 const HOME_ICON = require('../assets/icons/home.png');
+const SETTINGS_ICON = require('../assets/icons/settings.png');
+const LOGOUT_ICON = require('../assets/icons/logout.png');
 
 const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -29,6 +31,12 @@ const drawerStyles = {
     },
 };
 
+const iconsStyle = {
+    resizeMode: 'contain',
+    height: 20,
+    width: 20,
+}
+
 function Logout(props) {
     return (
         <DrawerContentScrollView {...props}>
@@ -37,6 +45,12 @@ function Logout(props) {
                 label="Log Out"
                 inactiveTintColor={drawerStyles.drawerInactiveTintColor}
                 onPress={() => console.log('LOGOUT')}
+                icon={() => (
+                    <Image
+                        source={LOGOUT_ICON}
+                        style={iconsStyle}
+                    />
+                )}
             />
         </DrawerContentScrollView>
     );
@@ -52,12 +66,6 @@ export default function OwnerNavigator(props) {
         headerTitleAlign: 'center',
         headerMode: 'screen',
     };
-
-    const iconsStyle = {
-        resizeMode: 'contain',
-        height: 20,
-        width: 20,
-    }
 
     return (
         <Drawer.Navigator
@@ -89,7 +97,7 @@ export default function OwnerNavigator(props) {
                     drawerLabel: 'Perfil',
                     drawerIcon: () => (
                         <Image
-                            source={HOME_ICON}
+                            source={SETTINGS_ICON}
                             style={iconsStyle}
                         />
                     ),
