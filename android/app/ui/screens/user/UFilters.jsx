@@ -126,7 +126,7 @@ export default function UFilters(props) {
             });
         } else {
 
-            if (option.title && filter.genre) {
+            if (option.title) {
                 setFilter(prevFilters => {
                     const newFilters = { ...prevFilters }
                     delete newFilters['genre']

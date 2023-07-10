@@ -20,21 +20,21 @@ export default function ONavigator({ navigation }) {
 
     const baseOptions = { /*headerShown: false,*/ headerStyle: { backgroundColor: '#E01D6F' }, headerTintColor: '#fff', headerTitleStyle: { fontWeight: 'normal' }, headerTitleAlign: 'center' };
 
-    useEffect(() => {
-        navigation.setOptions({ headerTitle: 'Hola ' + user.name });
-    }, []);
+    // useEffect(() => {
+    //     navigation.setOptions({ headerTitle: 'Hola ' + user.name });
+    // }, []);
 
     return (
-        <Stack.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.OWNER_FLOW} screenOptions={{ headerShown: true }}>
+        <Stack.Navigator initialRouteName={NavigatorConstant.NAVIGATOR.OWNER_FLOW} screenOptions={{ headerShown: false }}>
             <Stack.Screen name={NavigatorConstant.OWNER.OWNER_HOME} component={OwnerHome} options={{ headerShown: false, headerBackVisible: false, headerLeft: null }} />
-            <Stack.Screen name={NavigatorConstant.OWNER.CREATE_CINEMA} component={CreateCinema} options={{ ...baseOptions, headerTitle: 'Agregar Cine' }} />
-            <Stack.Screen name={NavigatorConstant.OWNER.EDIT_CINEMA} component={EditCinema} options={{ ...baseOptions, headerTitle: 'Editar Cine' }} />
+            <Stack.Screen name={NavigatorConstant.OWNER.CREATE_CINEMA} component={CreateCinema} options={{ ...baseOptions, headerTitle: 'Agregar Cine', animation: 'slide_from_right' }} />
+            <Stack.Screen name={NavigatorConstant.OWNER.EDIT_CINEMA} component={EditCinema} options={{ ...baseOptions, headerTitle: 'Editar Cine', animation: 'slide_from_right' }} />
             <Stack.Screen name={NavigatorConstant.OWNER.ROOMS_HOME} component={RoomsHome} options={{ ...baseOptions, headerLeft: null }} />
-            <Stack.Screen name={NavigatorConstant.OWNER.CREATE_ROOM} component={CreateRoom} options={{ ...baseOptions, headerTitle: 'Agregar Sala' }} />
+            <Stack.Screen name={NavigatorConstant.OWNER.CREATE_ROOM} component={CreateRoom} options={{ ...baseOptions, headerTitle: 'Agregar Sala', animation: 'slide_from_right' }} />
             <Stack.Screen name={NavigatorConstant.OWNER.EDIT_ROOM} component={EditRoom} options={{ ...baseOptions, headerTitle: 'Editar Sala' }} />
             <Stack.Screen name={NavigatorConstant.OWNER.FUNCTIONS_HOME} component={FunctionsHome} options={{ ...baseOptions, headerLeft: null }} />
-            <Stack.Screen name={NavigatorConstant.OWNER.CREATE_FUNCTION} component={CreateFunction} options={{ ...baseOptions, headerTitle: 'Agregar Función' }} />
-            <Stack.Screen name={NavigatorConstant.OWNER.EDIT_FUNCTION} component={EditFunction} options={{ ...baseOptions, headerTitle: 'Editar Función' }} />
+            <Stack.Screen name={NavigatorConstant.OWNER.CREATE_FUNCTION} component={CreateFunction} options={{ ...baseOptions, headerTitle: 'Agregar Función', animation: 'slide_from_right' }} />
+            <Stack.Screen name={NavigatorConstant.OWNER.EDIT_FUNCTION} component={EditFunction} options={{ ...baseOptions, headerTitle: 'Editar Función', animation: 'slide_from_right' }} />
         </Stack.Navigator>
     )
 }

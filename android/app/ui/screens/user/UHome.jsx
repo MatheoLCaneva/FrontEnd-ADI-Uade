@@ -33,17 +33,19 @@ export default function UserHome() {
 
         setIsLoading(true);
 
-        if (filterCinema && filterCinema !== 'Todos') {
-            fetchFunctionsByCinema();
+        // if (filterCinema && filterCinema !== 'Todos') {
+        //     fetchFunctionsByCinema();
 
-        } else if (filters) {
+        // }
+        if (filters) {
             if (Object.keys(filters).length === 0) {
                 fetchFunctions();
             } else {
                 fetchCinemas();
                 fetchFunctionsWithFilter();
             }
-        } else {
+        }
+        else {
             fetchFunctions();
             fetchCinemas();
         }
@@ -73,17 +75,43 @@ export default function UserHome() {
     };
 
     const fetchFunctionsWithFilter = async () => {
+
+        const headers = {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        };
+
+        const obj = Object.entries({
+            'cinema.name': filters.cine?.name,
+            'movie.genre': filters.genre,
+            'movie.title': filters.movie?.title
+        }).reduce((acc, [key, value]) => {
+            if (value !== undefined) {
+                acc[key] = value;
+            }
+            return acc;
+        }, {});
+
+        console.log('eee')
+
         try {
-            const response = await axios.get('https://backend-adi-uade.onrender.com/functions/');
-            const functionsArray = response.data.Functions.docs;
+            const response = await axios.post('https://backend-adi-uade.onrender.com/functions/filters', obj, { headers });
+            console.log('DATA____', response.data.data.docs)
+            const functionsArray = response.data.data.docs;
+            const filteredFunctions = functionsArray.reduce((accumulator, currentFunction) => {
+                const existingFunction = accumulator.find((item) => item.movie._id === currentFunction.movie._id);
+                if (!existingFunction) {
+                    accumulator.push(currentFunction);
+                }
+                return accumulator;
+            }, []);
+
             setFunctionsAll(functionsArray);
-            const filteredFunctions = checkFilters(filters, functionsArray);
-            console.log(filteredFunctions)
             setFunctions(filteredFunctions);
             setIsLoading(false);
         } catch (e) {
             ToastAndroid.show('Error al cargar las funciones disponibles', ToastAndroid.SHORT);
-            console.log(e);
+            console.error(e);
             setIsLoading(false);
             return false;
         }
@@ -91,6 +119,7 @@ export default function UserHome() {
 
     const fetchFunctionsByCinema = async () => {
         try {
+            console.log()
             const response = await axios.get(`https://backend-adi-uade.onrender.com/functions/cinema/${filterCinema._id}`);
             if (response.data.data) {
                 const functionsArray = response.data.data.docs;
@@ -155,95 +184,6 @@ export default function UserHome() {
     const screenHeight = Dimensions.get('window').height;
     const isPortrait = screenWidth < screenHeight;
     const numColumns = isPortrait ? 2 : 3;
-
-    const calculateDistance = (lat1, lon1, lat2, lon2) => {
-        const R = 6371; // Radio de la Tierra en kilómetros
-
-        const degToRad = (degrees) => {
-            return degrees * (Math.PI / 180);
-        };
-
-        const dLat = degToRad(lat2 - lat1);
-        const dLon = degToRad(lon2 - lon1);
-
-        const a =
-            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-            Math.cos(degToRad(lat1)) *
-            Math.cos(degToRad(lat2)) *
-            Math.sin(dLon / 2) *
-            Math.sin(dLon / 2);
-
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        const distance = R * c;
-
-        return distance;
-    };
-
-    const checkFilters = (filters, functions) => {
-        const { cine, movie, genre, distance } = filters;
-
-        if (!cine && !movie && !genre && !distance) {
-            const filteredFunctions = functions.reduce((accumulator, currentFunction) => {
-                const existingFunction = accumulator.find((item) => item.movie._id === currentFunction.movie._id);
-                if (!existingFunction) {
-                    accumulator.push(currentFunction);
-                }
-                return accumulator;
-            }, []);
-
-            return filteredFunctions;
-        }
-
-        const func = functions.filter((func) => {
-            const matchCine = !cine || func.cinema.name === cine.name;
-            const matchMovie = !movie || func.movie.title === movie.title;
-            const matchGenre = !genre || func.movie.genre.includes(genre);
-
-            let withinDistance = false;
-
-            if (distance === "-1KM") {
-                // Comparar si la distancia es menor a 1 kilómetro
-                withinDistance = calculateDistance(
-                    ubi.latitude,
-                    ubi.longitude,
-                    func.cinema.location.lat,
-                    func.cinema.location.long
-                ) < 1;
-            } else if (distance === "1KM-2KM") {
-                // Comparar si la distancia está entre 1 y 2 kilómetros (inclusive)
-                const funcDistance = calculateDistance(
-                    ubi.latitude,
-                    ubi.longitude,
-                    func.cinema.location.lat,
-                    func.cinema.location.long
-                );
-                withinDistance = funcDistance >= 1 && funcDistance <= 2;
-            } else if (distance === "+2KM") {
-                // Comparar si la distancia es mayor a 2 kilómetros
-                withinDistance = calculateDistance(
-                    ubi.latitude,
-                    ubi.longitude,
-                    func.cinema.location.lat,
-                    func.cinema.location.long
-                ) > 2;
-            } else {
-                // Opción de distancia no válida, se considera como fuera de distancia
-                withinDistance = false;
-            }
-
-            return matchCine && matchMovie && matchGenre && withinDistance;
-        });
-
-        const filteredFunctions = func.reduce((accumulator, currentFunction) => {
-            const existingFunction = accumulator.find((item) => item.movie._id === currentFunction.movie._id);
-            if (!existingFunction) {
-                accumulator.push(currentFunction);
-            }
-            return accumulator;
-        }, []);
-
-        return filteredFunctions;
-    };
 
     return (
         <SafeAreaView style={{ flex: 1 }}>

@@ -11,13 +11,10 @@ import OListScreen from './OListScreen';
 export default function OwnerRooms({ navigation }) {
     const [rooms, setRooms] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
     const [isAlertVisible, setIsAlertVisible] = useState(false);
     const [alertText, setAlertText] = useState('');
-
     const cinema = useSelector(state => state.owner.cinema);
     const room = useSelector(state => state.owner.room);
-
     const dispatch = useDispatch();
 
     const deleteRoom = async (room) => {
@@ -60,8 +57,9 @@ export default function OwnerRooms({ navigation }) {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             setIsLoading(true);
+            dispatch(setScreen(NavigatorConstant.OWNER.ROOMS_HOME))
             navigation.setOptions({ title: `Salas de ${cinema.name}` });
-    
+
             const fetchData = async () => {
                 try {
                     const response = await axios.get(
@@ -78,10 +76,10 @@ export default function OwnerRooms({ navigation }) {
                     setIsLoading(false);
                 }
             };
-    
+
             fetchData();
         });
-    
+
         return unsubscribe;
     }, [navigation]);
 
@@ -111,11 +109,14 @@ export default function OwnerRooms({ navigation }) {
     }, []);
 
     const handleCreateRoom = () => {
+        dispatch(setScreen(NavigatorConstant.OWNER.CREATE_ROOM))
         navigation.push('CREATE_ROOM');
     };
     const handleEditRoom = room => {
         dispatch(setRoom(room))
+        dispatch(setScreen(NavigatorConstant.OWNER.EDIT_ROOM))
         navigation.push('EDIT_ROOM');
+
     };
     const handleDeleteRoom = (room) => {
         dispatch(setRoom(room));

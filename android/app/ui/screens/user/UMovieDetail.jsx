@@ -124,7 +124,7 @@ export default function MovieDetail() {
                     <Image style={styles.image} resizeMode="contain" source={{ uri: movie.image }} />
                     <Text style={styles.descMovie}>{movie.synopsis}</Text>
                 </View>
-                <Text style={styles.text}>Duracion: </Text>
+                <Text style={styles.text}>Duracion: {movie.duration} minutos</Text>
                 <Text style={styles.text}>Género: {movie.genre.join(", ")}</Text>
                 <Text style={styles.text}>Fecha Lanzamiento: {movie.releaseDate}</Text>
                 <Text style={styles.commentTitle}>Comentarios</Text>

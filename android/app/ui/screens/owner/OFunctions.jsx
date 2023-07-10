@@ -3,8 +3,9 @@ import { Alert, ToastAndroid } from 'react-native';
 import axios from 'axios';
 import CardFunction from '../../components/cards/CardFunction';
 import { useSelector, useDispatch } from 'react-redux';
-import { setFunction } from '../../../redux/store';
+import { setFunction, setScreen } from '../../../redux/store';
 import OListScreen from './OListScreen';
+import NavigatorConstant from '../../../navigation/NavigatorConstant';
 
 export default function OwnerFunctions({ navigation }) {
     const [funcs, setFunctions] = useState([]);
@@ -20,6 +21,7 @@ export default function OwnerFunctions({ navigation }) {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
+            dispatch(setScreen(NavigatorConstant.OWNER.FUNCTIONS_HOME))
             setIsLoading(true);
             navigation.setOptions({ title: `Funciones de ${room.name}` });
 
@@ -42,7 +44,7 @@ export default function OwnerFunctions({ navigation }) {
 
             fetchData();
         });
-    
+
         return unsubscribe;
     }, [navigation]);
 
@@ -63,10 +65,12 @@ export default function OwnerFunctions({ navigation }) {
 
     const handleCreateFunction = () => {
         navigation.push('CREATE_FUNCTION');
+        dispatch(setScreen(NavigatorConstant.OWNER.CREATE_FUNCTION))
     };
     const handleEditFunction = func => {
         dispatch(setFunction(func));
         navigation.push('EDIT_FUNCTION');
+        dispatch(setScreen(NavigatorConstant.OWNER.EDIT_FUNCTION))
     };
     const handleDeleteFunc = (func) => {
         dispatch(setFunction(func));

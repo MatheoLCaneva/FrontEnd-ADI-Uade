@@ -25,7 +25,7 @@ export default function OwnerHome({ navigation }) {
             const response = await axios.delete(
                 `https://backend-adi-uade.onrender.com/cinemas/${cinema._id}`,
             );
-            if(response.status === 200) {
+            if (response.status === 200) {
                 setCinemas(cinemas.filter(x => x._id !== cinema._id));
             }
         } catch (e) {
@@ -40,7 +40,7 @@ export default function OwnerHome({ navigation }) {
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
             setIsLoading(true);
-
+            dispatch(setScreen(NavigatorConstant.OWNER.OWNER_HOME))
             const fetchData = async () => {
                 try {
                     const response = await axios.get(
@@ -59,7 +59,7 @@ export default function OwnerHome({ navigation }) {
 
             fetchData();
         });
-    
+
         return unsubscribe;
     }, [navigation]);
 
@@ -111,9 +111,7 @@ export default function OwnerHome({ navigation }) {
                 }, 0);
 
                 const roomsCount =
-                    cinema.rooms.length > 1
-                        ? cinema.rooms.length - 1
-                        : cinema.rooms.length;
+                    cinema.rooms.length
 
                 return (
                     <CardCinema

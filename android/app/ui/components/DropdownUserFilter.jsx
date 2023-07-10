@@ -108,8 +108,8 @@ export default function DropdownUserFilter(props) {
                     <FlatList
                         data={options}
                         keyExtractor={(item) => item._id}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity onPress={() => handleSelectOption(item)} style={styles.optionButton}>
+                        renderItem={({ item, index }) => (
+                            <TouchableOpacity key={index} onPress={() => handleSelectOption(item)} style={styles.optionButton}>
                                 <Text style={styles.optionText}>
                                     {(tipo !== "genero") ? tipo == 'cine' ? item.name : tipo == 'pelicula' ? item.title : tipo == 'distancia' ? item : null : item}
                                 </Text>

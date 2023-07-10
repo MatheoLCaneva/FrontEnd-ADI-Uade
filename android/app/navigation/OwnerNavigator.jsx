@@ -59,7 +59,10 @@ function Logout(props) {
 }
 
 export default function OwnerNavigator({ navigation }) {
+    const user = useSelector(state => state.user)
     const dispatch = useDispatch();
+    const cinema = useSelector(state => state.owner.cinema)
+    const room = useSelector(state => state.owner.room)
     const ownerScreen = useSelector(state => state.owner.screen);
 
     const headerOptions = {
@@ -81,7 +84,7 @@ export default function OwnerNavigator({ navigation }) {
             initialRouteName={NavigatorConstant.NAVIGATOR.OWNER_DRAWER}
             screenOptions={{
                 ...headerOptions,
-                headerShown: ownerScreen === NavigatorConstant.OWNER.OWNER_HOME,
+                // headerShown: ownerScreen === NavigatorConstant.OWNER.OWNER_HOME,
             }}
             drawerContent={props => <Logout {...props} onPress={logout} />}>
             <Drawer.Screen
@@ -90,6 +93,7 @@ export default function OwnerNavigator({ navigation }) {
                 options={{
                     ...drawerStyles,
                     drawerLabel: 'Home',
+                    headerTitle: ownerScreen == 'OWNER_HOME' ? `Hola ${user.name}` : ownerScreen == 'CREATE_CINEMA' ? 'Agregar Cine' : ownerScreen == 'EDIT_CINEMA' ? 'Editar Cine' : ownerScreen == 'ROOMS_HOME' ? `Salas de ${cinema.name}` : ownerScreen == 'CREATE_ROOM' ? 'Agregar Sala' : ownerScreen == 'EDIT_ROOM' ? 'Modificar Sala' : ownerScreen == 'FUNCTIONS_HOME' ? `Funciones de ${room.name}` : ownerScreen == 'CREATE_FUNCTION' ? 'Agregar Funcion' : ownerScreen == 'EDIT_FUNCTION' ? 'Editar Funcion' : null,
                     drawerIcon: () => (
                         <Image
                             source={HOME_ICON}
@@ -101,8 +105,8 @@ export default function OwnerNavigator({ navigation }) {
             <Drawer.Screen
                 name={NavigatorConstant.OWNER.OWNER_PROFILE}
                 component={UserProfile}
-                options={{ 
-                    ...drawerStyles, 
+                options={{
+                    ...drawerStyles,
                     drawerLabel: 'Perfil',
                     drawerIcon: () => (
                         <Image
