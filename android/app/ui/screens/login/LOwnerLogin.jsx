@@ -5,6 +5,7 @@ import CheckButton from '../../components/CheckButton';
 import ButtonPrimary from '../../components/ButtonPrimary';
 import Logo from '../../components/Logo';
 import Input from '../../components/Input';
+import PasswordInput from '../../components/PasswordInput';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../../redux/store';
@@ -117,14 +118,7 @@ export default function OwnerLogin({ props, route, navigation }) {
         <View styles={styles.container}>
             <Logo />
             <Input editable={true} onChangeText={handleEmailChange} marginTop={10} placeholder='Ingrese su email' />
-            <Input editable={true} onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
-            <TouchableOpacity onPress={handleTogglePasswordVisibility} style={styles.toggleButton}>
-                <Text style={styles.toggleButtonText}>
-                    {showPassword ? 'Ocultar' : 'Mostrar'}
-                </Text>
-            </TouchableOpacity>
-
-            {/* <CheckButton style={{ marginTop: 30, flexDirection: 'row', alignSelf: 'center' }} /> */}
+            <PasswordInput editable={true} onChangeText={handlePasswordChange} marginTop={27} placeholder='Ingrese su contraseña' secure={!showPassword} />
 
             <View style={styles.buttonContainer}>
                 <ButtonPrimary onPress={handleLogin} title='Ingresar' disabled={isLoading} />
